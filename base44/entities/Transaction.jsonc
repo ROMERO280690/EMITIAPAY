@@ -1,0 +1,78 @@
+{
+  "name": "Transaction",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "enum": [
+        "transfer_in",
+        "transfer_out",
+        "payment",
+        "collection",
+        "yield",
+        "deposit"
+      ],
+      "description": "Tipo de transacci\u00f3n"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Monto de la transacci\u00f3n"
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "ARS",
+        "USD"
+      ],
+      "default": "ARS"
+    },
+    "description": {
+      "type": "string",
+      "description": "Descripci\u00f3n o concepto"
+    },
+    "counterpart_name": {
+      "type": "string",
+      "description": "Nombre del emisor/receptor"
+    },
+    "counterpart_cuit": {
+      "type": "string",
+      "description": "CUIT del emisor/receptor"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "servicios",
+        "sueldos",
+        "proveedores",
+        "impuestos",
+        "rendimientos",
+        "ventas",
+        "otros"
+      ],
+      "default": "otros"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "completed",
+        "pending",
+        "failed",
+        "cancelled"
+      ],
+      "default": "completed"
+    },
+    "account_id": {
+      "type": "string",
+      "description": "ID de la cuenta asociada"
+    },
+    "reference": {
+      "type": "string",
+      "description": "N\u00famero de referencia"
+    }
+  },
+  "required": [
+    "type",
+    "amount",
+    "currency"
+  ]
+}

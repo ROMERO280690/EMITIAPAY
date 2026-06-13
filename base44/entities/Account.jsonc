@@ -1,0 +1,52 @@
+{
+  "name": "Account",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nombre de la cuenta (ej: Cuenta Pesos, Cuenta D\u00f3lares)"
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "ARS",
+        "USD"
+      ],
+      "default": "ARS",
+      "description": "Moneda de la cuenta"
+    },
+    "balance": {
+      "type": "number",
+      "default": 0,
+      "description": "Saldo actual"
+    },
+    "cbu": {
+      "type": "string",
+      "description": "CBU de la cuenta"
+    },
+    "alias": {
+      "type": "string",
+      "description": "Alias de la cuenta"
+    },
+    "account_type": {
+      "type": "string",
+      "enum": [
+        "corriente",
+        "remunerada"
+      ],
+      "default": "corriente"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "name",
+    "currency"
+  ]
+}

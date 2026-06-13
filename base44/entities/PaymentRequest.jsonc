@@ -1,0 +1,62 @@
+{
+  "name": "PaymentRequest",
+  "type": "object",
+  "properties": {
+    "contact_name": {
+      "type": "string",
+      "description": "Nombre del destinatario"
+    },
+    "contact_cuit": {
+      "type": "string"
+    },
+    "contact_cbu": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "ARS",
+        "USD"
+      ],
+      "default": "ARS"
+    },
+    "concept": {
+      "type": "string",
+      "description": "Concepto del pago"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "servicios",
+        "sueldos",
+        "proveedores",
+        "impuestos",
+        "otros"
+      ],
+      "default": "proveedores"
+    },
+    "scheduled_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Fecha programada"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "scheduled",
+        "processing",
+        "completed",
+        "failed"
+      ],
+      "default": "draft"
+    }
+  },
+  "required": [
+    "contact_name",
+    "amount"
+  ]
+}

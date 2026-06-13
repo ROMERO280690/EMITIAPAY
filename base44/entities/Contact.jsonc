@@ -1,0 +1,47 @@
+{
+  "name": "Contact",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nombre o raz\u00f3n social"
+    },
+    "cuit": {
+      "type": "string",
+      "description": "CUIT del contacto"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email del contacto"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Tel\u00e9fono"
+    },
+    "cbu": {
+      "type": "string",
+      "description": "CBU del contacto"
+    },
+    "alias": {
+      "type": "string",
+      "description": "Alias bancario"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "provider",
+        "client",
+        "employee",
+        "other"
+      ],
+      "default": "provider"
+    },
+    "category": {
+      "type": "string",
+      "description": "Categor\u00eda personalizada"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

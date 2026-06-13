@@ -1,0 +1,59 @@
+{
+  "name": "CollectionRequest",
+  "type": "object",
+  "properties": {
+    "client_name": {
+      "type": "string",
+      "description": "Nombre del cliente a cobrar"
+    },
+    "client_email": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "ARS",
+        "USD"
+      ],
+      "default": "ARS"
+    },
+    "concept": {
+      "type": "string",
+      "description": "Concepto del cobro"
+    },
+    "invoice_number": {
+      "type": "string",
+      "description": "N\u00famero de factura"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "sent",
+        "viewed",
+        "paid",
+        "overdue",
+        "cancelled"
+      ],
+      "default": "pending"
+    },
+    "payment_link": {
+      "type": "string"
+    },
+    "reminder_sent": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "client_name",
+    "amount"
+  ]
+}
