@@ -46,7 +46,7 @@ export default function Sidebar() {
       <div className="px-5 py-6 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <TrendingUp className="w-4.5 h-4.5 text-primary-foreground" />
+            <TrendingUp className="w-[18px] h-[18px] text-primary-foreground" />
           </div>
           {!collapsed && (
             <span className="text-lg font-bold tracking-tight text-foreground">

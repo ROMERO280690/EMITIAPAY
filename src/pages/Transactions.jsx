@@ -134,7 +134,7 @@ export default function Transactions() {
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${config.bg}`}>
-                        <Icon className={`w-4.5 h-4.5 ${config.color}`} />
+                        <Icon className={`w-[18px] h-[18px] ${config.color}`} />
                       </div>
                       <div className="min-w-0">
                         <p className="text-sm font-medium truncate">
