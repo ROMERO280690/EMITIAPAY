@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
   ArrowLeftRight,
+  ArrowRightLeft,
   Send,
   Download,
   Users,
@@ -21,6 +22,7 @@ import { Button } from "@/components/ui/button";
 const navItems = [
   { label: "Inicio", icon: LayoutDashboard, path: "/" },
   { label: "Cuentas", icon: Wallet, path: "/cuentas" },
+  { label: "Transferencias", icon: ArrowRightLeft, path: "/transferencias" },
   { label: "Movimientos", icon: ArrowLeftRight, path: "/movimientos" },
   { label: "Pagos", icon: Send, path: "/pagos" },
   { label: "Cobros", icon: Download, path: "/cobros" },

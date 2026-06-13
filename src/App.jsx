@@ -18,6 +18,7 @@ import ResetPassword from '@/pages/ResetPassword';
 import AppLayout from '@/components/layout/AppLayout';
 import Dashboard from '@/pages/Dashboard';
 import Accounts from '@/pages/Accounts';
+import Transfers from '@/pages/Transfers';
 import Transactions from '@/pages/Transactions';
 import Payments from '@/pages/Payments';
 import Collections from '@/pages/Collections';
@@ -58,6 +59,7 @@ const AuthenticatedApp = () => {
         <Route element={<AppLayout />}>
           <Route path="/" element={<Dashboard />} />
           <Route path="/cuentas" element={<Accounts />} />
+          <Route path="/transferencias" element={<Transfers />} />
           <Route path="/movimientos" element={<Transactions />} />
           <Route path="/pagos" element={<Payments />} />
           <Route path="/cobros" element={<Collections />} />
