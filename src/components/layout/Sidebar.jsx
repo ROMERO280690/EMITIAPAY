@@ -14,19 +14,47 @@ import {
   Wallet,
   TrendingUp,
   Menu,
-  X
+  X,
+  FileText,
+  Zap,
+  Mail,
+  Calendar,
+  Landmark,
+  Building2,
+  PiggyBank,
+  Receipt,
+  ListChecks
 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
-import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { useQuery } from "@tanstack/react-query";
 
-const navItems = [
+const mainItems = [
   { label: "Inicio", icon: LayoutDashboard, path: "/" },
-  { label: "Cuentas", icon: Wallet, path: "/cuentas" },
-  { label: "Transferencias", icon: ArrowRightLeft, path: "/transferencias" },
+];
+
+const operacionesItems = [
   { label: "Movimientos", icon: ArrowLeftRight, path: "/movimientos" },
-  { label: "Pagos", icon: Send, path: "/pagos" },
-  { label: "Cobros", icon: Download, path: "/cobros" },
+  { label: "Recibir dinero", icon: Building2, path: "/recibir-dinero" },
+  { label: "Transferencias", icon: ArrowRightLeft, path: "/transferencias" },
+  { label: "eCheqs", icon: Receipt, path: "/echeqs" },
+];
+
+const inteligenciaItems = [
+  { label: "Pagos inteligentes", icon: Zap, path: "/pagos-inteligentes" },
+  { label: "Cobros inteligentes", icon: Users, path: "/cobros-inteligentes" },
+  { label: "Calendario", icon: Calendar, path: "/calendario" },
+];
+
+const finanzasItems = [
+  { label: "Inversiones", icon: Landmark, path: "/inversiones" },
+  { label: "Financiamiento PyME", icon: PiggyBank, path: "/financiamiento" },
+];
+
+const secondaryItems = [
+  { label: "Solicitudes", icon: Mail, path: "/solicitudes" },
   { label: "Contactos", icon: Users, path: "/contactos" },
+  { label: "Resúmenes", icon: FileText, path: "/resumenes" },
 ];
 
 const bottomItems = [
@@ -38,14 +66,64 @@ export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const { data: requests = [] } = useQuery({
+    queryKey: ["allRequests"],
+    queryFn: async () => {
+      const [payments, collections] = await Promise.all([
+        base44.entities.PaymentRequest.list("-created_date", 30),
+        base44.entities.CollectionRequest.list("-created_date", 30),
+      ]);
+      return [...payments, ...collections];
+    },
+  });
+
+  const pendingCount = requests.filter((r) =>
+    r.status === "pending" || r.status === "sent" || r.status === "draft" || r.status === "scheduled"
+  ).length;
+
   const handleLogout = () => {
     base44.auth.logout();
   };
 
+  const SectionHeader = ({ label }) => (
+    !collapsed ? (
+      <p className="px-3 pt-4 pb-1 text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">
+        {label}
+      </p>
+    ) : <div className="pt-2" />
+  );
+
+  const NavLink = ({ item, badge }) => {
+    const isActive = location.pathname === item.path;
+    return (
+      <Link
+        to={item.path}
+        onClick={() => setMobileOpen(false)}
+        className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+          isActive
+            ? "bg-primary text-primary-foreground shadow-sm"
+            : "text-muted-foreground hover:text-foreground hover:bg-accent"
+        }`}
+      >
+        <item.icon className="w-[18px] h-[18px] flex-shrink-0" />
+        {!collapsed && (
+          <span className="flex items-center gap-2 flex-1">
+            {item.label}
+            {badge && (
+              <Badge className="bg-primary/20 text-primary-foreground ml-auto text-[10px] h-4 px-1.5">
+                {badge}
+              </Badge>
+            )}
+          </span>
+        )}
+      </Link>
+    );
+  };
+
   const NavContent = () => (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full overflow-y-auto">
       {/* Logo */}
-      <div className="px-5 py-6 flex items-center justify-between">
+      <div className="px-4 py-5 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
             <TrendingUp className="w-[18px] h-[18px] text-primary-foreground" />
@@ -64,30 +142,41 @@ export default function Sidebar() {
         </button>
       </div>
 
-      {/* Nav */}
-      <nav className="flex-1 px-3 space-y-1">
-        {navItems.map((item) => {
-          const isActive = location.pathname === item.path;
-          return (
-            <Link
-              key={item.path}
-              to={item.path}
-              onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
-                isActive
-                  ? "bg-primary text-primary-foreground shadow-sm"
-                  : "text-muted-foreground hover:text-foreground hover:bg-accent"
-              }`}
-            >
-              <item.icon className="w-[18px] h-[18px] flex-shrink-0" />
-              {!collapsed && <span>{item.label}</span>}
-            </Link>
-          );
-        })}
+      {/* Nav sections */}
+      <nav className="flex-1 px-2 space-y-0.5">
+        {mainItems.map((item) => (
+          <NavLink key={item.path} item={item} />
+        ))}
+
+        <NavLink
+          key="solicitudes"
+          item={{ label: "Solicitudes", icon: Mail, path: "/solicitudes" }}
+          badge={pendingCount > 0 ? pendingCount : null}
+        />
+
+        <SectionHeader label="Operaciones" />
+        {operacionesItems.map((item) => (
+          <NavLink key={item.path} item={item} />
+        ))}
+
+        <SectionHeader label="Inteligencia" />
+        {inteligenciaItems.map((item) => (
+          <NavLink key={item.path} item={item} />
+        ))}
+
+        <SectionHeader label="Finanzas" />
+        {finanzasItems.map((item) => (
+          <NavLink key={item.path} item={item} />
+        ))}
+
+        <div className="border-t border-border mt-3 pt-1" />
+        {secondaryItems.filter((s) => s.path !== "/solicitudes").map((item) => (
+          <NavLink key={item.path} item={item} />
+        ))}
       </nav>
 
-      {/* Bottom */}
-      <div className="px-3 pb-4 space-y-1">
+      {/* Bottom: User info + settings */}
+      <div className="px-2 pb-4 space-y-1 border-t border-border mt-2 pt-3">
         {bottomItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
@@ -95,7 +184,7 @@ export default function Sidebar() {
               key={item.path}
               to={item.path}
               onClick={() => setMobileOpen(false)}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                 isActive
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:text-foreground hover:bg-accent"
@@ -106,9 +195,22 @@ export default function Sidebar() {
             </Link>
           );
         })}
+        {!collapsed && (
+          <div className="px-3 py-2">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground text-xs font-bold flex-shrink-0">
+                A
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-medium truncate">Argentum Online Inc</p>
+                <p className="text-[10px] text-muted-foreground truncate">max@cresium.com</p>
+              </div>
+            </div>
+          </div>
+        )}
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:text-destructive hover:bg-destructive/5 transition-all duration-200 w-full"
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-destructive hover:bg-destructive/5 transition-all duration-200 w-full"
         >
           <LogOut className="w-[18px] h-[18px] flex-shrink-0" />
           {!collapsed && <span>Cerrar sesión</span>}

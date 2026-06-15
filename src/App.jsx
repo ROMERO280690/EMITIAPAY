@@ -24,6 +24,15 @@ import Payments from '@/pages/Payments';
 import Collections from '@/pages/Collections';
 import Contacts from '@/pages/Contacts';
 import Settings from '@/pages/Settings';
+import RecibirDinero from '@/pages/RecibirDinero';
+import ECheqs from '@/pages/ECheqs';
+import Calendario from '@/pages/Calendario';
+import Inversiones from '@/pages/Inversiones';
+import Resumenes from '@/pages/Resumenes';
+import PagosInteligentes from '@/pages/PagosInteligentes';
+import CobrosInteligentes from '@/pages/CobrosInteligentes';
+import Solicitudes from '@/pages/Solicitudes';
+import FinanciamientoPyme from '@/pages/FinanciamientoPyme';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -65,6 +74,15 @@ const AuthenticatedApp = () => {
           <Route path="/cobros" element={<Collections />} />
           <Route path="/contactos" element={<Contacts />} />
           <Route path="/configuracion" element={<Settings />} />
+          <Route path="/recibir-dinero" element={<RecibirDinero />} />
+          <Route path="/echeqs" element={<ECheqs />} />
+          <Route path="/calendario" element={<Calendario />} />
+          <Route path="/inversiones" element={<Inversiones />} />
+          <Route path="/resumenes" element={<Resumenes />} />
+          <Route path="/pagos-inteligentes" element={<PagosInteligentes />} />
+          <Route path="/cobros-inteligentes" element={<CobrosInteligentes />} />
+          <Route path="/solicitudes" element={<Solicitudes />} />
+          <Route path="/financiamiento" element={<FinanciamientoPyme />} />
         </Route>
       </Route>
       
