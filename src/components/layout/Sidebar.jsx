@@ -66,6 +66,11 @@ export default function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const { data: user } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: () => base44.auth.me(),
+  });
+
   const { data: requests = [] } = useQuery({
     queryKey: ["allRequests"],
     queryFn: async () => {
@@ -80,6 +85,11 @@ export default function Sidebar() {
   const pendingCount = requests.filter((r) =>
     r.status === "pending" || r.status === "sent" || r.status === "draft" || r.status === "scheduled"
   ).length;
+
+  const userName = user?.full_name || "Usuario";
+  const userEmail = user?.email || "";
+  const companyName = user?.company_name || "Mi Empresa";
+  const userInitials = userName.split(" ").map((n) => n[0]).slice(0, 2).join("").toUpperCase();
 
   const handleLogout = () => {
     base44.auth.logout();
@@ -199,11 +209,11 @@ export default function Sidebar() {
           <div className="px-3 py-2">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-primary-foreground text-xs font-bold flex-shrink-0">
-                A
+                {userInitials || "?"}
               </div>
               <div className="min-w-0">
-                <p className="text-xs font-medium truncate">Argentum Online Inc</p>
-                <p className="text-[10px] text-muted-foreground truncate">max@cresium.com</p>
+                <p className="text-xs font-medium truncate">{companyName}</p>
+                <p className="text-[10px] text-muted-foreground truncate">{userEmail}</p>
               </div>
             </div>
           </div>

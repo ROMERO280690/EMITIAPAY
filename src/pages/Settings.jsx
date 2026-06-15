@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -6,32 +7,34 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { Settings as SettingsIcon, User, Building2, Shield } from "lucide-react";
+import { User, Building2, Shield } from "lucide-react";
 import { toast } from "sonner";
 
 export default function Settings() {
-  const [user, setUser] = useState(null);
+  const queryClient = useQueryClient();
+
+  const { data: user, isLoading } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: () => base44.auth.me(),
+  });
+
   const [companyName, setCompanyName] = useState("");
   const [companyCuit, setCompanyCuit] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [initialized, setInitialized] = useState(false);
 
-  useEffect(() => {
-    const loadUser = async () => {
-      const me = await base44.auth.me();
-      setUser(me);
-      setCompanyName(me.company_name || "");
-      setCompanyCuit(me.company_cuit || "");
-      setLoading(false);
-    };
-    loadUser();
-  }, []);
+  if (user && !initialized) {
+    setCompanyName(user.company_name || "");
+    setCompanyCuit(user.company_cuit || "");
+    setInitialized(true);
+  }
 
   const handleSave = async () => {
     await base44.auth.updateMe({ company_name: companyName, company_cuit: companyCuit });
+    queryClient.invalidateQueries({ queryKey: ["currentUser"] });
     toast.success("Configuración guardada");
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20">
         <div className="w-8 h-8 border-4 border-muted border-t-primary rounded-full animate-spin" />

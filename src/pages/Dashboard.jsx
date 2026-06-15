@@ -18,6 +18,11 @@ const formatCurrency = (val, currency) => {
 };
 
 export default function Dashboard() {
+  const { data: user } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: () => base44.auth.me(),
+  });
+
   const { data: accounts = [], isLoading: loadingAccounts } = useQuery({
     queryKey: ["accounts"],
     queryFn: () => base44.entities.Account.list("-created_date"),
@@ -32,6 +37,10 @@ export default function Dashboard() {
     queryKey: ["collections"],
     queryFn: () => base44.entities.CollectionRequest.list("-due_date", 20),
   });
+
+  const userName = user?.full_name || "Usuario";
+  const companyName = user?.company_name || "Mi Empresa";
+  const userInitials = userName.split(" ").map((n) => n[0]).slice(0, 2).join("").toUpperCase();
 
   const arsAccounts = accounts.filter((a) => a.currency === "ARS" && a.status === "active");
   const usdAccounts = accounts.filter((a) => a.currency === "USD" && a.status === "active");
@@ -153,11 +162,11 @@ export default function Dashboard() {
     <div className="space-y-6">
       <div className="flex items-center gap-3 mb-2">
         <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-primary-foreground font-bold text-sm">
-          AO
+          {userInitials}
         </div>
         <div>
-          <p className="font-semibold">Hola, Demo</p>
-          <p className="text-xs text-muted-foreground">Argentum Online Inc</p>
+          <p className="font-semibold">Hola, {userName.split(" ")[0]}</p>
+          <p className="text-xs text-muted-foreground">{companyName}</p>
         </div>
       </div>
 
