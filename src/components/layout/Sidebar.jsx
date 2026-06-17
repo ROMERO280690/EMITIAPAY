@@ -74,11 +74,13 @@ export default function Sidebar() {
   const { data: requests = [] } = useQuery({
     queryKey: ["allRequests"],
     queryFn: async () => {
-      const [payments, collections] = await Promise.all([
+      const [payments, collections, echeqs, financings] = await Promise.all([
         base44.entities.PaymentRequest.list("-created_date", 30),
         base44.entities.CollectionRequest.list("-created_date", 30),
+        base44.entities.ECheq.list("-created_date", 30),
+        base44.entities.FinancingRequest.list("-created_date", 30),
       ]);
-      return [...payments, ...collections];
+      return [...payments, ...collections, ...echeqs, ...financings];
     },
   });
 

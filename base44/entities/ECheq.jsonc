@@ -1,0 +1,58 @@
+{
+  "name": "ECheq",
+  "type": "object",
+  "properties": {
+    "amount": {
+      "type": "number",
+      "description": "Monto del eCheq"
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "ARS",
+        "USD"
+      ],
+      "default": "ARS"
+    },
+    "recipient_name": {
+      "type": "string",
+      "description": "Nombre del beneficiario"
+    },
+    "recipient_cuit": {
+      "type": "string",
+      "description": "CUIT del beneficiario"
+    },
+    "concept": {
+      "type": "string",
+      "description": "Concepto del eCheq"
+    },
+    "emission_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Fecha de emisi\u00f3n"
+    },
+    "deposit_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Fecha de cobro/dep\u00f3sito"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pendiente",
+        "emitido",
+        "depositado",
+        "rechazado"
+      ],
+      "default": "pendiente"
+    },
+    "account_id": {
+      "type": "string",
+      "description": "Cuenta asociada"
+    }
+  },
+  "required": [
+    "amount",
+    "currency"
+  ]
+}

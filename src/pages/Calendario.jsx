@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Calendar as CalendarIcon, Clock, ChevronLeft, ChevronRight, Zap, Users } from "lucide-react";
+import { Calendar as CalendarIcon, Clock, ChevronLeft, ChevronRight, Zap, Users, Receipt, Landmark } from "lucide-react";
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, isToday, getDay, addMonths, subMonths } from "date-fns";
 import { es } from "date-fns/locale";
 
@@ -20,6 +20,16 @@ export default function Calendario() {
     queryFn: () => base44.entities.CollectionRequest.list("-due_date", 50),
   });
 
+  const { data: echeqs = [] } = useQuery({
+    queryKey: ["echeqs"],
+    queryFn: () => base44.entities.ECheq.list("-created_date", 30),
+  });
+
+  const { data: investments = [] } = useQuery({
+    queryKey: ["investments"],
+    queryFn: () => base44.entities.Investment.list("-created_date", 30),
+  });
+
   const allEvents = [
     ...payments.filter((p) => p.scheduled_date).map((p) => ({
       date: new Date(p.scheduled_date),
@@ -34,6 +44,20 @@ export default function Calendario() {
       label: `Cobro de ${c.client_name}`,
       amount: c.amount,
       currency: c.currency || "ARS",
+    })),
+    ...echeqs.filter((e) => e.emission_date).map((e) => ({
+      date: new Date(e.emission_date),
+      type: "echeq",
+      label: `eCheq a ${e.recipient_name}`,
+      amount: e.amount,
+      currency: e.currency || "ARS",
+    })),
+    ...investments.filter((i) => i.maturity_date && i.status === "active").map((i) => ({
+      date: new Date(i.maturity_date),
+      type: "investment",
+      label: `Vence: ${i.type === "plazo_fijo" ? "Plazo fijo" : i.type === "fci" ? "FCI" : i.type}`,
+      amount: i.amount,
+      currency: i.currency || "ARS",
     })),
   ];
 
@@ -117,7 +141,10 @@ export default function Calendario() {
                           <div
                             key={i}
                             className={`px-1 py-0.5 rounded text-[9px] truncate font-medium ${
-                              ev.type === "payment" ? "bg-amber-100 text-amber-700" : "bg-emerald-100 text-emerald-700"
+                              ev.type === "payment" ? "bg-amber-100 text-amber-700" :
+                              ev.type === "collection" ? "bg-emerald-100 text-emerald-700" :
+                              ev.type === "echeq" ? "bg-blue-100 text-blue-700" :
+                              "bg-violet-100 text-violet-700"
                             }`}
                           >
                             {ev.label}
@@ -152,12 +179,16 @@ export default function Calendario() {
                   {monthEvents.map((ev, idx) => (
                     <div key={idx} className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent/50">
                       <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                        ev.type === "payment" ? "bg-amber-50" : "bg-emerald-50"
+                        ev.type === "payment" ? "bg-amber-50" : ev.type === "collection" ? "bg-emerald-50" : ev.type === "echeq" ? "bg-blue-50" : "bg-violet-50"
                       }`}>
                         {ev.type === "payment" ? (
                           <Zap className="w-4 h-4 text-amber-600" />
-                        ) : (
+                        ) : ev.type === "collection" ? (
                           <Users className="w-4 h-4 text-emerald-600" />
+                        ) : ev.type === "echeq" ? (
+                          <Receipt className="w-4 h-4 text-blue-600" />
+                        ) : (
+                          <Landmark className="w-4 h-4 text-violet-600" />
                         )}
                       </div>
                       <div className="flex-1 min-w-0">

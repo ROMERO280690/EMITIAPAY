@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,7 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Plus, Zap, Calendar, Clock, CheckCircle2, RotateCw, AlertCircle, ArrowRight } from "lucide-react";
+import { Plus, Zap, Calendar, RotateCw, Loader2, AlertCircle, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
@@ -19,13 +19,18 @@ const statusConfig = {
   scheduled: { label: "Programado", className: "bg-blue-50 text-blue-600 border-blue-200" },
   processing: { label: "En proceso", className: "bg-amber-50 text-amber-600 border-amber-200" },
   completed: { label: "Completado", className: "bg-emerald-50 text-emerald-600 border-emerald-200" },
+  failed: { label: "Fallido", className: "bg-red-50 text-red-600 border-red-200" },
 };
+
+const formatCurrency = (val, currency) => {
+  const prefix = currency === "USD" ? "US$ " : "$ ";
+  return `${prefix}${(val || 0).toLocaleString("es-AR", { minimumFractionDigits: 2 })}`;
+};
+const getInitials = (name) => name?.split(" ").map((n) => n[0]).slice(0, 2).join("").toUpperCase() || "?";
 
 export default function PagosInteligentes() {
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({
-    contactId: "", amount: "", currency: "ARS", concept: "", scheduledDate: "", recurring: "none"
-  });
+  const [form, setForm] = useState({ contactId: "", accountId: "", amount: "", currency: "ARS", concept: "", scheduledDate: "", recurring: "none" });
   const queryClient = useQueryClient();
 
   const { data: payments = [] } = useQuery({
@@ -38,28 +43,42 @@ export default function PagosInteligentes() {
     queryFn: () => base44.entities.Contact.list("-created_date"),
   });
 
+  const { data: accounts = [] } = useQuery({
+    queryKey: ["accounts"],
+    queryFn: () => base44.entities.Account.list("-created_date"),
+  });
+
+  const originAccount = accounts.find((a) => a.id === form.accountId);
+  const amountNum = parseFloat(form.amount) || 0;
+  const exceedsBalance = originAccount && amountNum > originAccount.balance;
+
   const createPayment = useMutation({
     mutationFn: (data) => base44.entities.PaymentRequest.create(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["payments"] });
+      queryClient.invalidateQueries({ queryKey: ["paymentRequests"] });
       setOpen(false);
+      setForm({ contactId: "", accountId: "", amount: "", currency: "ARS", concept: "", scheduledDate: "", recurring: "none" });
       toast.success("Pago inteligente creado");
     },
+    onError: () => toast.error("Error al crear el pago"),
   });
 
-  const formatCurrency = (val, currency) => {
-    const prefix = currency === "USD" ? "US$ " : "$ ";
-    return `${prefix}${(val || 0).toLocaleString("es-AR", { minimumFractionDigits: 2 })}`;
-  };
-
   const handleCreate = () => {
-    if (!form.contactId || !form.amount) return;
+    if (!form.contactId || !form.accountId || !form.amount || amountNum <= 0) {
+      toast.error("Completá todos los campos requeridos");
+      return;
+    }
+    if (exceedsBalance) {
+      toast.error("Fondos insuficientes en la cuenta seleccionada");
+      return;
+    }
     const contact = contacts.find((c) => c.id === form.contactId);
     createPayment.mutate({
       contact_name: contact?.name,
       contact_cuit: contact?.cuit,
       contact_cbu: contact?.cbu,
-      amount: parseFloat(form.amount),
+      amount: amountNum,
       currency: form.currency,
       concept: form.concept,
       category: "proveedores",
@@ -68,7 +87,7 @@ export default function PagosInteligentes() {
     });
   };
 
-  const getInitials = (name) => name?.split(" ").map((n) => n[0]).slice(0, 2).join("").toUpperCase() || "?";
+  const scheduledTotal = payments.filter((p) => p.status === "scheduled" || p.status === "draft").reduce((s, p) => s + (p.amount || 0), 0);
 
   return (
     <div className="space-y-6">
@@ -79,16 +98,25 @@ export default function PagosInteligentes() {
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
-            <Button className="gap-2 bg-violet-600 hover:bg-violet-700">
-              <Zap className="w-4 h-4" />
-              Nuevo pago inteligente
-            </Button>
+            <Button className="gap-2 bg-violet-600 hover:bg-violet-700"><Zap className="w-4 h-4" /> Nuevo pago inteligente</Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-              <DialogTitle>Crear pago inteligente</DialogTitle>
-            </DialogHeader>
+            <DialogHeader><DialogTitle>Crear pago inteligente</DialogTitle></DialogHeader>
             <div className="space-y-4 pt-2">
+              <div className="space-y-2">
+                <Label>Cuenta de origen</Label>
+                <Select value={form.accountId} onValueChange={(v) => setForm({ ...form, accountId: v })}>
+                  <SelectTrigger><SelectValue placeholder="Seleccionar cuenta" /></SelectTrigger>
+                  <SelectContent>
+                    {accounts.filter((a) => a.status === "active").map((a) => (
+                      <SelectItem key={a.id} value={a.id}>{a.name} — {formatCurrency(a.balance || 0, a.currency)}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {exceedsBalance && (
+                  <p className="text-xs text-destructive flex items-center gap-1"><AlertCircle className="w-3 h-3" /> Fondos insuficientes</p>
+                )}
+              </div>
               <div className="space-y-2">
                 <Label>Proveedor</Label>
                 <Select value={form.contactId} onValueChange={(v) => setForm({ ...form, contactId: v })}>
@@ -114,10 +142,7 @@ export default function PagosInteligentes() {
                   <Label>Moneda</Label>
                   <Select value={form.currency} onValueChange={(v) => setForm({ ...form, currency: v })}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="ARS">ARS</SelectItem>
-                      <SelectItem value="USD">USD</SelectItem>
-                    </SelectContent>
+                    <SelectContent><SelectItem value="ARS">ARS</SelectItem><SelectItem value="USD">USD</SelectItem></SelectContent>
                   </Select>
                 </div>
               </div>
@@ -141,8 +166,8 @@ export default function PagosInteligentes() {
                   </SelectContent>
                 </Select>
               </div>
-              <Button className="w-full" onClick={handleCreate} disabled={createPayment.isPending}>
-                {createPayment.isPending ? <RotateCw className="w-4 h-4 mr-2 animate-spin" /> : <Zap className="w-4 h-4 mr-2" />}
+              <Button className="w-full" onClick={handleCreate} disabled={createPayment.isPending || exceedsBalance || !amountNum}>
+                {createPayment.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Zap className="w-4 h-4 mr-2" />}
                 Crear pago inteligente
               </Button>
             </div>
@@ -150,44 +175,57 @@ export default function PagosInteligentes() {
         </Dialog>
       </div>
 
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {[
+          { label: "Programados", value: formatCurrency(scheduledTotal, "ARS"), color: "bg-blue-50 text-blue-600" },
+          { label: "Completados", value: payments.filter((p) => p.status === "completed").length.toString(), color: "bg-emerald-50 text-emerald-600" },
+          { label: "Total pagos", value: payments.length.toString(), color: "bg-violet-50 text-violet-600" },
+        ].map((stat) => (
+          <Card key={stat.label} className="border-0 shadow-sm">
+            <CardContent className="p-4">
+              <div className={`w-9 h-9 rounded-lg ${stat.color} flex items-center justify-center mb-2`}>
+                <Zap className="w-4 h-4" />
+              </div>
+              <p className="text-lg font-bold">{stat.value}</p>
+              <p className="text-xs text-muted-foreground">{stat.label}</p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
       {payments.length === 0 ? (
         <Card className="border-0 shadow-sm">
           <CardContent className="flex flex-col items-center justify-center py-16">
             <Zap className="w-12 h-12 text-violet-200 mb-4" />
-            <p className="text-muted-foreground">No tenés pagos inteligentes configurados</p>
-            <p className="text-xs text-muted-foreground mt-1">Creá pagos automáticos para simplificar tus operaciones</p>
+            <p className="text-muted-foreground">No tenés pagos inteligentes</p>
           </CardContent>
         </Card>
       ) : (
         <div className="space-y-3">
-          {payments.map((p) => (
-            <Card key={p.id} className="border-0 shadow-sm hover:shadow transition-shadow">
-              <CardContent className="flex items-center justify-between p-4">
-                <div className="flex items-center gap-4">
-                  <div className={`w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center`}>
-                    <Zap className="w-5 h-5 text-violet-600" />
+          {payments.map((p) => {
+            const config = statusConfig[p.status] || statusConfig.draft;
+            return (
+              <Card key={p.id} className="border-0 shadow-sm hover:shadow transition-shadow">
+                <CardContent className="flex items-center justify-between p-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center"><Zap className="w-5 h-5 text-violet-600" /></div>
+                    <div>
+                      <p className="text-sm font-semibold">{p.concept || "Pago inteligente"}</p>
+                      <p className="text-xs text-muted-foreground">{p.contact_name}</p>
+                      {p.scheduled_date && <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5"><Calendar className="w-3 h-3" />{format(new Date(p.scheduled_date), "dd/MM/yyyy")}</p>}
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold">{p.concept || "Pago inteligente"}</p>
-                    <p className="text-xs text-muted-foreground">{p.contact_name}</p>
-                    {p.scheduled_date && (
-                      <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
-                        <Calendar className="w-3 h-3" />
-                        {format(new Date(p.scheduled_date), "dd/MM/yyyy")}
-                      </p>
-                    )}
+                  <div className="flex items-center gap-4">
+                    <div className="text-right">
+                      <p className="text-sm font-semibold tabular-nums">{formatCurrency(p.amount, p.currency || "ARS")}</p>
+                      <Badge className={config.className}>{config.label}</Badge>
+                    </div>
+                    <ArrowRight className="w-4 h-4 text-muted-foreground" />
                   </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="text-right">
-                    <p className="text-sm font-semibold tabular-nums">{formatCurrency(p.amount, p.currency || "ARS")}</p>
-                    <Badge className={statusConfig[p.status]?.className || "bg-slate-50"}>{statusConfig[p.status]?.label || p.status}</Badge>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-muted-foreground" />
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            );
+          })}
         </div>
       )}
     </div>

@@ -1,0 +1,50 @@
+{
+  "name": "FinancingRequest",
+  "type": "object",
+  "properties": {
+    "product_type": {
+      "type": "string",
+      "enum": [
+        "prestamo_pyme",
+        "leasing",
+        "descuento_cheques"
+      ],
+      "description": "Tipo de financiamiento"
+    },
+    "requested_amount": {
+      "type": "number",
+      "description": "Monto solicitado"
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "ARS",
+        "USD"
+      ],
+      "default": "ARS"
+    },
+    "term_months": {
+      "type": "number",
+      "description": "Plazo en meses"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Motivo de la solicitud"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "disbursed"
+      ],
+      "default": "pending"
+    }
+  },
+  "required": [
+    "product_type",
+    "requested_amount",
+    "currency"
+  ]
+}
