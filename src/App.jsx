@@ -14,6 +14,11 @@ import Register from '@/pages/Register';
 import ForgotPassword from '@/pages/ForgotPassword';
 import ResetPassword from '@/pages/ResetPassword';
 
+// Public pages
+import Landing from '@/pages/Landing';
+import ServiciosPage from '@/pages/ServiciosPage';
+import PreciosPage from '@/pages/PreciosPage';
+
 // App pages
 import AppLayout from '@/components/layout/AppLayout';
 import Dashboard from '@/pages/Dashboard';
@@ -60,6 +65,12 @@ const AuthenticatedApp = () => {
 
   return (
     <Routes>
+      {/* Public marketing pages */}
+      <Route path="/inicio" element={<Landing />} />
+      <Route path="/servicios" element={<ServiciosPage />} />
+      <Route path="/precios" element={<PreciosPage />} />
+
+      {/* Auth */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
