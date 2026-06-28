@@ -1,0 +1,1 @@
+{"name":"Contact","type":"object","properties":{"name":{"type":"string"},"cuit":{"type":"string"},"email":{"type":"string"},"phone":{"type":"string"},"cbu":{"type":"string"},"alias":{"type":"string"},"type":{"type":"string","enum":["client","provider"],"default":"client"},"category":{"type":"string"}},"required":["name"]}

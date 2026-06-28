@@ -1,0 +1,4 @@
+name,bank,cbu,alias,currency,balance,status,account_type
+Cuenta Corriente ARS,Santander Rio,0000003100044912345678,empresa.ars,ARS,2500000,active,corriente
+Caja de Ahorro USD,Macro,0000003100044987654321,empresa.usd,USD,15000,active,ahorro
+Cuenta Remunerada ARS, Galicia,0000003100044911223344,empresa.plus,ARS,1000000,active,remunerada

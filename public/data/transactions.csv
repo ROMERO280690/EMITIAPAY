@@ -1,0 +1,9 @@
+type,amount,currency,description,category,account_name,status,reference,transaction_date
+credit,1500000,ARS,Transferencia recibida - Cliente Corporativo SA,transferencia,Cuenta Corriente ARS,completed,TRF-001,2026-06-01
+debit,250000,ARS,Pago a Tech Solutions SRL,pago,Cuenta Corriente ARS,completed,PAG-001,2026-06-05
+credit,5000,USD,Transferencia recibida internacional,transferencia,Caja de Ahorro USD,completed,TRF-002,2026-06-10
+credit,2500000,ARS,Depósito inicial,deposito,Cuenta Remunerada ARS,completed,DEP-001,2026-06-01
+debit,100000,ARS,Pago servicios - Distribuidora Central,pago,Cuenta Corriente ARS,completed,PAG-002,2026-06-15
+credit,750000,ARS,Cobro factura - Juan Carlos Martinez,transferencia,Cuenta Corriente ARS,completed,TRF-003,2026-06-18
+debit,50000,ARS,Pago honorarios - Estudio Gomez,pago,Cuenta Corriente ARS,completed,PAG-003,2026-06-20
+credit,2000,USD,Depósito caja de ahorro,deposito,Caja de Ahorro USD,completed,DEP-002,2026-06-22

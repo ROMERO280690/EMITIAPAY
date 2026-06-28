@@ -1,0 +1,4 @@
+client_name,client_email,client_cuit,amount,currency,concept,invoice_number,due_date,status,recurring
+Cliente Corporativo SA,pagos@clientecorp.com.ar,30-98765432-1,950000,ARS,Factura servicios junio,F0001-0001234,2026-07-15,sent,none
+Juan Carlos Martinez,juan.martinez@email.com,20-12345678-9,125000,ARS,Factura consultoría,F0001-0001235,2026-07-08,pending,none
+Consultoria Lopez SRL,contacto@consultorialopez.com.ar,30-55667788-9,340000,ARS,Factura proyecto especial,F0001-0001236,2026-07-20,pending,none
