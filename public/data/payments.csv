@@ -1,4 +1,4 @@
-contact_name,contact_cuit,contact_cbu,amount,currency,concept,category,scheduled_date,status,recurring
-Tech Solutions SRL,30-71234567-8,0000003100044912345678,150000,ARS,Pago factura junio,Servicios,2026-07-05,scheduled,none
-Distribuidora Central SA,30-65432198-7,0000003100044987654321,85000,ARS,Pago insumos,Insumos,2026-07-10,scheduled,none
-Estudio Gomez Contadores,20-45678901-2,0000003100044911223344,50000,ARS,Honorarios junio,Contabilidad,2026-07-01,scheduled,monthly
+contact_name,contact_cuit,contact_cbu,amount,currency,concept,category,scheduled_date,status
+Tech Solutions SRL,30-71234567-8,0123456789012345678904,150000,ARS,Pago servicios IT,proveedores,,draft
+Estudio Contable Gómez,30-65432109-1,0123456789012345678905,85000,ARS,Honorarios mensuales,servicios,,scheduled
+Distribuidora Norte,30-98765432-2,0123456789012345678906,320000,ARS,Compra mercadería,proveedores,2026-07-05,scheduled

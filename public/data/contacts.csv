@@ -1,7 +1,7 @@
 name,cuit,email,phone,cbu,alias,type,category
-Tech Solutions SRL,30-71234567-8,contacto@techsolutions.com.ar,+54 11 4567-8901,0000003100044912345678,tech.solutions,provider,Servicios IT
-Distribuidora Central SA,30-65432198-7,ventas@distcentral.com.ar,+54 11 4321-9876,0000003100044987654321,dist.central,provider,Insumos
-Estudio Gomez Contadores,20-45678901-2,info@estudiogomez.com.ar,+54 11 5555-1234,0000003100044911223344,gomez.contador,provider,Contabilidad
-Cliente Corporativo SA,30-98765432-1,pagos@clientecorp.com.ar,+54 11 6789-0123,0000003100044955667788,cliente.corp,client,Empresa
-Juan Carlos Martinez,20-12345678-9,juan.martinez@email.com,+54 11 4123-4567,0000003100044999887766,juan.martinez,client,Autonomo
-Consultoria Lopez SRL,30-55667788-9,contacto@consultorialopez.com.ar,+54 11 5678-9012,0000003100044933445566,lopez.consultor,client,Consultoría
+Tech Solutions SRL,30-71234567-8,contact@techsolutions.com,+54 11 4567-8901,0123456789012345678904,TECH.SOLUTIONS,provider,Tecnología
+Estudio Contable Gómez,30-65432109-1,info@estudiogomez.com,+54 11 3456-7890,0123456789012345678905,ESTUDIO.GOMEZ,provider,Servicios profesionales
+Distribuidora Norte,30-98765432-2,ventas@distnorte.com,+54 11 2345-6789,0123456789012345678906,DIST.NORTE,provider,Logística
+Cliente ABC SA,30-11223344-3,compras@clienteabc.com,+54 11 1234-5678,0123456789012345678907,CLIENTE.ABC,client,Mayorista
+Cliente XYZ SRL,30-55667788-4,admin@clientexyz.com,+54 11 9876-5432,0123456789012345678908,CLIENTE.XYZ,client,Minorista
+Juan Pérez,20-33445566-5,juan.perez@email.com,+54 11 8765-4321,,,employee,Empleado

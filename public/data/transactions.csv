@@ -1,9 +1,9 @@
-type,amount,currency,description,category,account_name,status,reference,transaction_date
-credit,1500000,ARS,Transferencia recibida - Cliente Corporativo SA,transferencia,Cuenta Corriente ARS,completed,TRF-001,2026-06-01
-debit,250000,ARS,Pago a Tech Solutions SRL,pago,Cuenta Corriente ARS,completed,PAG-001,2026-06-05
-credit,5000,USD,Transferencia recibida internacional,transferencia,Caja de Ahorro USD,completed,TRF-002,2026-06-10
-credit,2500000,ARS,Depósito inicial,deposito,Cuenta Remunerada ARS,completed,DEP-001,2026-06-01
-debit,100000,ARS,Pago servicios - Distribuidora Central,pago,Cuenta Corriente ARS,completed,PAG-002,2026-06-15
-credit,750000,ARS,Cobro factura - Juan Carlos Martinez,transferencia,Cuenta Corriente ARS,completed,TRF-003,2026-06-18
-debit,50000,ARS,Pago honorarios - Estudio Gomez,pago,Cuenta Corriente ARS,completed,PAG-003,2026-06-20
-credit,2000,USD,Depósito caja de ahorro,deposito,Caja de Ahorro USD,completed,DEP-002,2026-06-22
+type,amount,currency,description,counterpart_name,counterpart_cuit,category,status,account_id,reference
+transfer_in,1000000,ARS,Transferencia recibida,Cliente ABC SA,30-11223344-3,ventas,completed,acc_1,REF001
+transfer_out,250000,ARS,Pago a proveedor,Tech Solutions SRL,30-71234567-8,proveedores,completed,acc_1,REF002
+payment,150000,ARS,Pago de servicios,EDENOR,30-55667788-9,servicios,completed,acc_1,REF003
+collection,500000,ARS,Cobro de factura,Cliente XYZ SRL,30-55667788-4,ventas,completed,acc_1,REF004
+yield,25000,ARS,Rendimiento plazo fijo,Banco Nacional,,,rendimientos,completed,acc_2,REF005
+deposit,750000,ARS,Depósito en efectivo,,,otros,completed,acc_1,REF006
+transfer_in,500,USD,Transferencia USD,Exportadora Sur,30-99887766-1,ventas,completed,acc_3,REF007
+transfer_out,200,USD,Pago proveedor internacional,Import Corp,,,,completed,acc_3,REF008
