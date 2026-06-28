@@ -18,6 +18,12 @@ import ResetPassword from '@/pages/ResetPassword';
 import Landing from '@/pages/Landing';
 import ServiciosPage from '@/pages/ServiciosPage';
 import PreciosPage from '@/pages/PreciosPage';
+import ServicioCuentas from '@/pages/servicio/ServicioCuentas';
+import ServicioPagos from '@/pages/servicio/ServicioPagos';
+import ServicioCobros from '@/pages/servicio/ServicioCobros';
+import ServicioECheqs from '@/pages/servicio/ServicioECheqs';
+import ServicioInversiones from '@/pages/servicio/ServicioInversiones';
+import ServicioFinanciamiento from '@/pages/servicio/ServicioFinanciamiento';
 
 // App pages
 import AppLayout from '@/components/layout/AppLayout';
@@ -70,6 +76,12 @@ const AuthenticatedApp = () => {
       <Route path="/" element={<Navigate to="/inicio" replace />} />
       <Route path="/servicios" element={<ServiciosPage />} />
       <Route path="/precios" element={<PreciosPage />} />
+      <Route path="/servicio/cuentas" element={<ServicioCuentas />} />
+      <Route path="/servicio/pagos" element={<ServicioPagos />} />
+      <Route path="/servicio/cobros" element={<ServicioCobros />} />
+      <Route path="/servicio/echeqs" element={<ServicioECheqs />} />
+      <Route path="/servicio/inversiones" element={<ServicioInversiones />} />
+      <Route path="/servicio/financiamiento" element={<ServicioFinanciamiento />} />
 
       {/* Auth */}
       <Route path="/login" element={<Login />} />

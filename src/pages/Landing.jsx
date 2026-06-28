@@ -1,19 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   TrendingUp, ArrowRight, CheckCircle2, Zap, Shield, Globe2,
-  Users, Receipt, Landmark, PiggyBank, BarChart3, Calendar,
-  ChevronDown, Menu, X, Star
+  Users, Receipt, Landmark, PiggyBank, BarChart3, Calendar, Star
 } from "lucide-react";
-
-const NAV_LINKS = [
-  { label: "Servicios", href: "/servicios" },
-  { label: "Cuentas", href: "/servicio/cuentas" },
-  { label: "Inversiones", href: "/servicio/inversiones" },
-  { label: "Financiamiento", href: "/servicio/financiamiento" },
-  { label: "Precios", href: "/precios" },
-];
+import PublicNav from "@/components/public/PublicNav";
+import PublicFooter from "@/components/public/PublicFooter";
 
 const STATS = [
   { value: "+5.000", label: "PyMEs activas" },
@@ -23,12 +16,12 @@ const STATS = [
 ];
 
 const FEATURES = [
-  { icon: Globe2, title: "Multi-moneda", desc: "Operá en pesos y dólares desde una sola plataforma, sin restricciones.", color: "text-blue-500", bg: "bg-blue-50" },
-  { icon: Zap, title: "Pagos inteligentes", desc: "Automatizá pagos a proveedores, programá fechas y configurá recurrencias.", color: "text-violet-500", bg: "bg-violet-50" },
-  { icon: Users, title: "Cobros automáticos", desc: "Emití facturas digitales y cobrá a tus clientes sin esfuerzo.", color: "text-emerald-500", bg: "bg-emerald-50" },
-  { icon: Receipt, title: "eCheqs digitales", desc: "Emití y gestioná cheques electrónicos de forma 100% digital.", color: "text-amber-500", bg: "bg-amber-50" },
-  { icon: Landmark, title: "Inversiones", desc: "Hacé rendir tu liquidez con plazos fijos, FCI y más instrumentos.", color: "text-indigo-500", bg: "bg-indigo-50" },
-  { icon: PiggyBank, title: "Financiamiento PyME", desc: "Accedé a préstamos, leasing y descuento de cheques en minutos.", color: "text-rose-500", bg: "bg-rose-50" },
+  { icon: Globe2, title: "Multi-moneda", desc: "Operá en pesos y dólares desde una sola plataforma, sin restricciones.", color: "text-blue-500", bg: "bg-blue-50", href: "/servicio/cuentas" },
+  { icon: Zap, title: "Pagos inteligentes", desc: "Automatizá pagos a proveedores, programá fechas y configurá recurrencias.", color: "text-violet-500", bg: "bg-violet-50", href: "/servicio/pagos" },
+  { icon: Users, title: "Cobros automáticos", desc: "Emití facturas digitales y cobrá a tus clientes sin esfuerzo.", color: "text-emerald-500", bg: "bg-emerald-50", href: "/servicio/cobros" },
+  { icon: Receipt, title: "eCheqs digitales", desc: "Emití y gestioná cheques electrónicos de forma 100% digital.", color: "text-amber-500", bg: "bg-amber-50", href: "/servicio/echeqs" },
+  { icon: Landmark, title: "Inversiones", desc: "Hacé rendir tu liquidez con plazos fijos, FCI y más instrumentos.", color: "text-indigo-500", bg: "bg-indigo-50", href: "/servicio/inversiones" },
+  { icon: PiggyBank, title: "Financiamiento PyME", desc: "Accedé a préstamos, leasing y descuento de cheques en minutos.", color: "text-rose-500", bg: "bg-rose-50", href: "/servicio/financiamiento" },
 ];
 
 const TESTIMONIALS = [
@@ -38,65 +31,9 @@ const TESTIMONIALS = [
 ];
 
 export default function Landing() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
     <div className="min-h-screen bg-white text-gray-900 font-body">
-      {/* Navbar */}
-      <nav className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? "bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100" : "bg-transparent"}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <Link to="/inicio" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-              <TrendingUp className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-lg font-bold text-gray-900">EMITIA PAY</span>
-          </Link>
-
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-6">
-            {NAV_LINKS.map((l) => (
-              <Link key={l.href} to={l.href} className="text-sm font-medium text-gray-600 hover:text-indigo-600 transition-colors">
-                {l.label}
-              </Link>
-            ))}
-          </div>
-
-          <div className="hidden md:flex items-center gap-3">
-            <Link to="/login" className="text-sm font-medium text-gray-700 hover:text-indigo-600 transition-colors px-3 py-2">
-              Ingresar
-            </Link>
-            <Link to="/register" className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
-              Empezar gratis
-            </Link>
-          </div>
-
-          <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden p-2 rounded-lg hover:bg-gray-100">
-            {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        {menuOpen && (
-          <div className="md:hidden bg-white border-t border-gray-100 px-4 py-4 space-y-2">
-            {NAV_LINKS.map((l) => (
-              <Link key={l.href} to={l.href} onClick={() => setMenuOpen(false)} className="block py-2 text-sm font-medium text-gray-700 hover:text-indigo-600">
-                {l.label}
-              </Link>
-            ))}
-            <div className="pt-3 flex flex-col gap-2 border-t border-gray-100 mt-2">
-              <Link to="/login" className="w-full text-center py-2.5 text-sm font-medium border border-gray-200 rounded-lg hover:bg-gray-50">Ingresar</Link>
-              <Link to="/register" className="w-full text-center py-2.5 text-sm font-semibold bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Empezar gratis</Link>
-            </div>
-          </div>
-        )}
-      </nav>
+      <PublicNav transparent />
 
       {/* Hero */}
       <section className="relative pt-28 pb-20 overflow-hidden bg-gradient-to-br from-indigo-950 via-indigo-900 to-violet-900">
@@ -177,7 +114,7 @@ export default function Landing() {
                 </div>
                 <h3 className="font-semibold text-gray-900 mb-2">{f.title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
-                <Link to="/servicios" className={`inline-flex items-center gap-1 text-sm font-medium mt-4 ${f.color} hover:underline`}>
+                <Link to={f.href} className={`inline-flex items-center gap-1 text-sm font-medium mt-4 ${f.color} hover:underline`}>
                   Saber más <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </motion.div>
@@ -272,49 +209,7 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-14">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
-            <div>
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-7 h-7 bg-indigo-600 rounded-lg flex items-center justify-center">
-                  <TrendingUp className="w-3.5 h-3.5 text-white" />
-                </div>
-                <span className="font-bold text-white">EMITIA PAY</span>
-              </div>
-              <p className="text-sm leading-relaxed">La plataforma financiera diseñada para PyMEs argentinas.</p>
-            </div>
-            <div>
-              <p className="font-semibold text-white mb-3 text-sm">Servicios</p>
-              <div className="space-y-2 text-sm">
-                <Link to="/servicio/cuentas" className="block hover:text-white transition-colors">Cuentas multi-moneda</Link>
-                <Link to="/servicio/pagos" className="block hover:text-white transition-colors">Pagos inteligentes</Link>
-                <Link to="/servicio/cobros" className="block hover:text-white transition-colors">Cobros automáticos</Link>
-                <Link to="/servicio/inversiones" className="block hover:text-white transition-colors">Inversiones</Link>
-              </div>
-            </div>
-            <div>
-              <p className="font-semibold text-white mb-3 text-sm">Empresa</p>
-              <div className="space-y-2 text-sm">
-                <Link to="/inicio" className="block hover:text-white transition-colors">Inicio</Link>
-                <Link to="/precios" className="block hover:text-white transition-colors">Precios</Link>
-                <Link to="/servicios" className="block hover:text-white transition-colors">Servicios</Link>
-              </div>
-            </div>
-            <div>
-              <p className="font-semibold text-white mb-3 text-sm">Acceso</p>
-              <div className="space-y-2 text-sm">
-                <Link to="/login" className="block hover:text-white transition-colors">Iniciar sesión</Link>
-                <Link to="/register" className="block hover:text-white transition-colors">Crear cuenta</Link>
-              </div>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 pt-6 text-xs text-center">
-            © {new Date().getFullYear()} EMITIA PAY. Todos los derechos reservados.
-          </div>
-        </div>
-      </footer>
+      <PublicFooter />
     </div>
   );
 }
