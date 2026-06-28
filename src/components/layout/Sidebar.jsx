@@ -142,7 +142,7 @@ export default function Sidebar() {
           </div>
           {!collapsed && (
             <span className="text-lg font-bold tracking-tight text-foreground">
-              cresium
+              FASH.EMITIA
             </span>
           )}
         </div>
