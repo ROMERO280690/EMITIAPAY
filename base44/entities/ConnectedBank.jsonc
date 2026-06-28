@@ -1,0 +1,60 @@
+{
+  "name": "ConnectedBank",
+  "type": "object",
+  "properties": {
+    "bank_id": {
+      "type": "string",
+      "description": "ID del banco en Prometeo"
+    },
+    "bank_name": {
+      "type": "string",
+      "description": "Nombre del banco"
+    },
+    "cbu": {
+      "type": "string",
+      "description": "CBU de la cuenta"
+    },
+    "alias": {
+      "type": "string",
+      "description": "Alias de la cuenta"
+    },
+    "account_number": {
+      "type": "string",
+      "description": "N\u00famero de cuenta enmascarado"
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "ARS",
+        "USD"
+      ],
+      "default": "ARS",
+      "description": "Moneda de la cuenta"
+    },
+    "balance": {
+      "type": "number",
+      "default": 0,
+      "description": "Saldo actual"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "connected",
+        "disconnected",
+        "error"
+      ],
+      "default": "connected"
+    },
+    "last_sync": {
+      "type": "string",
+      "format": "date-time",
+      "description": "\u00daltima sincronizaci\u00f3n"
+    }
+  },
+  "required": [
+    "bank_id",
+    "bank_name",
+    "cbu",
+    "alias"
+  ]
+}

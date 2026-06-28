@@ -6,31 +6,24 @@ Deno.serve(async (req) => {
     const user = await base44.auth.me();
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const API_KEY = Deno.env.get("PROMETEO_API_KEY");
-    const API_SECRET = Deno.env.get("PROMETEO_API_SECRET");
-
-    if (!API_KEY || !API_SECRET) {
-      return Response.json({ error: 'Prometeo credentials not configured' }, { status: 500 });
-    }
-
-    // Get list of banks available in Argentina
-    const banksResponse = await fetch('https://api.prometeoapi.com/v1/banks?country=AR', {
-      headers: {
-        'Authorization': `Bearer ${API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!banksResponse.ok) {
-      throw new Error(`Prometeo API error: ${banksResponse.status}`);
-    }
-
-    const banks = await banksResponse.json();
+    // Lista de bancos argentinos soportados por EMITIA PAY
+    const bancosArgentina = [
+      { id: 'brubank', name: 'Brubank', country: 'AR', available: true, logo_url: null },
+      { id: 'galicia', name: 'Banco Galicia', country: 'AR', available: true, logo_url: null },
+      { id: 'santander', name: 'Santander Río', country: 'AR', available: true, logo_url: null },
+      { id: 'bbva', name: 'BBVA Argentina', country: 'AR', available: true, logo_url: null },
+      { id: 'macro', name: 'Banco Macro', country: 'AR', available: true, logo_url: null },
+      { id: 'supervielle', name: 'Banco Supervielle', country: 'AR', available: true, logo_url: null },
+      { id: 'piano', name: 'Banco Piano', country: 'AR', available: true, logo_url: null },
+      { id: 'icbc', name: 'ICBC Argentina', country: 'AR', available: true, logo_url: null },
+      { id: 'hsbc', name: 'HSBC Argentina', country: 'AR', available: true, logo_url: null },
+      { id: 'nacion', name: 'Banco Nación', country: 'AR', available: true, logo_url: null },
+    ];
 
     return Response.json({ 
       success: true,
-      banks: banks.data || [],
-      message: 'Bancos disponibles en Argentina'
+      banks: bancosArgentina,
+      message: 'Bancos disponibles para conexión'
     });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
