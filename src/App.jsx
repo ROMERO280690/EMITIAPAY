@@ -35,6 +35,14 @@ import AdminInversiones from '@/pages/admin/AdminInversiones';
 import AdminKYC from '@/pages/admin/AdminKYC';
 import AdminReportes from '@/pages/admin/AdminReportes';
 import AdminCuentas from '@/pages/admin/AdminCuentas';
+import AdminAlertas from '@/pages/admin/AdminAlertas';
+import AdminUsuarios from '@/pages/admin/AdminUsuarios';
+import AdminECheqs from '@/pages/admin/AdminECheqs';
+import AdminTransferencias from '@/pages/admin/AdminTransferencias';
+import AdminLiquidez from '@/pages/admin/AdminLiquidez';
+import AdminAuditoria from '@/pages/admin/AdminAuditoria';
+import AdminRiesgo from '@/pages/admin/AdminRiesgo';
+import AdminConfiguracion from '@/pages/admin/AdminConfiguracion';
 
 // App pages
 import AppLayout from '@/components/layout/AppLayout';
@@ -111,6 +119,14 @@ const AuthenticatedApp = () => {
           <Route path="/admin/inversiones" element={<AdminInversiones />} />
           <Route path="/admin/kyc" element={<AdminKYC />} />
           <Route path="/admin/reportes" element={<AdminReportes />} />
+          <Route path="/admin/alertas" element={<AdminAlertas />} />
+          <Route path="/admin/usuarios" element={<AdminUsuarios />} />
+          <Route path="/admin/echeqs" element={<AdminECheqs />} />
+          <Route path="/admin/transferencias" element={<AdminTransferencias />} />
+          <Route path="/admin/liquidez" element={<AdminLiquidez />} />
+          <Route path="/admin/auditoria" element={<AdminAuditoria />} />
+          <Route path="/admin/riesgo" element={<AdminRiesgo />} />
+          <Route path="/admin/configuracion" element={<AdminConfiguracion />} />
         </Route>
       </Route>
 
