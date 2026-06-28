@@ -34,6 +34,7 @@ const mainItems = [
 ];
 
 const operacionesItems = [
+  { label: "Cuentas", icon: Wallet, path: "/cuentas" },
   { label: "Movimientos", icon: ArrowLeftRight, path: "/movimientos" },
   { label: "Recibir dinero", icon: Building2, path: "/recibir-dinero" },
   { label: "Transferencias", icon: ArrowRightLeft, path: "/transferencias" },
