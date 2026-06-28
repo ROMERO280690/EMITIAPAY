@@ -30,7 +30,7 @@ import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
 
 const mainItems = [
-  { label: "Inicio", icon: LayoutDashboard, path: "/" },
+  { label: "Inicio", icon: LayoutDashboard, path: "/dashboard" },
 ];
 
 const operacionesItems = [

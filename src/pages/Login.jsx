@@ -21,7 +21,7 @@ export default function Login() {
     setLoading(true);
     try {
       await base44.auth.loginViaEmailPassword(email, password);
-      window.location.href = "/";
+      window.location.href = "/dashboard";
     } catch (err) {
       setError("Email o contraseña incorrectos. Verificá tus datos.");
     } finally {
@@ -30,7 +30,7 @@ export default function Login() {
   };
 
   const handleGoogle = () => {
-    base44.auth.loginWithProvider("google", "/");
+    base44.auth.loginWithProvider("google", "/dashboard");
   };
 
   return (

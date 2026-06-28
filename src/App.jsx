@@ -67,6 +67,7 @@ const AuthenticatedApp = () => {
     <Routes>
       {/* Public marketing pages */}
       <Route path="/inicio" element={<Landing />} />
+      <Route path="/" element={<Navigate to="/inicio" replace />} />
       <Route path="/servicios" element={<ServiciosPage />} />
       <Route path="/precios" element={<PreciosPage />} />
 
@@ -76,9 +77,11 @@ const AuthenticatedApp = () => {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       
-      <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
+      <Route path="/" element={<Landing />} />
+
+      <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/inicio" replace />} />}>
         <Route element={<AppLayout />}>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/cuentas" element={<Accounts />} />
           <Route path="/transferencias" element={<Transfers />} />
           <Route path="/movimientos" element={<Transactions />} />
