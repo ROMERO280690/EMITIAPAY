@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Landmark, ArrowRight, TrendingUp, Shield, Clock, Star, BarChart3, Zap } from "lucide-react";
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
+import HeroSlider from "@/components/public/HeroSlider";
 
 const PRODUCTS = [
   { icon: "🏦", name: "Plazo Fijo", tna: "38.64% TNA", min: "Desde 1 día", desc: "Invertí tu excedente de caja a tasa fija. Rendimiento asegurado al vencimiento.", color: "indigo" },
@@ -33,66 +34,34 @@ export default function ServicioInversiones() {
     <div className="min-h-screen bg-white font-body">
       <PublicNav />
 
-      {/* Hero */}
-      <section className="pt-24 pb-20 bg-gradient-to-br from-blue-950 via-indigo-900 to-blue-900 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-              <span className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-blue-200 text-xs font-semibold px-4 py-1.5 rounded-full mb-5">
-                <Landmark className="w-3.5 h-3.5" /> Inversiones
-              </span>
-              <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-5">
-                Tu capital de trabajo<br />
-                <span className="text-blue-300">trabajando para vos.</span>
-              </h1>
-              <p className="text-blue-200 text-lg mb-8 leading-relaxed">
-                Plazo fijo, fondos comunes, acciones y bonos. Todo desde EMITIA PAY, sin intermediarios y con rendimientos visibles en tiempo real.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/register" className="flex items-center justify-center gap-2 bg-white text-blue-700 font-semibold px-7 py-3.5 rounded-xl hover:bg-blue-50 transition-colors">
-                  Empezar a invertir <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link to="/precios" className="flex items-center justify-center gap-2 border border-white/30 text-white hover:bg-white/10 font-medium px-7 py-3.5 rounded-xl transition-colors">
-                  Ver planes
-                </Link>
-              </div>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-5">
-                <div className="flex justify-between items-center mb-4">
-                  <p className="text-white font-semibold text-sm">Portfolio de inversiones</p>
-                  <span className="text-emerald-400 text-sm font-bold">+$ 48.320</span>
-                </div>
-                {[
-                  { type: "Plazo Fijo 30 días", amount: "$ 500.000", yield: "+$ 16.100", tna: "38.64% TNA", color: "bg-indigo-400" },
-                  { type: "FCI Renta Variable", amount: "$ 250.000", yield: "+$ 22.800", tna: "Variable", color: "bg-blue-400" },
-                  { type: "Bonos Corporativos", amount: "$ 180.000", yield: "+$ 9.420", tna: "6.2% anual", color: "bg-violet-400" },
-                ].map((inv) => (
-                  <div key={inv.type} className="flex items-center justify-between bg-white/10 rounded-xl px-4 py-3 border border-white/10 mb-2">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-2 h-8 rounded-full ${inv.color}`} />
-                      <div>
-                        <p className="text-white text-xs font-medium">{inv.type}</p>
-                        <p className="text-blue-300 text-[10px]">{inv.tna}</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-white text-xs font-bold">{inv.amount}</p>
-                      <span className="text-emerald-400 text-[10px] font-semibold">{inv.yield}</span>
-                    </div>
-                  </div>
-                ))}
-                <div className="bg-blue-500/20 rounded-xl px-4 py-3 border border-blue-500/30 flex justify-between mt-2">
-                  <p className="text-blue-300 text-xs">Total invertido</p>
-                  <p className="text-white font-bold text-sm">$ 930.000</p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      {/* Hero Slider */}
+      <HeroSlider
+        autoplay={5000}
+        slides={[
+          {
+            badge: "📈 Inversiones",
+            title: <>Tu capital de trabajo<br /><span style={{ color: "#93C5FD" }}>trabajando para vos.</span></>,
+            description: "Plazo fijo, FCI, acciones y bonos. Todo desde EMITIA PAY, sin intermediarios y con rendimientos en tiempo real.",
+            cta: { label: "Empezar a invertir", href: "/register" },
+            ctaSecondary: { label: "Ver planes", href: "/precios" },
+            bgStyle: { background: "linear-gradient(135deg,#1E1B4B 0%,#1E3A8A 50%,#1D4ED8 100%)" },
+          },
+          {
+            badge: "🏦 Plazo fijo desde 1 día",
+            title: <>38.64% TNA<br /><span style={{ color: "#FDE68A" }}>garantizado al vencimiento.</span></>,
+            description: "Invertí tu excedente de caja a tasa fija, desde un día de plazo. Sin montos mínimos.",
+            cta: { label: "Invertir ahora", href: "/register" },
+            bgStyle: { background: "linear-gradient(135deg,#0C2D6B 0%,#1E40AF 60%,#1D4ED8 100%)" },
+          },
+          {
+            badge: "📊 Fondos Comunes (FCI)",
+            title: <>Diversificá sin<br /><span style={{ color: "#86EFAC" }}>ser un experto.</span></>,
+            description: "Fondos gestionados por profesionales. Alta liquidez, rentabilidad variable y sin mínimo de inversión.",
+            cta: { label: "Conocer FCI", href: "/register" },
+            bgStyle: { background: "linear-gradient(135deg,#1A2744 0%,#1E3A8A 50%,#065F46 100%)" },
+          },
+        ]}
+      />
 
       {/* Products */}
       <section className="py-20">

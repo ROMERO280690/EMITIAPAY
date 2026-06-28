@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { CheckCircle2, ArrowRight, Zap } from "lucide-react";
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
+import HeroSlider from "@/components/public/HeroSlider";
 
 const PLANS = [
   {
@@ -65,15 +66,34 @@ export default function PreciosPage() {
     <div className="min-h-screen bg-white font-body">
       <PublicNav />
 
-      <section className="pt-28 pb-16 bg-gradient-to-br from-gray-50 to-indigo-50/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <span className="inline-block bg-indigo-100 text-indigo-700 text-xs font-semibold px-4 py-1.5 rounded-full mb-4">Planes y precios</span>
-            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Precios claros, sin sorpresas</h1>
-            <p className="text-gray-500 text-lg max-w-xl mx-auto">Elegí el plan que se adapta al tamaño de tu empresa. Cambiá cuando quieras.</p>
-          </motion.div>
-        </div>
-      </section>
+      {/* Hero Slider */}
+      <HeroSlider
+        autoplay={6000}
+        slides={[
+          {
+            badge: "Planes y precios",
+            title: <>Precios claros,<br />sin sorpresas.</>,
+            description: "Elegí el plan que se adapta al tamaño de tu empresa. Podés cambiar cuando quieras, sin contratos.",
+            cta: { label: "Empezar gratis", href: "/register" },
+            ctaSecondary: { label: "Ver servicios", href: "/servicios" },
+            bgStyle: { background: "linear-gradient(135deg,#0C2D6B 0%,#1D4ED8 60%,#3B82F6 100%)" },
+          },
+          {
+            badge: "🎁 30 días gratis",
+            title: <>Probá el plan PyME<br /><span style={{ color: "#FDE68A" }}>sin pagar nada.</span></>,
+            description: "Todos los planes incluyen 30 días de prueba del plan PyME. Sin tarjeta de crédito, sin compromisos.",
+            cta: { label: "Activar prueba gratis", href: "/register" },
+            bgStyle: { background: "linear-gradient(135deg,#064E3B 0%,#065F46 50%,#059669 100%)" },
+          },
+          {
+            badge: "🏢 ¿Empresa grande?",
+            title: <>Plan Enterprise<br /><span style={{ color: "#C4B5FD" }}>a medida.</span></>,
+            description: "Cuentas ilimitadas, API de integración, account manager dedicado y SLA garantizado.",
+            cta: { label: "Contactar ventas", href: "/register" },
+            bgStyle: { background: "linear-gradient(135deg,#2E1065 0%,#4C1D95 60%,#6D28D9 100%)" },
+          },
+        ]}
+      />
 
       <section className="py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { PiggyBank, ArrowRight, Clock, CheckCircle2, Star, Shield, Zap, BarChart3 } from "lucide-react";
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
+import HeroSlider from "@/components/public/HeroSlider";
 
 const PRODUCTS = [
   {
@@ -50,56 +51,34 @@ export default function ServicioFinanciamiento() {
     <div className="min-h-screen bg-white font-body">
       <PublicNav />
 
-      {/* Hero */}
-      <section className="pt-24 pb-20 bg-gradient-to-br from-rose-950 via-rose-900 to-pink-900 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-rose-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-              <span className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-rose-200 text-xs font-semibold px-4 py-1.5 rounded-full mb-5">
-                <PiggyBank className="w-3.5 h-3.5" /> Financiamiento PyME
-              </span>
-              <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-5">
-                El capital que necesitás,<br />
-                <span className="text-rose-300">cuando lo necesitás.</span>
-              </h1>
-              <p className="text-rose-200 text-lg mb-8 leading-relaxed">
-                Préstamos PyME, leasing y descuento de cheques. Aprobación en 24 horas, sin burocracia y con desembolso inmediato en tu cuenta.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/register" className="flex items-center justify-center gap-2 bg-white text-rose-700 font-semibold px-7 py-3.5 rounded-xl hover:bg-rose-50 transition-colors">
-                  Solicitar financiamiento <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link to="/precios" className="flex items-center justify-center gap-2 border border-white/30 text-white hover:bg-white/10 font-medium px-7 py-3.5 rounded-xl transition-colors">
-                  Ver planes
-                </Link>
-              </div>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-5 space-y-3">
-                <p className="text-white font-semibold text-sm mb-3">Solicitudes de financiamiento</p>
-                {[
-                  { type: "Préstamo PyME", amount: "$ 2.500.000", term: "12 meses", status: "Aprobado", statusColor: "text-emerald-400" },
-                  { type: "Descuento de eCheq", amount: "$ 850.000", term: "60 días", status: "En análisis", statusColor: "text-amber-400" },
-                  { type: "Leasing equipos", amount: "$ 1.200.000", term: "24 meses", status: "Desembolsado", statusColor: "text-blue-400" },
-                ].map((s, i) => (
-                  <div key={i} className="flex items-center justify-between bg-white/10 rounded-xl px-4 py-3 border border-white/10">
-                    <div>
-                      <p className="text-white text-xs font-medium">{s.type}</p>
-                      <p className="text-rose-300 text-[10px]">Plazo: {s.term}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-white text-xs font-bold">{s.amount}</p>
-                      <span className={`text-[10px] font-semibold ${s.statusColor}`}>{s.status}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      {/* Hero Slider */}
+      <HeroSlider
+        autoplay={5000}
+        slides={[
+          {
+            badge: "💰 Financiamiento PyME",
+            title: <>El capital que necesitás,<br /><span style={{ color: "#FCA5A5" }}>cuando lo necesitás.</span></>,
+            description: "Préstamos PyME, leasing y descuento de cheques. Aprobación en 24hs, sin burocracia, desembolso inmediato.",
+            cta: { label: "Solicitar financiamiento", href: "/register" },
+            ctaSecondary: { label: "Ver planes", href: "/precios" },
+            bgStyle: { background: "linear-gradient(135deg,#4C0519 0%,#881337 50%,#BE123C 100%)" },
+          },
+          {
+            badge: "⚡ Aprobación en 24hs",
+            title: <>Sin carpetas,<br /><span style={{ color: "#FDE68A" }}>sin semanas de espera.</span></>,
+            description: "Nuestro análisis se basa en tu historial de operaciones en la plataforma. Rápido, justo y sin papeleo.",
+            cta: { label: "Solicitar ahora", href: "/register" },
+            bgStyle: { background: "linear-gradient(135deg,#3B0764 0%,#7E1D1D 60%,#BE123C 100%)" },
+          },
+          {
+            badge: "📄 Descuento de cheques",
+            title: <>Liquidez inmediata<br /><span style={{ color: "#86EFAC" }}>sobre tus eCheqs.</span></>,
+            description: "Descontá tus cheques diferidos antes de su fecha de cobro. Acreditación en menos de 24hs, sin límite de operaciones.",
+            cta: { label: "Descontar cheques", href: "/register" },
+            bgStyle: { background: "linear-gradient(135deg,#1C0A00 0%,#78350F 50%,#BE123C 100%)" },
+          },
+        ]}
+      />
 
       {/* Stats */}
       <section className="py-10 bg-rose-50 border-y border-rose-100">

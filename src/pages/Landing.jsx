@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
+import HeroSlider from "@/components/public/HeroSlider";
 
 /* ─────────── Datos ─────────── */
 const TESTIMONIALS = [
@@ -123,118 +124,80 @@ export default function Landing() {
     <div className="min-h-screen bg-white text-gray-900 font-body overflow-x-hidden">
       <PublicNav transparent />
 
-      {/* ════════ HERO ════════ */}
-      <section className="relative min-h-screen flex flex-col justify-center overflow-hidden"
-        style={{ background: "linear-gradient(160deg, #0C2D6B 0%, #1A4FB5 40%, #2563EB 70%, #3B82F6 100%)" }}>
-
-        {/* Estrellas / partículas */}
-        {Array.from({ length: 30 }).map((_, i) => (
-          <div key={i} className="absolute rounded-full bg-white/20"
-            style={{
-              width: Math.random() * 3 + 1 + "px",
-              height: Math.random() * 3 + 1 + "px",
-              top: Math.random() * 70 + "%",
-              left: Math.random() * 100 + "%",
-              animation: `pulse ${2 + Math.random() * 3}s ease-in-out infinite`,
-              animationDelay: Math.random() * 3 + "s",
-            }} />
-        ))}
-
-        {/* Franja bandera lateral izquierda */}
-        <div className="absolute left-0 top-0 bottom-0 w-3 flex flex-col">
-          <div className="flex-1 bg-sky-300/60" />
-          <div className="flex-1 bg-white/40" />
-          <div className="flex-1 bg-sky-300/60" />
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-6 sm:px-10 pt-32 pb-12 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Texto hero */}
-          <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }}>
-            {/* Sol de Mayo + badge */}
-            <div className="flex items-center gap-3 mb-6">
-              <SolDeMayo size={44} />
-              <span className="bg-white/15 border border-white/25 text-sky-100 text-xs font-semibold px-4 py-1.5 rounded-full tracking-wide">
-                Hecho en Argentina, para Argentina
-              </span>
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.1] mb-6">
-              Las finanzas de tu<br />
-              <span className="text-transparent bg-clip-text"
-                style={{ backgroundImage: "linear-gradient(90deg, #FCD34D, #FBBF24)" }}>
-                PyME, en orden.
-              </span>
-            </h1>
-
-            <p className="text-sky-100 text-lg leading-relaxed mb-3 max-w-xl">
-              De La Quiaca a Ushuaia, miles de empresas argentinas usan EMITIA PAY para pagar, cobrar, invertir y crecer — sin pisar un banco.
-            </p>
-
-            <ArgFlag className="w-24 mb-8 opacity-80" />
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/register"
-                className="inline-flex items-center justify-center gap-2 bg-white text-blue-800 font-bold text-base px-8 py-4 rounded-2xl hover:bg-sky-50 transition-all shadow-xl shadow-blue-900/30 group">
-                Abrí tu cuenta gratis
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link to="/servicios"
-                className="inline-flex items-center justify-center gap-2 border-2 border-white/40 text-white hover:bg-white/10 font-semibold text-base px-8 py-4 rounded-2xl transition-all">
-                Ver servicios
-              </Link>
-            </div>
-          </motion.div>
-
-          {/* Dashboard card */}
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.3 }}>
-            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-1 shadow-2xl shadow-blue-900/40">
-              {/* Header tarjeta */}
-              <div className="bg-gradient-to-r from-blue-900/80 to-blue-800/80 rounded-2xl p-5 mb-1">
-                <div className="flex items-center justify-between mb-5">
-                  <div className="flex items-center gap-2">
-                    <SolDeMayo size={22} />
-                    <span className="text-white font-bold text-sm">EMITIA PAY</span>
-                  </div>
+      {/* ════════ HERO SLIDER ════════ */}
+      <HeroSlider
+        minHeight="min-h-screen"
+        autoplay={6000}
+        slides={[
+          {
+            badge: "🇦🇷 Hecho en Argentina, para Argentina",
+            title: <><span>Las finanzas de tu PyME,</span><br /><span className="text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(90deg,#FCD34D,#FBBF24)" }}>en orden.</span></>,
+            description: "De La Quiaca a Ushuaia, miles de empresas usan EMITIA PAY para pagar, cobrar, invertir y crecer — sin pisar un banco.",
+            cta: { label: "Abrí tu cuenta gratis", href: "/register" },
+            ctaSecondary: { label: "Ver servicios", href: "/servicios" },
+            bgStyle: { background: "linear-gradient(160deg,#0C2D6B 0%,#1A4FB5 40%,#2563EB 70%,#3B82F6 100%)" },
+            image: (
+              <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-4 shadow-2xl shadow-blue-900/40 w-full max-w-sm">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-white font-bold text-sm">Tu dashboard</span>
                   <span className="text-emerald-400 text-xs font-semibold bg-emerald-400/15 px-3 py-1 rounded-full">● En línea</span>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2 mb-3">
                   {[
-                    { label: "Saldo ARS", value: "$ 2.458.320", sub: "+12% este mes", green: true },
-                    { label: "Saldo USD", value: "US$ 15.200", sub: "+5% este mes", green: true },
-                    { label: "Cobros pendientes", value: "$ 840.000", sub: "3 facturas activas", green: false },
-                    { label: "Inversiones", value: "$ 500.000", sub: "38.6% TNA", green: true },
+                    { label: "Saldo ARS", value: "$ 2.458.320", color: "text-emerald-400" },
+                    { label: "Saldo USD", value: "US$ 15.200", color: "text-emerald-400" },
+                    { label: "Cobros pendientes", value: "$ 840.000", color: "text-amber-400" },
+                    { label: "TNA plazo fijo", value: "38.6%", color: "text-emerald-400" },
                   ].map((item) => (
-                    <div key={item.label} className="p-3 bg-white/10 rounded-xl border border-white/10">
-                      <p className="text-sky-300 text-xs mb-1">{item.label}</p>
-                      <p className="text-white font-bold text-sm">{item.value}</p>
-                      <p className={`text-xs mt-0.5 ${item.green ? "text-emerald-400" : "text-amber-400"}`}>{item.sub}</p>
+                    <div key={item.label} className="p-2.5 bg-white/10 rounded-xl border border-white/10">
+                      <p className="text-sky-300 text-[10px] mb-0.5">{item.label}</p>
+                      <p className={`font-bold text-sm ${item.color}`}>{item.value}</p>
                     </div>
                   ))}
                 </div>
-              </div>
-              {/* Últimos movimientos */}
-              <div className="px-4 pb-4 pt-2 space-y-2">
-                <p className="text-white/50 text-xs font-semibold uppercase tracking-wider mb-2">Últimos movimientos</p>
                 {[
-                  { desc: "Pago a proveedor — Distribuidora Sur", amount: "- $ 45.000", color: "text-red-400" },
-                  { desc: "Cobro factura #1092 — Cliente Ríos", amount: "+ $ 120.000", color: "text-emerald-400" },
-                  { desc: "Rendimiento plazo fijo", amount: "+ $ 3.200", color: "text-emerald-400" },
+                  { desc: "Pago proveedor", amount: "- $45.000", color: "text-red-400" },
+                  { desc: "Cobro factura #1092", amount: "+ $120.000", color: "text-emerald-400" },
                 ].map((m) => (
-                  <div key={m.desc} className="flex items-center justify-between py-1.5 border-b border-white/5">
-                    <span className="text-white/70 text-xs truncate max-w-[65%]">{m.desc}</span>
+                  <div key={m.desc} className="flex justify-between py-1.5 border-b border-white/5">
+                    <span className="text-white/60 text-xs">{m.desc}</span>
                     <span className={`text-xs font-semibold ${m.color}`}>{m.amount}</span>
                   </div>
                 ))}
               </div>
-            </div>
-          </motion.div>
-        </div>
+            ),
+          },
+          {
+            badge: "⚡ Pagos automáticos",
+            title: <>Pagá a todos tus<br /><span style={{ color: "#A5F3FC" }}>proveedores en un clic.</span></>,
+            description: "Programá pagos únicos o recurrentes. EMITIA PAY los ejecuta puntualmente sin que tengas que recordarlo.",
+            cta: { label: "Conocer pagos", href: "/servicio/pagos" },
+            ctaSecondary: { label: "Empezar gratis", href: "/register" },
+            bgStyle: { background: "linear-gradient(135deg,#312E81 0%,#4C1D95 50%,#6D28D9 100%)" },
+          },
+          {
+            badge: "💰 Hacé rendir tu plata",
+            title: <>El saldo parado<br /><span style={{ color: "#FDE68A" }}>pierde valor. Invertilo.</span></>,
+            description: "Plazo fijo desde 1 día, FCI, acciones y bonos — todo desde la plataforma, sin intermediarios ni montos mínimos.",
+            cta: { label: "Ver inversiones", href: "/servicio/inversiones" },
+            ctaSecondary: { label: "Abrir cuenta", href: "/register" },
+            bgStyle: { background: "linear-gradient(135deg,#1E3A5F 0%,#1D4ED8 60%,#0284C7 100%)" },
+          },
+          {
+            badge: "🏦 Financiamiento PyME",
+            title: <>Capital cuando<br /><span style={{ color: "#86EFAC" }}>lo necesitás.</span></>,
+            description: "Préstamos para capital de trabajo, leasing y descuento de cheques. Aprobación en 24hs, sin burocracia.",
+            cta: { label: "Solicitar financiamiento", href: "/servicio/financiamiento" },
+            ctaSecondary: { label: "Ver planes", href: "/precios" },
+            bgStyle: { background: "linear-gradient(135deg,#064E3B 0%,#065F46 50%,#047857 100%)" },
+          },
+        ]}
+      />
 
-        {/* Cordillera al pie del hero */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <MountainSilhouette />
-        </div>
-      </section>
+      {/* Cordillera decorativa bajo el hero */}
+      <div className="bg-sky-50 -mt-1">
+        <MountainSilhouette />
+      </div>
 
       {/* ════════ PRESENCIA EN TODO EL PAÍS ════════ */}
       <section className="py-10 bg-sky-50 border-y border-sky-100 overflow-hidden">

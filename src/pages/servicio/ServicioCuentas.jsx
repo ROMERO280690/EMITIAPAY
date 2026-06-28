@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Globe2, CheckCircle2, ArrowRight, Copy, ArrowLeftRight, Shield, Zap, Clock, TrendingUp, Star } from "lucide-react";
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
+import HeroSlider from "@/components/public/HeroSlider";
 
 const FEATURES = [
   { icon: Globe2, title: "Multi-moneda nativo", desc: "Abrí cuentas en pesos (ARS) y dólares (USD) sin restricciones. Gestioná ambas desde un mismo panel." },
@@ -26,60 +27,49 @@ export default function ServicioCuentas() {
     <div className="min-h-screen bg-white font-body">
       <PublicNav />
 
-      {/* Hero */}
-      <section className="pt-24 pb-20 bg-gradient-to-br from-indigo-950 via-indigo-900 to-blue-900 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-              <span className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-blue-200 text-xs font-semibold px-4 py-1.5 rounded-full mb-5">
-                <Globe2 className="w-3.5 h-3.5" /> Cuentas Multi-moneda
-              </span>
-              <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-5">
-                Tu empresa opera en pesos y dólares.<br />
-                <span className="text-blue-300">Nosotros también.</span>
-              </h1>
-              <p className="text-blue-200 text-lg mb-8 leading-relaxed">
-                Abrí cuentas en ARS y USD sin costo de apertura. Transferencias 24/7, CBU propio, saldo remunerado automático y máxima seguridad.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/register" className="flex items-center justify-center gap-2 bg-white text-indigo-700 font-semibold px-7 py-3.5 rounded-xl hover:bg-indigo-50 transition-colors">
-                  Abrir cuenta gratis <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link to="/precios" className="flex items-center justify-center gap-2 border border-white/30 text-white hover:bg-white/10 font-medium px-7 py-3.5 rounded-xl transition-colors">
-                  Ver planes
-                </Link>
-              </div>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 space-y-4">
-                <p className="text-white font-semibold mb-2">Tus cuentas en un vistazo</p>
+      {/* Hero Slider */}
+      <HeroSlider
+        autoplay={5000}
+        slides={[
+          {
+            badge: "🏦 Cuentas Multi-moneda",
+            title: <>Tu empresa opera en pesos y dólares.<br /><span style={{ color: "#93C5FD" }}>Nosotros también.</span></>,
+            description: "Abrí cuentas en ARS y USD sin costo de apertura. Transferencias 24/7, CBU propio y saldo remunerado automático.",
+            cta: { label: "Abrir cuenta gratis", href: "/register" },
+            ctaSecondary: { label: "Ver planes", href: "/precios" },
+            bgStyle: { background: "linear-gradient(135deg,#1E1B4B 0%,#1E3A8A 50%,#1D4ED8 100%)" },
+            image: (
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-5 w-full max-w-xs space-y-3">
+                <p className="text-white font-semibold text-sm mb-1">Tus cuentas</p>
                 {[
-                  { flag: "🇦🇷", label: "Cuenta Pesos", currency: "ARS", balance: "$ 2.458.320,00", tna: "38.64% TNA", color: "bg-blue-500" },
-                  { flag: "🇺🇸", label: "Cuenta Dólares", currency: "USD", balance: "US$ 15.200,00", tna: null, color: "bg-emerald-500" },
+                  { flag: "🇦🇷", label: "Cuenta Pesos", currency: "ARS", balance: "$ 2.458.320", tna: "38.64% TNA" },
+                  { flag: "🇺🇸", label: "Cuenta Dólares", currency: "USD", balance: "US$ 15.200", tna: null },
                 ].map((acc) => (
-                  <div key={acc.currency} className="bg-white/10 rounded-xl p-4 border border-white/10">
-                    <div className={`h-1 w-full ${acc.color} rounded-full mb-3`} />
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <p className="text-blue-200 text-xs">{acc.flag} {acc.label}</p>
-                        <p className="text-white text-2xl font-bold mt-1">{acc.balance}</p>
-                        {acc.tna && <span className="text-emerald-400 text-xs font-semibold">{acc.tna}</span>}
-                      </div>
-                      <span className="bg-white/20 text-white text-xs font-bold px-2 py-1 rounded">{acc.currency}</span>
-                    </div>
-                    <div className="mt-3 bg-white/5 rounded-lg px-3 py-2">
-                      <p className="text-[10px] text-blue-300 uppercase tracking-wider">CBU</p>
-                      <p className="text-white text-xs font-mono">0000003100025{acc.currency === "ARS" ? "00" : "01"}0000000</p>
-                    </div>
+                  <div key={acc.currency} className="bg-white/10 rounded-xl p-3 border border-white/10">
+                    <p className="text-blue-200 text-xs mb-1">{acc.flag} {acc.label}</p>
+                    <p className="text-white text-xl font-bold">{acc.balance}</p>
+                    {acc.tna && <span className="text-emerald-400 text-xs font-semibold">{acc.tna}</span>}
                   </div>
                 ))}
               </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+            ),
+          },
+          {
+            badge: "⚡ Transferencias 24/7",
+            title: <>Sin horarios bancarios.<br /><span style={{ color: "#6EE7B7" }}>Transferí cuando quieras.</span></>,
+            description: "Enviá y recibí dinero en cualquier momento del día, incluso fines de semana y feriados nacionales.",
+            cta: { label: "Abrir cuenta", href: "/register" },
+            bgStyle: { background: "linear-gradient(135deg,#0C2D6B 0%,#0369A1 60%,#0284C7 100%)" },
+          },
+          {
+            badge: "📈 Saldo remunerado",
+            title: <>Tu plata trabajando<br /><span style={{ color: "#FDE68A" }}>38.64% TNA automático.</span></>,
+            description: "El saldo en tu cuenta en pesos genera rendimiento automático sin que hagas nada. Sin plazos, sin trámites.",
+            cta: { label: "Empezar a ganar", href: "/register" },
+            bgStyle: { background: "linear-gradient(135deg,#1A2744 0%,#15803D 60%,#16A34A 100%)" },
+          },
+        ]}
+      />
 
       {/* Stats bar */}
       <section className="py-10 bg-indigo-50 border-y border-indigo-100">

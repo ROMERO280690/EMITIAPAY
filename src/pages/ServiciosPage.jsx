@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Globe2, Zap, Users, Receipt, Landmark, PiggyBank, ArrowRight, CheckCircle2 } from "lucide-react";
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
+import HeroSlider from "@/components/public/HeroSlider";
 
 const SERVICES = [
   {
@@ -82,16 +83,34 @@ export default function ServiciosPage() {
     <div className="min-h-screen bg-white font-body">
       <PublicNav />
 
-      {/* Hero */}
-      <section className="pt-28 pb-16 bg-gradient-to-br from-gray-50 to-indigo-50/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-            <span className="inline-block bg-indigo-100 text-indigo-700 text-xs font-semibold px-4 py-1.5 rounded-full mb-4">Todos los servicios</span>
-            <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">Una plataforma, todo lo que necesitás</h1>
-            <p className="text-gray-500 text-lg max-w-2xl mx-auto">Cada herramienta diseñada para simplificar las finanzas de tu PyME. Sin fricción, sin burocracia.</p>
-          </motion.div>
-        </div>
-      </section>
+      {/* Hero Slider */}
+      <HeroSlider
+        autoplay={5500}
+        slides={[
+          {
+            badge: "Todos los servicios",
+            title: <>Una plataforma,<br />todo lo que necesitás.</>,
+            description: "Cada herramienta diseñada para simplificar las finanzas de tu PyME. Sin fricción, sin burocracia.",
+            cta: { label: "Empezar gratis", href: "/register" },
+            ctaSecondary: { label: "Ver precios", href: "/precios" },
+            bgStyle: { background: "linear-gradient(135deg,#1E1B4B 0%,#3730A3 60%,#4F46E5 100%)" },
+          },
+          {
+            badge: "🏦 Cuentas multi-moneda",
+            title: <>ARS y USD.<br /><span style={{ color: "#A5F3FC" }}>Una sola pantalla.</span></>,
+            description: "Operá en pesos y dólares sin fricciones. CBU propio, transferencias 24/7 y saldo remunerado automático.",
+            cta: { label: "Ver cuentas", href: "/servicio/cuentas" },
+            bgStyle: { background: "linear-gradient(135deg,#0C2D6B 0%,#1D4ED8 100%)" },
+          },
+          {
+            badge: "📄 eCheqs digitales",
+            title: <>El cheque de papel<br /><span style={{ color: "#FDE68A" }}>quedó en el pasado.</span></>,
+            description: "Emitís, recibís y depositás cheques electrónicos 100% digitales. Sin papel, sin pérdidas, con validación inmediata.",
+            cta: { label: "Ver eCheqs", href: "/servicio/echeqs" },
+            bgStyle: { background: "linear-gradient(135deg,#78350F 0%,#B45309 60%,#D97706 100%)" },
+          },
+        ]}
+      />
 
       {/* Services */}
       <section className="py-16">

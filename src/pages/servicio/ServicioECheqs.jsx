@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Receipt, ArrowRight, Shield, Clock, CheckCircle2, Star, Zap, FileText, AlertCircle } from "lucide-react";
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
+import HeroSlider from "@/components/public/HeroSlider";
 
 const FEATURES = [
   { icon: Zap, title: "Emisión en minutos", desc: "Emití un eCheq completando un formulario simple. Sin papeles, sin filas en el banco." },
@@ -19,56 +20,34 @@ export default function ServicioECheqs() {
     <div className="min-h-screen bg-white font-body">
       <PublicNav />
 
-      {/* Hero */}
-      <section className="pt-24 pb-20 bg-gradient-to-br from-amber-950 via-amber-900 to-orange-900 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-              <span className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-amber-200 text-xs font-semibold px-4 py-1.5 rounded-full mb-5">
-                <Receipt className="w-3.5 h-3.5" /> eCheqs Digitales
-              </span>
-              <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-5">
-                El cheque del siglo XXI.<br />
-                <span className="text-amber-300">100% digital y seguro.</span>
-              </h1>
-              <p className="text-amber-200 text-lg mb-8 leading-relaxed">
-                Emití, recibí y gestioná cheques electrónicos sin papel, sin riesgo de pérdida y con validación inmediata. El futuro de los instrumentos de pago empresariales.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/register" className="flex items-center justify-center gap-2 bg-white text-amber-700 font-semibold px-7 py-3.5 rounded-xl hover:bg-amber-50 transition-colors">
-                  Empezar gratis <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link to="/precios" className="flex items-center justify-center gap-2 border border-white/30 text-white hover:bg-white/10 font-medium px-7 py-3.5 rounded-xl transition-colors">
-                  Ver planes
-                </Link>
-              </div>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-5 space-y-3">
-                <p className="text-white font-semibold text-sm mb-3">eCheqs recientes</p>
-                {[
-                  { recipient: "Materiales del Sur S.A.", amount: "$ 450.000", date: "2026-08-15", status: "Emitido" },
-                  { recipient: "Constructora LM", amount: "$ 280.000", date: "2026-09-01", status: "Depositado" },
-                  { recipient: "Tech Suministros", amount: "$ 125.000", date: "2026-07-30", status: "Pendiente" },
-                ].map((c, i) => (
-                  <div key={i} className="flex items-center justify-between bg-white/10 rounded-xl px-4 py-3 border border-white/10">
-                    <div>
-                      <p className="text-white text-xs font-medium">{c.recipient}</p>
-                      <p className="text-amber-300 text-[10px]">Cobro: {c.date}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-white text-xs font-bold">{c.amount}</p>
-                      <span className={`text-[10px] font-semibold ${c.status === "Depositado" ? "text-emerald-400" : c.status === "Pendiente" ? "text-amber-300" : "text-blue-400"}`}>{c.status}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      {/* Hero Slider */}
+      <HeroSlider
+        autoplay={5000}
+        slides={[
+          {
+            badge: "📄 eCheqs Digitales",
+            title: <>El cheque del siglo XXI.<br /><span style={{ color: "#FDE68A" }}>100% digital y seguro.</span></>,
+            description: "Emití, recibí y gestioná cheques electrónicos sin papel, sin riesgo de pérdida y con validación inmediata.",
+            cta: { label: "Empezar gratis", href: "/register" },
+            ctaSecondary: { label: "Ver planes", href: "/precios" },
+            bgStyle: { background: "linear-gradient(135deg,#78350F 0%,#92400E 50%,#B45309 100%)" },
+          },
+          {
+            badge: "✅ Validación automática",
+            title: <>Sin ir al banco.<br /><span style={{ color: "#86EFAC" }}>Sin riesgo de fraude.</span></>,
+            description: "El sistema valida la autenticidad de cada eCheq en tiempo real. Seguridad sin burocracia.",
+            cta: { label: "Probar eCheqs", href: "/register" },
+            bgStyle: { background: "linear-gradient(135deg,#451A03 0%,#78350F 50%,#92400E 100%)" },
+          },
+          {
+            badge: "📱 Desde cualquier lugar",
+            title: <>Depositá un eCheq<br /><span style={{ color: "#A5F3FC" }}>desde el celular.</span></>,
+            description: "Sin ir a una sucursal, sin horarios bancarios. El beneficiario deposita 100% digital desde donde esté.",
+            cta: { label: "Conocer más", href: "/register" },
+            bgStyle: { background: "linear-gradient(135deg,#1C1917 0%,#78350F 60%,#D97706 100%)" },
+          },
+        ]}
+      />
 
       {/* Stats */}
       <section className="py-10 bg-amber-50 border-y border-amber-100">

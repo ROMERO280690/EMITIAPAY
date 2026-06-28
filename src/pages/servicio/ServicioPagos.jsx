@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Zap, CheckCircle2, ArrowRight, Calendar, RotateCw, Shield, Clock, Star, AlertCircle, Users } from "lucide-react";
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
+import HeroSlider from "@/components/public/HeroSlider";
 
 const FEATURES = [
   { icon: Calendar, title: "Pagos programados", desc: "Configurá la fecha exacta en que querés que se ejecute cada pago. Sin que tengas que recordarlo." },
@@ -26,60 +27,34 @@ export default function ServicioPagos() {
     <div className="min-h-screen bg-white font-body">
       <PublicNav />
 
-      {/* Hero */}
-      <section className="pt-24 pb-20 bg-gradient-to-br from-violet-950 via-violet-900 to-indigo-900 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-violet-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4 pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6 }}>
-              <span className="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-violet-200 text-xs font-semibold px-4 py-1.5 rounded-full mb-5">
-                <Zap className="w-3.5 h-3.5" /> Pagos Inteligentes
-              </span>
-              <h1 className="text-4xl sm:text-5xl font-bold text-white leading-tight mb-5">
-                Pagá a tiempo,<br />
-                <span className="text-violet-300">siempre. Automático.</span>
-              </h1>
-              <p className="text-violet-200 text-lg mb-8 leading-relaxed">
-                Programá y automatizá todos tus pagos a proveedores, sueldos e impuestos. Sin recordatorios, sin atrasos, sin stress.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/register" className="flex items-center justify-center gap-2 bg-white text-violet-700 font-semibold px-7 py-3.5 rounded-xl hover:bg-violet-50 transition-colors">
-                  Empezar gratis <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link to="/precios" className="flex items-center justify-center gap-2 border border-white/30 text-white hover:bg-white/10 font-medium px-7 py-3.5 rounded-xl transition-colors">
-                  Ver planes
-                </Link>
-              </div>
-            </motion.div>
-
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-5 space-y-3">
-                <p className="text-white font-semibold text-sm mb-3">Pagos programados</p>
-                {[
-                  { name: "Servicios IT - Proveedor X", amount: "$ 85.000", date: "15/07", status: "Programado", color: "bg-blue-400" },
-                  { name: "Sueldos julio - Nómina", amount: "$ 1.240.000", date: "30/07", status: "Programado", color: "bg-violet-400" },
-                  { name: "AFIP - Monotributo", amount: "$ 42.800", date: "20/07", status: "Pendiente", color: "bg-amber-400" },
-                  { name: "Alquiler oficina", amount: "$ 320.000", date: "01/08", status: "Completado", color: "bg-emerald-400" },
-                ].map((p) => (
-                  <div key={p.name} className="flex items-center justify-between bg-white/10 rounded-xl px-4 py-3 border border-white/10">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-2 h-2 rounded-full ${p.color}`} />
-                      <div>
-                        <p className="text-white text-xs font-medium">{p.name}</p>
-                        <p className="text-violet-300 text-[10px]">Vence: {p.date}</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-white text-xs font-bold">{p.amount}</p>
-                      <span className={`text-[10px] font-semibold ${p.status === "Completado" ? "text-emerald-400" : "text-violet-300"}`}>{p.status}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      {/* Hero Slider */}
+      <HeroSlider
+        autoplay={5000}
+        slides={[
+          {
+            badge: "⚡ Pagos Inteligentes",
+            title: <>Pagá a tiempo,<br /><span style={{ color: "#C4B5FD" }}>siempre. Automático.</span></>,
+            description: "Programá y automatizá todos tus pagos a proveedores, sueldos e impuestos. Sin recordatorios, sin atrasos.",
+            cta: { label: "Empezar gratis", href: "/register" },
+            ctaSecondary: { label: "Ver planes", href: "/precios" },
+            bgStyle: { background: "linear-gradient(135deg,#2E1065 0%,#4C1D95 50%,#5B21B6 100%)" },
+          },
+          {
+            badge: "🔁 Pagos recurrentes",
+            title: <>Sueldos, proveedores,<br /><span style={{ color: "#A5F3FC" }}>una sola configuración.</span></>,
+            description: "Configurás una vez y EMITIA PAY los ejecuta puntualmente cada semana, quincena o mes.",
+            cta: { label: "Automatizar pagos", href: "/register" },
+            bgStyle: { background: "linear-gradient(135deg,#1E1B4B 0%,#3730A3 60%,#4338CA 100%)" },
+          },
+          {
+            badge: "👥 Pagos masivos",
+            title: <>Toda la nómina<br /><span style={{ color: "#86EFAC" }}>en un solo click.</span></>,
+            description: "Pagá a múltiples proveedores o empleados en una sola operación. Ahorrá horas de trabajo administrativo.",
+            cta: { label: "Ver demo", href: "/register" },
+            bgStyle: { background: "linear-gradient(135deg,#0C2D6B 0%,#1D4ED8 60%,#7C3AED 100%)" },
+          },
+        ]}
+      />
 
       {/* Stats */}
       <section className="py-10 bg-violet-50 border-y border-violet-100">
