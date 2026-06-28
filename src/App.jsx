@@ -99,8 +99,6 @@ const AuthenticatedApp = () => {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
-      
-      <Route path="/" element={<Landing />} />
 
       {/* Admin routes */}
       <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/inicio" replace />} />}>
