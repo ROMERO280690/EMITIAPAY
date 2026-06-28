@@ -28,9 +28,6 @@ function SolDeMayo({ size = 28, dark = false }) {
 const NAV_LINKS = [
   { label: "Inicio", href: "/inicio" },
   { label: "Servicios", href: "/servicios" },
-  { label: "Cuentas", href: "/servicio/cuentas" },
-  { label: "Inversiones", href: "/servicio/inversiones" },
-  { label: "Financiamiento", href: "/servicio/financiamiento" },
   { label: "Precios", href: "/precios" },
 ];
 

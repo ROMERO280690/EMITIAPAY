@@ -29,11 +29,11 @@ const typeColors = {
 };
 
 const TNA_BY_TYPE = { plazo_fijo: 0.3864, fci: 0.42, acciones: 0, bonos: 0.25 };
-const MIN_DAYS = { plazo_fijo: 30, fci: 1, acciones: 1, bonos: 30 };
+const MIN_DAYS = { plazo_fijo: 1, fci: 1, acciones: 1, bonos: 30 };
 
 export default function Inversiones() {
   const [open, setOpen] = useState(false);
-  const [form, setForm] = useState({ type: "plazo_fijo", amount: "", currency: "ARS", duration: "30", accountId: "" });
+  const [form, setForm] = useState({ type: "plazo_fijo", amount: "", currency: "ARS", duration: "1", accountId: "" });
   const queryClient = useQueryClient();
 
   const { data: investments = [], isLoading } = useQuery({
@@ -189,9 +189,18 @@ export default function Inversiones() {
                   <Select value={form.duration} onValueChange={(v) => setForm({ ...form, duration: v })}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      {[30, 60, 90, 180, 365].map((d) => (
-                        <SelectItem key={d} value={String(d)}>{d} días</SelectItem>
-                      ))}
+                      {form.type === "plazo_fijo"
+                        ? [1, 7, 14, 30, 60, 90, 180, 365].map((d) => (
+                            <SelectItem key={d} value={String(d)}>{d} {d === 1 ? "día" : "días"}</SelectItem>
+                          ))
+                        : form.type === "fci"
+                        ? [1, 7, 30, 90].map((d) => (
+                            <SelectItem key={d} value={String(d)}>{d} {d === 1 ? "día" : "días"}</SelectItem>
+                          ))
+                        : [30, 60, 90, 180, 365].map((d) => (
+                            <SelectItem key={d} value={String(d)}>{d} días</SelectItem>
+                          ))
+                      }
                     </SelectContent>
                   </Select>
                 </div>

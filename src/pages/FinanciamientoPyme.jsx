@@ -175,7 +175,7 @@ export default function FinanciamientoPyme() {
             <div>
               <h3 className="font-semibold">¿Necesitás asesoramiento?</h3>
               <p className="text-sm text-muted-foreground mt-1">Nuestro equipo de asesores financieros puede ayudarte a elegir la mejor opción para tu empresa.</p>
-              <Button variant="outline" className="gap-2 mt-3" onClick={() => openProductDialog({ type: "asesoramiento", title: "Asesoramiento personalizado" })}>
+              <Button variant="outline" className="gap-2 mt-3" onClick={() => openProductDialog({ type: "prestamo_pyme", title: "Solicitar asesoramiento", description: "Nuestro equipo te contactará para ayudarte a elegir la mejor opción", amount: "A consultar", rate: "A consultar", term: "A definir" })}>
                 Solicitar asesoramiento <ArrowRight className="w-4 h-4" />
               </Button>
             </div>

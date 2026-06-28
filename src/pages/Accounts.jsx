@@ -131,6 +131,9 @@ export default function Accounts() {
                     <div>
                       <p className="text-sm font-medium text-muted-foreground">{account.name}</p>
                       <p className="text-2xl font-bold mt-1">{formatCurrency(account.balance || 0, account.currency)}</p>
+                      {account.account_type === "remunerada" && account.currency === "ARS" && (
+                        <p className="text-xs text-emerald-600 font-semibold mt-1">38.64% TNA — saldo remunerado automático</p>
+                      )}
                     </div>
                     <div className="flex gap-2">
                       <Badge variant="secondary" className="text-xs">{account.currency}</Badge>

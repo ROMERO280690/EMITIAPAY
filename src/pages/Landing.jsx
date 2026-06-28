@@ -195,7 +195,7 @@ export default function Landing() {
       />
 
       {/* Cordillera decorativa bajo el hero */}
-      <div className="bg-sky-50 -mt-1">
+      <div className="-mt-1" style={{ background: "linear-gradient(to bottom, #064E3B 0%, #f0f9ff 40%)" }}>
         <MountainSilhouette />
       </div>
 

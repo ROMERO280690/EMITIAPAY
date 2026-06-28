@@ -122,7 +122,7 @@ export default function PreciosPage() {
                     </li>
                   ))}
                 </ul>
-                <Link to={plan.name === "Enterprise" ? "/inicio" : "/register"}
+                <Link to="/register"
                   className={`w-full text-center py-3 rounded-xl font-semibold text-sm transition-colors ${plan.highlight ? "bg-white text-indigo-700 hover:bg-indigo-50" : "bg-indigo-600 hover:bg-indigo-700 text-white"}`}>
                   {plan.cta}
                 </Link>
