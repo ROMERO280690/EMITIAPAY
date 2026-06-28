@@ -376,14 +376,14 @@ export default function Landing() {
       </section>
 
       {/* ════════ BENEFICIOS ════════ */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-gray-50 border-y border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
             <span className="inline-block bg-emerald-50 text-emerald-700 text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wide">Por qué EMITIA PAY</span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">
               La agilidad que querés,<br className="hidden sm:block" /> la seguridad que necesitás.
             </h2>
-            <p className="text-gray-400 max-w-xl mx-auto">La innovación de una fintech con el respaldo de una entidad regulada por el BCRA.</p>
+            <p className="text-gray-500 max-w-xl mx-auto">La innovación de una fintech con el respaldo de una entidad regulada por el BCRA.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {BENEFITS.map((b, i) => (
@@ -393,7 +393,7 @@ export default function Landing() {
                   <b.icon className="w-5 h-5 text-blue-600" />
                 </div>
                 <h3 className="font-bold text-gray-900 mb-2">{b.title}</h3>
-                <p className="text-gray-400 text-sm leading-relaxed">{b.desc}</p>
+                <p className="text-gray-500 text-sm leading-relaxed">{b.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -401,22 +401,16 @@ export default function Landing() {
       </section>
 
       {/* ════════ IDENTIDAD ARGENTINA ════════ */}
-      <section className="relative py-24 overflow-hidden"
-        style={{ background: "linear-gradient(160deg, #0C2D6B 0%, #1A4FB5 50%, #2563EB 100%)" }}>
-        <div className="absolute inset-0 opacity-10">
-          <svg viewBox="0 0 1440 400" fill="none" className="w-full h-full" preserveAspectRatio="xMidYMid slice">
-            <path d="M0 400 L200 150 L400 220 L600 80 L800 170 L1000 50 L1200 130 L1440 90 L1440 400 Z" fill="white" />
-          </svg>
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <ArgFlag className="w-16 mb-6" />
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-5 leading-tight">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-5 leading-tight">
                 Construida desde adentro.<br />
-                <span className="text-amber-300">Por argentinos, para argentinos.</span>
+                <span className="text-blue-700">Por argentinos, para argentinos.</span>
               </h2>
-              <p className="text-sky-200 mb-8 leading-relaxed text-lg">
+              <p className="text-gray-500 mb-8 leading-relaxed text-lg">
                 Sabemos lo que es el dólar que sube, el proveedor que no espera y el banco que cierra a las 15hs. Por eso hicimos una plataforma que no duerme y no pone excusas.
               </p>
               <div className="space-y-3">
@@ -429,12 +423,12 @@ export default function Landing() {
                   "Soporte en castellano, rápido, de personas reales",
                 ].map((item) => (
                   <div key={item} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
-                    <span className="text-sky-100 text-sm">{item}</span>
+                    <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                    <span className="text-gray-700 text-sm">{item}</span>
                   </div>
                 ))}
               </div>
-              <Link to="/register" className="inline-flex items-center gap-2 mt-10 bg-amber-400 hover:bg-amber-300 text-blue-900 font-bold px-8 py-4 rounded-2xl transition-all shadow-lg group">
+              <Link to="/register" className="inline-flex items-center gap-2 mt-10 bg-blue-700 hover:bg-blue-800 text-white font-bold px-8 py-4 rounded-2xl transition-all shadow-lg group">
                 Empezar ahora <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
@@ -446,10 +440,10 @@ export default function Landing() {
                 { icon: Globe2, title: "Multi-moneda nativo", desc: "ARS y USD en la misma pantalla, sin conversiones manuales." },
                 { icon: Zap, title: "Siempre disponible", desc: "Desde el Altiplano o la Patagonia. El sistema no para." },
               ].map((card) => (
-                <div key={card.title} className="p-5 rounded-2xl border border-white/15 bg-white/10 backdrop-blur-sm">
-                  <card.icon className="w-6 h-6 text-amber-300 mb-3" />
-                  <p className="font-bold text-white text-sm mb-1">{card.title}</p>
-                  <p className="text-xs text-sky-200 leading-relaxed">{card.desc}</p>
+                <div key={card.title} className="p-6 rounded-2xl border border-gray-100 bg-gray-50 hover:bg-blue-50 hover:border-blue-100 transition-colors">
+                  <card.icon className="w-6 h-6 text-blue-600 mb-3" />
+                  <p className="font-bold text-gray-900 text-sm mb-1">{card.title}</p>
+                  <p className="text-xs text-gray-500 leading-relaxed">{card.desc}</p>
                 </div>
               ))}
             </motion.div>
@@ -458,7 +452,7 @@ export default function Landing() {
       </section>
 
       {/* ════════ TESTIMONIOS ════════ */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50 border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
             <span className="inline-block bg-white border border-gray-100 text-gray-600 text-xs font-bold px-4 py-1.5 rounded-full mb-4 shadow-sm">Casos reales</span>
