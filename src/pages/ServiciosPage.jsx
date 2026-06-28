@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { TrendingUp, Globe2, Zap, Users, Receipt, Landmark, PiggyBank, ArrowRight, CheckCircle2, BarChart3, Calendar, Shield, Menu, X } from "lucide-react";
-import { useState } from "react";
+import { Globe2, Zap, Users, Receipt, Landmark, PiggyBank, ArrowRight, CheckCircle2 } from "lucide-react";
+import PublicNav from "@/components/public/PublicNav";
+import PublicFooter from "@/components/public/PublicFooter";
 
 const SERVICES = [
   {
@@ -75,45 +76,6 @@ const colorMap = {
   blue: { bg: "bg-blue-50", icon: "text-blue-600", badge: "bg-blue-100 text-blue-700", border: "border-blue-200", btn: "bg-blue-600 hover:bg-blue-700" },
   rose: { bg: "bg-rose-50", icon: "text-rose-600", badge: "bg-rose-100 text-rose-700", border: "border-rose-200", btn: "bg-rose-600 hover:bg-rose-700" },
 };
-
-function PublicNav() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  return (
-    <nav className="fixed top-0 inset-x-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        <Link to="/inicio" className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
-            <TrendingUp className="w-4 h-4 text-white" />
-          </div>
-          <span className="text-lg font-bold text-gray-900">EMITIA PAY</span>
-        </Link>
-        <div className="hidden md:flex items-center gap-6">
-          <Link to="/inicio" className="text-sm font-medium text-gray-600 hover:text-indigo-600 transition-colors">Inicio</Link>
-          <Link to="/servicios" className="text-sm font-medium text-indigo-600">Servicios</Link>
-          <Link to="/precios" className="text-sm font-medium text-gray-600 hover:text-indigo-600 transition-colors">Precios</Link>
-        </div>
-        <div className="hidden md:flex items-center gap-3">
-          <Link to="/login" className="text-sm font-medium text-gray-700 hover:text-indigo-600 px-3 py-2">Ingresar</Link>
-          <Link to="/register" className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">Empezar gratis</Link>
-        </div>
-        <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden p-2 rounded-lg hover:bg-gray-100">
-          {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
-      </div>
-      {menuOpen && (
-        <div className="md:hidden bg-white border-t border-gray-100 px-4 py-4 space-y-2">
-          <Link to="/inicio" onClick={() => setMenuOpen(false)} className="block py-2 text-sm font-medium text-gray-700">Inicio</Link>
-          <Link to="/servicios" onClick={() => setMenuOpen(false)} className="block py-2 text-sm font-medium text-indigo-600">Servicios</Link>
-          <Link to="/precios" onClick={() => setMenuOpen(false)} className="block py-2 text-sm font-medium text-gray-700">Precios</Link>
-          <div className="pt-3 flex flex-col gap-2 border-t border-gray-100">
-            <Link to="/login" className="w-full text-center py-2.5 text-sm font-medium border border-gray-200 rounded-lg">Ingresar</Link>
-            <Link to="/register" className="w-full text-center py-2.5 text-sm font-semibold bg-indigo-600 text-white rounded-lg">Empezar gratis</Link>
-          </div>
-        </div>
-      )}
-    </nav>
-  );
-}
 
 export default function ServiciosPage() {
   return (
@@ -193,9 +155,7 @@ export default function ServiciosPage() {
         </div>
       </section>
 
-      <footer className="bg-gray-900 text-gray-500 py-8 text-center text-sm">
-        © {new Date().getFullYear()} EMITIA PAY. Todos los derechos reservados.
-      </footer>
+      <PublicFooter />
     </div>
   );
 }
