@@ -25,6 +25,17 @@ import ServicioECheqs from '@/pages/servicio/ServicioECheqs';
 import ServicioInversiones from '@/pages/servicio/ServicioInversiones';
 import ServicioFinanciamiento from '@/pages/servicio/ServicioFinanciamiento';
 
+// Admin pages
+import AdminLayout from '@/components/admin/AdminLayout';
+import AdminDashboard from '@/pages/admin/AdminDashboard';
+import AdminEmpresas from '@/pages/admin/AdminEmpresas';
+import AdminTransacciones from '@/pages/admin/AdminTransacciones';
+import AdminFinanciamientos from '@/pages/admin/AdminFinanciamientos';
+import AdminInversiones from '@/pages/admin/AdminInversiones';
+import AdminKYC from '@/pages/admin/AdminKYC';
+import AdminReportes from '@/pages/admin/AdminReportes';
+import AdminCuentas from '@/pages/admin/AdminCuentas';
+
 // App pages
 import AppLayout from '@/components/layout/AppLayout';
 import Dashboard from '@/pages/Dashboard';
@@ -90,6 +101,20 @@ const AuthenticatedApp = () => {
       <Route path="/reset-password" element={<ResetPassword />} />
       
       <Route path="/" element={<Landing />} />
+
+      {/* Admin routes */}
+      <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/inicio" replace />} />}>
+        <Route element={<AdminLayout />}>
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/empresas" element={<AdminEmpresas />} />
+          <Route path="/admin/cuentas" element={<AdminCuentas />} />
+          <Route path="/admin/transacciones" element={<AdminTransacciones />} />
+          <Route path="/admin/financiamientos" element={<AdminFinanciamientos />} />
+          <Route path="/admin/inversiones" element={<AdminInversiones />} />
+          <Route path="/admin/kyc" element={<AdminKYC />} />
+          <Route path="/admin/reportes" element={<AdminReportes />} />
+        </Route>
+      </Route>
 
       <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/inicio" replace />} />}>
         <Route element={<AppLayout />}>
