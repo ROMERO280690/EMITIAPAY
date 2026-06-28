@@ -49,6 +49,7 @@ const inteligenciaItems = [
 const finanzasItems = [
   { label: "Inversiones", icon: Landmark, path: "/inversiones" },
   { label: "Financiamiento PyME", icon: PiggyBank, path: "/financiamiento" },
+  { label: "Conexión Bancaria", icon: Building2, path: "/conexion-bancaria" },
 ];
 
 const secondaryItems = [
