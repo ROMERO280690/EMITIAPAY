@@ -140,22 +140,29 @@ export default function ServiciosPage() {
                     Empezar ahora <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
-                <div className={`${c.bg} border ${c.border} rounded-2xl p-8 ${isEven ? "" : "lg:col-start-1 lg:row-start-1"}`}>
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className={`w-10 h-10 ${c.bg} border-2 ${c.border} rounded-xl flex items-center justify-center`}>
+                <div className={`rounded-2xl overflow-hidden border ${c.border} shadow-md ${isEven ? "" : "lg:col-start-1 lg:row-start-1"}`}>
+                  {/* Mock app header */}
+                  <div className={`${c.bg} px-5 py-4 flex items-center gap-3 border-b ${c.border}`}>
+                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center border ${c.border} bg-white`}>
                       <s.icon className={`w-5 h-5 ${c.icon}`} />
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900 text-sm">{s.title}</p>
-                      <p className={`text-xs ${c.icon}`}>EMITIA PAY</p>
+                      <p className="font-bold text-gray-900 text-sm">{s.title}</p>
+                      <p className={`text-xs font-medium ${c.icon}`}>EMITIA PAY</p>
                     </div>
+                    <span className="ml-auto text-[10px] text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full font-semibold">● Activo</span>
                   </div>
-                  {s.features.map((f, j) => (
-                    <div key={f} className={`flex items-center gap-3 py-3 ${j < s.features.length - 1 ? "border-b border-gray-100" : ""}`}>
-                      <CheckCircle2 className={`w-4 h-4 ${c.icon}`} />
-                      <span className="text-sm text-gray-700">{f}</span>
-                    </div>
-                  ))}
+                  <div className="bg-white p-5 space-y-2">
+                    {s.features.map((f, j) => (
+                      <div key={f} className={`flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-gray-100`}>
+                        <CheckCircle2 className={`w-4 h-4 flex-shrink-0 ${c.icon}`} />
+                        <span className="text-sm text-gray-700 font-medium">{f}</span>
+                      </div>
+                    ))}
+                    <Link to={s.path} className={`flex items-center justify-center gap-2 w-full py-3 rounded-xl text-white text-sm font-bold mt-3 hover:opacity-90 transition-opacity ${c.btn}`}>
+                      Ver {s.title} <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  </div>
                 </div>
               </motion.div>
             );

@@ -341,16 +341,28 @@ export default function Landing() {
                   Conocé más <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
-              {/* Right visual */}
-              <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl p-8 border border-gray-100 flex items-center justify-center min-h-[280px]">
-                <div className="text-center">
-                  <div className={`w-20 h-20 rounded-3xl ${p.color} flex items-center justify-center mx-auto mb-4 shadow-xl`}>
-                    <p.icon className="w-10 h-10 text-white" />
+              {/* Right visual — mini app mockup */}
+              <div className="rounded-3xl overflow-hidden border border-gray-200 shadow-xl bg-white">
+                {/* Topbar */}
+                <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100 bg-gray-50">
+                  <div className={`w-7 h-7 rounded-lg ${p.color} flex items-center justify-center`}>
+                    <p.icon className="w-3.5 h-3.5 text-white" />
                   </div>
-                  <p className="font-extrabold text-2xl text-gray-900 mb-1">{p.label}</p>
-                  <p className="text-gray-400 text-sm max-w-xs mx-auto">{p.desc.split(".")[0]}.</p>
-                  <Link to={p.href} className="inline-flex items-center gap-1 mt-4 text-sm font-semibold" style={{ color: p.accent }}>
-                    Ver detalles <ChevronRight className="w-4 h-4" />
+                  <span className="text-xs font-semibold text-gray-700">{p.label}</span>
+                  <span className="ml-auto text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">● Activo</span>
+                </div>
+                {/* Content */}
+                <div className="p-5 space-y-3">
+                  {p.bullets.map((b, bi) => (
+                    <div key={bi} className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 bg-gray-50 hover:bg-white transition-colors">
+                      <CheckCircle2 className="w-4 h-4 flex-shrink-0" style={{ color: p.accent }} />
+                      <span className="text-xs font-medium text-gray-700">{b}</span>
+                    </div>
+                  ))}
+                  <Link to={p.href}
+                    className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-white text-xs font-bold transition-opacity hover:opacity-90 mt-2"
+                    style={{ backgroundColor: p.accent }}>
+                    Ir a {p.label} <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               </div>
@@ -360,7 +372,7 @@ export default function Landing() {
       </section>
 
       {/* ════════ NÚMEROS ════════ */}
-      <section className="py-20 bg-gray-50 border-y border-gray-100">
+      <section className="py-20 bg-white border-y border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -501,10 +513,12 @@ export default function Landing() {
           <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-6">
             <input
               type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
               placeholder="tu@empresa.com"
               className="flex-1 px-4 py-3.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 bg-white shadow-sm"
             />
-            <Link to="/register"
+            <Link to={`/register${email ? `?email=${encodeURIComponent(email)}` : ""}`}
               className="flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 text-white font-bold px-7 py-3.5 rounded-xl transition-all shadow-lg whitespace-nowrap">
               Empezar gratis <ArrowRight className="w-4 h-4" />
             </Link>
