@@ -33,7 +33,7 @@ import PagosInteligentes from '@/pages/PagosInteligentes';
 import CobrosInteligentes from '@/pages/CobrosInteligentes';
 import Solicitudes from '@/pages/Solicitudes';
 import FinanciamientoPyme from '@/pages/FinanciamientoPyme';
-import BankConnections from '@/pages/BankConnections';
+
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -84,7 +84,6 @@ const AuthenticatedApp = () => {
           <Route path="/cobros-inteligentes" element={<CobrosInteligentes />} />
           <Route path="/solicitudes" element={<Solicitudes />} />
           <Route path="/financiamiento" element={<FinanciamientoPyme />} />
-          <Route path="/conexion-bancaria" element={<BankConnections />} />
         </Route>
       </Route>
       
