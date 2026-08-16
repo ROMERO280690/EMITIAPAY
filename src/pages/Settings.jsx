@@ -109,7 +109,7 @@ export default function Settings() {
               <p className="text-sm font-medium">Autenticación en dos pasos</p>
               <p className="text-xs text-muted-foreground">Protegé tu cuenta con un paso adicional</p>
             </div>
-            <Button variant="outline" size="sm">Configurar</Button>
+            <Button variant="outline" size="sm" onClick={() => toast.info("La autenticación en dos pasos estará disponible próximamente.")}>Configurar</Button>
           </div>
           <Separator />
           <div className="flex items-center justify-between py-3">
@@ -117,7 +117,7 @@ export default function Settings() {
               <p className="text-sm font-medium">Sesiones activas</p>
               <p className="text-xs text-muted-foreground">Gestioná tus dispositivos conectados</p>
             </div>
-            <Button variant="outline" size="sm">Ver sesiones</Button>
+            <Button variant="outline" size="sm" onClick={() => toast.info("Esta sesión es la única activa actualmente.")}>Ver sesiones</Button>
           </div>
         </CardContent>
       </Card>

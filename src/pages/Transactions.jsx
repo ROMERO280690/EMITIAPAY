@@ -154,7 +154,7 @@ export default function Transactions() {
                     </div>
                     <div className="text-right flex-shrink-0 ml-3">
                       <p className={`text-sm font-semibold ${isIncome ? "text-emerald-600" : "text-foreground"}`}>
-                        {isIncome ? "+" : "-"} ${Math.abs(tx.amount).toLocaleString("es-AR", { minimumFractionDigits: 2 })}
+                        {isIncome ? "+" : "-"} {tx.currency === "USD" ? "US$ " : "$ "}{Math.abs(tx.amount).toLocaleString("es-AR", { minimumFractionDigits: 2 })}
                       </p>
                       <Badge variant={statusMap[tx.status]?.variant || "secondary"} className="text-[10px] mt-0.5">
                         {statusMap[tx.status]?.label || tx.status}

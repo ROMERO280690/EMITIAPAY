@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FileText, TrendingDown, TrendingUp, ArrowDownToLine, ArrowUpFromLine, CircleDollarSign } from "lucide-react";
-import { format, startOfMonth, endOfMonth } from "date-fns";
+import { format, startOfMonth, endOfMonth, subMonths, isWithinInterval } from "date-fns";
 import { es } from "date-fns/locale";
 
 export default function Resumenes() {
@@ -14,7 +14,7 @@ export default function Resumenes() {
 
   const { data: transactions = [], isLoading } = useQuery({
     queryKey: ["transactions"],
-    queryFn: () => base44.entities.Transaction.list("-created_date", 100),
+    queryFn: () => base44.entities.Transaction.list("-created_date", 500),
   });
 
   const formatCurrency = (val, currency) => {
@@ -22,8 +22,24 @@ export default function Resumenes() {
     return `${prefix}${(val || 0).toLocaleString("es-AR", { minimumFractionDigits: 2 })}`;
   };
 
-  const arsTxns = transactions.filter((t) => t.currency === "ARS");
-  const usdTxns = transactions.filter((t) => t.currency === "USD");
+  const periodRange = (() => {
+    const now = new Date();
+    if (period === "mensual") {
+      return { start: startOfMonth(now), end: endOfMonth(now) };
+    } else if (period === "trimestral") {
+      return { start: startOfMonth(subMonths(now, 2)), end: endOfMonth(now) };
+    } else {
+      return { start: startOfMonth(subMonths(now, 11)), end: endOfMonth(now) };
+    }
+  })();
+
+  const periodTxns = transactions.filter((t) => {
+    if (!t.created_date) return false;
+    return isWithinInterval(new Date(t.created_date), periodRange);
+  });
+
+  const arsTxns = periodTxns.filter((t) => t.currency === "ARS");
+  const usdTxns = periodTxns.filter((t) => t.currency === "USD");
 
   const calcTotals = (txns) => {
     const inflow = txns.filter((t) => ["transfer_in", "collection", "yield", "deposit"].includes(t.type));
@@ -39,7 +55,7 @@ export default function Resumenes() {
   const usdStats = calcTotals(usdTxns);
 
   const categories = {};
-  transactions.forEach((t) => {
+  periodTxns.forEach((t) => {
     const cat = t.category || "otros";
     if (!categories[cat]) categories[cat] = { count: 0, total: 0 };
     categories[cat].count++;

@@ -9,6 +9,7 @@ import { es } from "date-fns/locale";
 
 export default function Calendario() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [selectedDay, setSelectedDay] = useState(null);
 
   const { data: payments = [] } = useQuery({
     queryKey: ["payments"],
@@ -70,7 +71,9 @@ export default function Calendario() {
     (e) => e.date >= monthStart && e.date <= monthEnd
   );
 
-  const selectedDayEvents = [];
+  const selectedDayEvents = selectedDay
+    ? allEvents.filter((e) => isSameDay(e.date, selectedDay))
+    : [];
 
   const formatCurrency = (val, currency) => {
     const prefix = currency === "USD" ? "US$ " : "$ ";
@@ -125,9 +128,10 @@ export default function Calendario() {
                   return (
                     <div
                       key={day.toISOString()}
+                      onClick={() => setSelectedDay(day)}
                       className={`aspect-square p-1 border-b border-r border-border/50 hover:bg-accent/30 cursor-pointer transition-colors ${
                         isToday(day) ? "bg-primary/5" : ""
-                      }`}
+                      } ${selectedDay && isSameDay(selectedDay, day) ? "ring-2 ring-primary ring-inset" : ""}`}
                     >
                       <span
                         className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-medium ${
@@ -167,16 +171,27 @@ export default function Calendario() {
             <CardContent className="p-5">
               <div className="flex items-center gap-2 mb-4">
                 <CalendarIcon className="w-5 h-5 text-primary" />
-                <h3 className="font-semibold">Eventos del mes</h3>
+                <h3 className="font-semibold">
+                  {selectedDay
+                    ? `Eventos del ${format(selectedDay, "dd 'de' MMMM", { locale: es })}`
+                    : "Eventos del mes"}
+                </h3>
+                {selectedDay && (
+                  <button onClick={() => setSelectedDay(null)} className="ml-auto text-xs text-primary hover:underline">
+                    Ver todo el mes
+                  </button>
+                )}
               </div>
-              {monthEvents.length === 0 ? (
+              {(selectedDay ? selectedDayEvents : monthEvents).length === 0 ? (
                 <div className="flex flex-col items-center py-8">
                   <CalendarIcon className="w-10 h-10 text-muted-foreground/30 mb-3" />
-                  <p className="text-sm text-muted-foreground text-center">Sin eventos este mes</p>
+                  <p className="text-sm text-muted-foreground text-center">
+                    {selectedDay ? "Sin eventos este día" : "Sin eventos este mes"}
+                  </p>
                 </div>
               ) : (
                 <div className="space-y-3 max-h-[400px] overflow-y-auto">
-                  {monthEvents.map((ev, idx) => (
+                  {(selectedDay ? selectedDayEvents : monthEvents).map((ev, idx) => (
                     <div key={idx} className="flex items-center gap-3 p-2 rounded-lg hover:bg-accent/50">
                       <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
                         ev.type === "payment" ? "bg-amber-50" : ev.type === "collection" ? "bg-emerald-50" : ev.type === "echeq" ? "bg-blue-50" : "bg-violet-50"

@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Copy, Check, QrCode, Share2, Wallet, Clipboard } from "lucide-react";
+import QRCode from "react-qr-code";
 import { toast } from "sonner";
 
 export default function RecibirDinero() {
@@ -93,10 +94,15 @@ export default function RecibirDinero() {
                 </div>
               )}
 
-              {/* QR Placeholder */}
-              <div className="flex flex-col items-center p-6 rounded-xl border-2 border-dashed border-border">
-                <QrCode className="w-12 h-12 text-muted-foreground mb-2" />
-                <p className="text-sm text-muted-foreground">Código QR de la cuenta</p>
+              {/* QR Code */}
+              <div className="flex flex-col items-center p-6 rounded-xl bg-white border border-border">
+                <QRCode
+                  value={`CBU:${account.cbu || ""}|ALIAS:${account.alias || ""}|NAME:${account.name}|CUR:${account.currency}`}
+                  size={160}
+                  level="M"
+                  className="mb-3"
+                />
+                <p className="text-sm font-medium">Código QR de la cuenta</p>
                 <p className="text-xs text-muted-foreground">Compartilo para recibir pagos rápido</p>
               </div>
 
@@ -109,7 +115,22 @@ export default function RecibirDinero() {
                   <Clipboard className="w-4 h-4" />
                   Copiar todo
                 </Button>
-                <Button variant="outline" className="flex-1 gap-2">
+                <Button variant="outline" className="flex-1 gap-2" onClick={async () => {
+                  const shareData = {
+                    title: "Datos para transferencia — EMITIA PAY",
+                    text: `Cuenta: ${account.name}\nCBU: ${account.cbu || ""}\nAlias: ${account.alias || ""}`,
+                  };
+                  if (navigator.share) {
+                    try {
+                      await navigator.share(shareData);
+                    } catch {
+                      /* usuario canceló */
+                    }
+                  } else {
+                    navigator.clipboard.writeText(shareData.text);
+                    toast.success("Datos copiados al portapapeles");
+                  }
+                }}>
                   <Share2 className="w-4 h-4" />
                   Compartir
                 </Button>
