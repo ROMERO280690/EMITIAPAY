@@ -63,6 +63,13 @@ import PagosInteligentes from '@/pages/PagosInteligentes';
 import CobrosInteligentes from '@/pages/CobrosInteligentes';
 import Solicitudes from '@/pages/Solicitudes';
 import FinanciamientoPyme from '@/pages/FinanciamientoPyme';
+import Tarjetas from '@/pages/Tarjetas';
+import CambioDivisas from '@/pages/CambioDivisas';
+import PagoServicios from '@/pages/PagoServicios';
+import CobroQR from '@/pages/CobroQR';
+import Metas from '@/pages/Metas';
+import Notificaciones from '@/pages/Notificaciones';
+import Soporte from '@/pages/Soporte';
 
 
 const AuthenticatedApp = () => {
@@ -149,6 +156,13 @@ const AuthenticatedApp = () => {
           <Route path="/cobros-inteligentes" element={<CobrosInteligentes />} />
           <Route path="/solicitudes" element={<Solicitudes />} />
           <Route path="/financiamiento" element={<FinanciamientoPyme />} />
+          <Route path="/tarjetas" element={<Tarjetas />} />
+          <Route path="/cambio-divisas" element={<CambioDivisas />} />
+          <Route path="/pago-servicios" element={<PagoServicios />} />
+          <Route path="/cobro-qr" element={<CobroQR />} />
+          <Route path="/metas" element={<Metas />} />
+          <Route path="/notificaciones" element={<Notificaciones />} />
+          <Route path="/soporte" element={<Soporte />} />
         </Route>
       </Route>
       

@@ -1,0 +1,81 @@
+{
+  "name": "Card",
+  "type": "object",
+  "properties": {
+    "holder_name": {
+      "type": "string",
+      "description": "Nombre del titular de la tarjeta"
+    },
+    "card_type": {
+      "type": "string",
+      "enum": [
+        "virtual",
+        "physical"
+      ],
+      "default": "virtual",
+      "description": "Tipo de tarjeta"
+    },
+    "card_variant": {
+      "type": "string",
+      "enum": [
+        "debit",
+        "credit"
+      ],
+      "default": "debit",
+      "description": "D\u00e9bito o cr\u00e9dito"
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "ARS",
+        "USD"
+      ],
+      "default": "ARS"
+    },
+    "number_last4": {
+      "type": "string",
+      "description": "\u00daltimos 4 d\u00edgitos"
+    },
+    "expiration": {
+      "type": "string",
+      "description": "Vencimiento MM/YY"
+    },
+    "cvv": {
+      "type": "string",
+      "description": "C\u00f3digo de seguridad"
+    },
+    "monthly_limit": {
+      "type": "number",
+      "default": 0,
+      "description": "L\u00edmite mensual de gasto"
+    },
+    "available_limit": {
+      "type": "number",
+      "default": 0,
+      "description": "L\u00edmite disponible"
+    },
+    "assigned_to": {
+      "type": "string",
+      "description": "Empleado o \u00e1rea asignada"
+    },
+    "account_id": {
+      "type": "string",
+      "description": "Cuenta asociada"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "frozen",
+        "cancelled"
+      ],
+      "default": "active"
+    }
+  },
+  "required": [
+    "holder_name",
+    "card_type",
+    "card_variant",
+    "currency"
+  ]
+}

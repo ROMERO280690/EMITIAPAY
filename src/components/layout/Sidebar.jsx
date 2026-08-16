@@ -23,7 +23,13 @@ import {
   Building2,
   PiggyBank,
   Receipt,
-  ListChecks
+  ListChecks,
+  CreditCard,
+  DollarSign,
+  QrCode,
+  Target,
+  Bell,
+  LifeBuoy
 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { Badge } from "@/components/ui/badge";
@@ -38,17 +44,22 @@ const operacionesItems = [
   { label: "Movimientos", icon: ArrowLeftRight, path: "/movimientos" },
   { label: "Recibir dinero", icon: Building2, path: "/recibir-dinero" },
   { label: "Transferencias", icon: ArrowRightLeft, path: "/transferencias" },
+  { label: "Tarjetas", icon: CreditCard, path: "/tarjetas" },
   { label: "eCheqs", icon: Receipt, path: "/echeqs" },
 ];
 
 const inteligenciaItems = [
   { label: "Pagos inteligentes", icon: Zap, path: "/pagos-inteligentes" },
   { label: "Cobros inteligentes", icon: Users, path: "/cobros-inteligentes" },
+  { label: "Cobro con QR", icon: QrCode, path: "/cobro-qr" },
+  { label: "Pago de servicios", icon: Receipt, path: "/pago-servicios" },
   { label: "Calendario", icon: Calendar, path: "/calendario" },
 ];
 
 const finanzasItems = [
+  { label: "Cambio de divisas", icon: DollarSign, path: "/cambio-divisas" },
   { label: "Inversiones", icon: Landmark, path: "/inversiones" },
+  { label: "Metas de ahorro", icon: Target, path: "/metas" },
   { label: "Financiamiento PyME", icon: PiggyBank, path: "/financiamiento" },
 ];
 
@@ -56,9 +67,11 @@ const secondaryItems = [
   { label: "Solicitudes", icon: Mail, path: "/solicitudes" },
   { label: "Contactos", icon: Users, path: "/contactos" },
   { label: "Resúmenes", icon: FileText, path: "/resumenes" },
+  { label: "Notificaciones", icon: Bell, path: "/notificaciones" },
 ];
 
 const bottomItems = [
+  { label: "Soporte", icon: LifeBuoy, path: "/soporte" },
   { label: "Configuración", icon: Settings, path: "/configuracion" },
 ];
 

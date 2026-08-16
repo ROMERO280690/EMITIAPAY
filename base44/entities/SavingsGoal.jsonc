@@ -1,0 +1,60 @@
+{
+  "name": "SavingsGoal",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nombre de la meta"
+    },
+    "target_amount": {
+      "type": "number",
+      "description": "Monto objetivo"
+    },
+    "current_amount": {
+      "type": "number",
+      "default": 0,
+      "description": "Monto ahorrado hasta el momento"
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "ARS",
+        "USD"
+      ],
+      "default": "ARS"
+    },
+    "deadline": {
+      "type": "string",
+      "format": "date",
+      "description": "Fecha l\u00edmite"
+    },
+    "icon": {
+      "type": "string",
+      "default": "Target",
+      "description": "Nombre del \u00edcono (lucide)"
+    },
+    "color": {
+      "type": "string",
+      "default": "indigo",
+      "description": "Color del tema"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "completed",
+        "cancelled"
+      ],
+      "default": "active"
+    },
+    "account_id": {
+      "type": "string",
+      "description": "Cuenta asociada al ahorro"
+    }
+  },
+  "required": [
+    "name",
+    "target_amount",
+    "currency"
+  ]
+}
