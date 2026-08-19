@@ -92,6 +92,12 @@ export default function Transfers() {
           counterpart_name: origin.name, category: "otros", status: "completed", account_id: dest.id,
         });
 
+        await base44.entities.Notification.create({
+          title: "Transferencia realizada",
+          message: `Transferiste ${formatCurrency(amountNum, origin.currency)} a ${dest.name}`,
+          type: "transfer", amount: amountNum, currency: origin.currency, link: "/movimientos",
+        });
+
         toast.success(`Transferencia de ${formatCurrency(amountNum, origin.currency)} realizada`);
       } else {
         const contact = contacts.find((c) => c.id === form.contactId);
@@ -103,6 +109,12 @@ export default function Transfers() {
           description: form.concept || `Transferencia a ${contact?.name || "tercero"}`,
           counterpart_name: contact?.name || "", counterpart_cuit: contact?.cuit || "",
           category: "proveedores", status: "completed", account_id: origin.id,
+        });
+
+        await base44.entities.Notification.create({
+          title: "Transferencia enviada",
+          message: `Enviaste ${formatCurrency(amountNum, origin.currency)} a ${contact?.name || "tercero"}`,
+          type: "transfer", amount: amountNum, currency: origin.currency, link: "/movimientos",
         });
 
         toast.success(`Transferencia de ${formatCurrency(amountNum, origin.currency)} enviada`);

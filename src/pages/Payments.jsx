@@ -59,6 +59,39 @@ export default function Payments() {
     },
   });
 
+  const executePayment = async (payment) => {
+    try {
+      await base44.entities.PaymentRequest.update(payment.id, { status: "completed" });
+
+      await base44.entities.Transaction.create({
+        type: "payment",
+        amount: payment.amount,
+        currency: payment.currency,
+        description: payment.concept || `Pago a ${payment.contact_name}`,
+        counterpart_name: payment.contact_name,
+        counterpart_cuit: payment.contact_cuit,
+        category: payment.category,
+        status: "completed",
+      });
+
+      await base44.entities.Notification.create({
+        title: "Pago ejecutado",
+        message: `Se ejecutó el pago de ${payment.currency === "USD" ? "US$ " : "$ "}${payment.amount?.toLocaleString("es-AR", { minimumFractionDigits: 2 })} a ${payment.contact_name}`,
+        type: "payment",
+        amount: payment.amount,
+        currency: payment.currency,
+        link: "/movimientos",
+      });
+
+      queryClient.invalidateQueries({ queryKey: ["payments"] });
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+      toast.success("Pago ejecutado y registrado en movimientos");
+    } catch {
+      toast.error("Error al ejecutar el pago");
+    }
+  };
+
   const handleContactSelect = (contactId) => {
     const contact = contacts.find((c) => c.id === contactId);
     if (contact) {
@@ -204,9 +237,9 @@ export default function Payments() {
                           size="sm"
                           variant="outline"
                           className="text-xs"
-                          onClick={() => updateMutation.mutate({ id: payment.id, data: { status: "processing" } })}
+                          onClick={() => executePayment(payment)}
                         >
-                          Enviar
+                          Ejecutar
                         </Button>
                       )}
                     </div>

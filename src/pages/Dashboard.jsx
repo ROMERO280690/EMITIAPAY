@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Calendar, ArrowRight, TrendingUp, Landmark, Clock, Zap, Users, FileText } from "lucide-react";
+import { Calendar, ArrowRight, TrendingUp, Landmark, Clock, Zap, Users, FileText, Bell, Target, CreditCard } from "lucide-react";
 import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
@@ -38,6 +38,26 @@ export default function Dashboard() {
     queryFn: () => base44.entities.CollectionRequest.list("-due_date", 20),
   });
 
+  const { data: investments = [] } = useQuery({
+    queryKey: ["investments"],
+    queryFn: () => base44.entities.Investment.filter({ status: "active" }),
+  });
+
+  const { data: goals = [] } = useQuery({
+    queryKey: ["savings-goals"],
+    queryFn: () => base44.entities.SavingsGoal.filter({ status: "active" }),
+  });
+
+  const { data: notifications = [] } = useQuery({
+    queryKey: ["notifications"],
+    queryFn: () => base44.entities.Notification.filter({ read: false }),
+  });
+
+  const { data: cards = [] } = useQuery({
+    queryKey: ["cards"],
+    queryFn: () => base44.entities.Card.filter({ status: "active" }),
+  });
+
   const userName = user?.full_name || "Usuario";
   const companyName = user?.company_name || "Mi Empresa";
   const userInitials = userName.split(" ").map((n) => n[0]).slice(0, 2).join("").toUpperCase();
@@ -50,6 +70,12 @@ export default function Dashboard() {
   const scheduledPayments = payments.filter((p) => p.status === "scheduled" || p.status === "draft");
   const scheduledTotal = scheduledPayments.reduce((sum, p) => sum + (p.amount || 0), 0);
   const overdueCollections = collections.filter((c) => c.status === "overdue");
+
+  const arsInvestments = investments.filter((i) => i.currency === "ARS").reduce((sum, i) => sum + (i.amount || 0), 0);
+  const usdInvestments = investments.filter((i) => i.currency === "USD").reduce((sum, i) => sum + (i.amount || 0), 0);
+  const activeGoals = goals.length;
+  const unreadNotifications = notifications.length;
+  const activeCards = cards.length;
 
   const upcomingEvents = [
     ...scheduledPayments.map((p) => ({
@@ -124,6 +150,18 @@ export default function Dashboard() {
           </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
+              <Landmark className="w-4 h-4 text-blue-500" />
+              <div>
+                <p className="text-sm">Inversiones activas</p>
+                <p className="text-xs text-muted-foreground">{investments.filter((i) => i.currency === currency).length} plazos/fondos</p>
+              </div>
+            </div>
+            <Link to="/inversiones" className="text-sm font-semibold text-primary hover:underline tabular-nums">
+              {formatCurrency(currency === "ARS" ? arsInvestments : usdInvestments, currency)}
+            </Link>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-amber-500" />
               <div>
                 <p className="text-sm">Transferencias programadas</p>
@@ -138,9 +176,9 @@ export default function Dashboard() {
 
         <Separator />
 
-        {/* Inversiones */}
+        {/* Inversiones y metas */}
         <div className="px-5 py-3">
-          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">Inversiones</p>
+          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">Inversiones y metas</p>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Landmark className="w-4 h-4 text-blue-500" />
@@ -150,6 +188,18 @@ export default function Dashboard() {
               </div>
             </div>
             <Link to="/inversiones" className="text-sm font-semibold text-primary hover:underline">
+              <ArrowRight className="w-4 h-4 inline" />
+            </Link>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Target className="w-4 h-4 text-violet-500" />
+              <div>
+                <p className="text-sm">Metas de ahorro activas</p>
+                <p className="text-xs text-muted-foreground">{activeGoals} {activeGoals === 1 ? "meta" : "metas"} en curso</p>
+              </div>
+            </div>
+            <Link to="/metas" className="text-sm font-semibold text-primary hover:underline">
               <ArrowRight className="w-4 h-4 inline" />
             </Link>
           </div>
@@ -185,6 +235,62 @@ export default function Dashboard() {
           <BalanceCard flag="🇺🇸" title="Saldo en dólares" total={usdTotal} currency="USD" accounts={usdAccounts} />
         </motion.div>
       )}
+
+      {/* Resumen rápido */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <Link to="/notificaciones" className="group">
+          <Card className="border-0 shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-4 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center">
+                <Bell className="w-5 h-5 text-amber-600" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold tabular-nums">{unreadNotifications}</p>
+                <p className="text-xs text-muted-foreground">Notificaciones</p>
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link to="/tarjetas" className="group">
+          <Card className="border-0 shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-4 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-violet-50 flex items-center justify-center">
+                <CreditCard className="w-5 h-5 text-violet-600" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold tabular-nums">{activeCards}</p>
+                <p className="text-xs text-muted-foreground">Tarjetas activas</p>
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link to="/metas" className="group">
+          <Card className="border-0 shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-4 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center">
+                <Target className="w-5 h-5 text-emerald-600" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold tabular-nums">{activeGoals}</p>
+                <p className="text-xs text-muted-foreground">Metas activas</p>
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
+        <Link to="/inversiones" className="group">
+          <Card className="border-0 shadow-sm hover:shadow-md transition-shadow">
+            <CardContent className="p-4 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                <Landmark className="w-5 h-5 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold tabular-nums">{investments.length}</p>
+                <p className="text-xs text-muted-foreground">Inversiones</p>
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Próximos eventos */}

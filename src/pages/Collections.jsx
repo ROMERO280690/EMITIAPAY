@@ -55,6 +55,38 @@ export default function Collections() {
     },
   });
 
+  const markAsPaid = async (col) => {
+    try {
+      await base44.entities.CollectionRequest.update(col.id, { status: "paid" });
+
+      await base44.entities.Transaction.create({
+        type: "collection",
+        amount: col.amount,
+        currency: col.currency,
+        description: col.concept || `Cobro de ${col.client_name}`,
+        counterpart_name: col.client_name,
+        category: "ventas",
+        status: "completed",
+      });
+
+      await base44.entities.Notification.create({
+        title: "Cobro recibido",
+        message: `${col.client_name} pagó ${col.currency === "USD" ? "US$ " : "$ "}${col.amount?.toLocaleString("es-AR", { minimumFractionDigits: 2 })}`,
+        type: "collection",
+        amount: col.amount,
+        currency: col.currency,
+        link: "/movimientos",
+      });
+
+      queryClient.invalidateQueries({ queryKey: ["collections"] });
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["notifications"] });
+      toast.success("Cobro registrado en movimientos");
+    } catch {
+      toast.error("Error al registrar el cobro");
+    }
+  };
+
   const totalPending = collections
     .filter((c) => ["pending", "sent", "viewed", "overdue"].includes(c.status))
     .reduce((s, c) => s + (c.amount || 0), 0);
@@ -188,7 +220,7 @@ export default function Collections() {
                           size="sm"
                           variant="outline"
                           className="text-xs text-emerald-600 border-emerald-200 hover:bg-emerald-50"
-                          onClick={() => updateMutation.mutate({ id: col.id, data: { status: "paid" } })}
+                          onClick={() => markAsPaid(col)}
                         >
                           Marcar cobrado
                         </Button>
