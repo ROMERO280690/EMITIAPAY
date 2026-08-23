@@ -1,17 +1,33 @@
 import React, { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Users, Search, Mail, Calendar, Shield, UserCheck, Clock } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter
+} from "@/components/ui/dialog";
+import {
+  Select, SelectTrigger, SelectValue, SelectContent, SelectItem
+} from "@/components/ui/select";
+import {
+  Users, Search, Mail, Calendar, Shield, UserCheck, UserPlus,
+  Crown, MoreVertical, Trash2, ShieldCheck, UserCog
+} from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 
 export default function AdminUsuarios() {
   const [search, setSearch] = useState("");
+  const [roleFilter, setRoleFilter] = useState("all");
+  const [inviteOpen, setInviteOpen] = useState(false);
+  const [actionMenu, setActionMenu] = useState(null);
+  const [inviteForm, setInviteForm] = useState({ email: "", role: "user" });
+  const queryClient = useQueryClient();
 
   const { data: users = [], isLoading } = useQuery({
     queryKey: ["admin_users"],
@@ -23,30 +39,61 @@ export default function AdminUsuarios() {
     queryFn: () => base44.entities.Account.list(),
   });
 
-  const filtered = users.filter(u =>
-    !search ||
-    u.full_name?.toLowerCase().includes(search.toLowerCase()) ||
-    u.email?.toLowerCase().includes(search.toLowerCase())
-  );
+  const updateRoleMutation = useMutation({
+    mutationFn: ({ id, role }) => base44.entities.User.update(id, { role }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin_users"] });
+      toast.success("Rol actualizado correctamente");
+      setActionMenu(null);
+    },
+    onError: (err) => toast.error("No se pudo actualizar el rol"),
+  });
+
+  const inviteMutation = useMutation({
+    mutationFn: ({ email, role }) => base44.users.inviteUser(email, role),
+    onSuccess: () => {
+      toast.success(`Invitación enviada a ${inviteForm.email}`);
+      queryClient.invalidateQueries({ queryKey: ["admin_users"] });
+      setInviteOpen(false);
+      setInviteForm({ email: "", role: "user" });
+    },
+    onError: (err) => toast.error("No se pudo enviar la invitación"),
+  });
+
+  const filtered = users.filter(u => {
+    const matchSearch = !search ||
+      u.full_name?.toLowerCase().includes(search.toLowerCase()) ||
+      u.email?.toLowerCase().includes(search.toLowerCase());
+    const matchRole = roleFilter === "all" || u.role === roleFilter;
+    return matchSearch && matchRole;
+  });
 
   const adminCount = users.filter(u => u.role === "admin").length;
   const userCount = users.filter(u => u.role !== "admin").length;
 
-  // Contar cuentas por usuario
   const accountsByUser = accounts.reduce((acc, a) => {
     acc[a.created_by_id] = (acc[a.created_by_id] || 0) + 1;
     return acc;
   }, {});
 
+  const handleRoleChange = (user, newRole) => {
+    if (user.role === newRole) return;
+    updateRoleMutation.mutate({ id: user.id, role: newRole });
+  };
+
   return (
     <div className="space-y-6 max-w-5xl">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Usuarios</h1>
-          <p className="text-sm text-gray-500 mt-0.5">Todos los usuarios registrados en la plataforma</p>
+          <h1 className="text-2xl font-bold text-gray-900">Usuarios & Permisos</h1>
+          <p className="text-sm text-gray-500 mt-0.5">Gestioná usuarios, roles y accesos de la plataforma</p>
         </div>
+        <Button onClick={() => setInviteOpen(true)} className="gap-2 bg-indigo-600 hover:bg-indigo-700">
+          <UserPlus className="w-4 h-4" /> Invitar usuario
+        </Button>
       </div>
 
+      {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
           { label: "Total usuarios", value: users.length, icon: Users, color: "bg-indigo-50 text-indigo-600" },
@@ -67,11 +114,27 @@ export default function AdminUsuarios() {
         ))}
       </div>
 
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-        <Input className="pl-9" placeholder="Buscar por nombre o email..." value={search} onChange={e => setSearch(e.target.value)} />
+      {/* Filters */}
+      <div className="flex items-center gap-3 flex-wrap">
+        <div className="relative flex-1 min-w-[200px] max-w-sm">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Input className="pl-9" placeholder="Buscar por nombre o email..." value={search} onChange={e => setSearch(e.target.value)} />
+        </div>
+        <div className="flex gap-2">
+          {[
+            { val: "all", label: "Todos" },
+            { val: "admin", label: "Admins" },
+            { val: "user", label: "Usuarios" },
+          ].map(f => (
+            <button key={f.val} onClick={() => setRoleFilter(f.val)}
+              className={`text-xs font-medium px-3 py-1.5 rounded-full border transition-colors ${roleFilter === f.val ? "bg-indigo-600 text-white border-indigo-600" : "border-gray-200 text-gray-600 hover:bg-gray-50"}`}>
+              {f.label}
+            </button>
+          ))}
+        </div>
       </div>
 
+      {/* User list */}
       {isLoading ? (
         <div className="space-y-3">{[1,2,3].map(i => <div key={i} className="h-16 bg-white animate-pulse rounded-xl" />)}</div>
       ) : filtered.length === 0 ? (
@@ -96,17 +159,45 @@ export default function AdminUsuarios() {
                       <Mail className="w-3 h-3" /> {user.email}
                     </p>
                   </div>
-                  <div className="flex items-center gap-3 flex-shrink-0">
-                    <div className="text-right hidden sm:block">
-                      <p className="text-xs text-gray-400 flex items-center gap-1">
-                        <Calendar className="w-3 h-3" />
-                        {user.created_date ? format(new Date(user.created_date), "dd/MM/yyyy") : "—"}
-                      </p>
-                      <p className="text-xs text-gray-500 mt-0.5">{accountsByUser[user.id] || 0} cuenta(s)</p>
-                    </div>
-                    <Badge className={user.role === "admin" ? "bg-indigo-100 text-indigo-700" : "bg-emerald-100 text-emerald-700"}>
-                      {user.role === "admin" ? "Admin" : "Usuario"}
-                    </Badge>
+                  <div className="text-right hidden sm:block">
+                    <p className="text-xs text-gray-400 flex items-center gap-1 justify-end">
+                      <Calendar className="w-3 h-3" />
+                      {user.created_date ? format(new Date(user.created_date), "dd/MM/yyyy") : "—"}
+                    </p>
+                    <p className="text-xs text-gray-500 mt-0.5">{accountsByUser[user.id] || 0} cuenta(s)</p>
+                  </div>
+
+                  {/* Role selector */}
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    {user.role === "admin" ? (
+                      <Badge className="bg-indigo-100 text-indigo-700 gap-1">
+                        <Crown className="w-3 h-3" /> Admin
+                      </Badge>
+                    ) : (
+                      <Badge className="bg-emerald-100 text-emerald-700 gap-1">
+                        <UserCheck className="w-3 h-3" /> Usuario
+                      </Badge>
+                    )}
+                    <Select
+                      value={user.role}
+                      onValueChange={(v) => handleRoleChange(user, v)}
+                    >
+                      <SelectTrigger className="w-8 h-8 p-0 border-0 shadow-none">
+                        <UserCog className="w-4 h-4 text-gray-400" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="admin">
+                          <div className="flex items-center gap-2">
+                            <Shield className="w-3.5 h-3.5" /> Administrador
+                          </div>
+                        </SelectItem>
+                        <SelectItem value="user">
+                          <div className="flex items-center gap-2">
+                            <UserCheck className="w-3.5 h-3.5" /> Usuario PyME
+                          </div>
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </CardContent>
               </Card>
@@ -114,6 +205,62 @@ export default function AdminUsuarios() {
           ))}
         </div>
       )}
+
+      {/* Invite dialog */}
+      <Dialog open={inviteOpen} onOpenChange={setInviteOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Invitar nuevo usuario</DialogTitle>
+            <DialogDescription>
+              El invitado recibirá un email para registrarse en la plataforma con el rol asignado.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 mt-2">
+            <div className="space-y-2">
+              <Label>Email del invitado</Label>
+              <Input
+                type="email"
+                placeholder="empresa@email.com"
+                value={inviteForm.email}
+                onChange={e => setInviteForm({ ...inviteForm, email: e.target.value })}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Rol</Label>
+              <Select value={inviteForm.role} onValueChange={(v) => setInviteForm({ ...inviteForm, role: v })}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="user">
+                    <div className="flex items-center gap-2">
+                      <UserCheck className="w-4 h-4" /> Usuario PyME
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="admin">
+                    <div className="flex items-center gap-2">
+                      <Shield className="w-4 h-4" /> Administrador
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-gray-400">
+                {inviteForm.role === "admin"
+                  ? "Acceso total: puede ver y gestionar todos los datos del panel."
+                  : "Acceso limitado: solo ve y gestiona sus propios datos financieros."}
+              </p>
+            </div>
+          </div>
+          <DialogFooter className="mt-4">
+            <Button variant="outline" onClick={() => setInviteOpen(false)}>Cancelar</Button>
+            <Button
+              onClick={() => inviteMutation.mutate(inviteForm)}
+              disabled={!inviteForm.email || inviteMutation.isPending}
+              className="bg-indigo-600 hover:bg-indigo-700"
+            >
+              {inviteMutation.isPending ? "Enviando..." : "Enviar invitación"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

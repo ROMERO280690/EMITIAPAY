@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Settings, Shield, Bell, Database, Users, CheckCircle2, Save, Globe2 } from "lucide-react";
+import { Settings, Shield, Bell, Database, Users, CheckCircle2, Save, Globe2, Plug, ExternalLink, KeyRound, Zap } from "lucide-react";
 import { toast } from "sonner";
 
 export default function AdminConfiguracion() {
@@ -158,6 +158,70 @@ export default function AdminConfiguracion() {
                 </Badge>
               </div>
             ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Integraciones de pago */}
+      <Card className="border-0 shadow-sm">
+        <CardContent className="p-5">
+          <div className="flex items-center gap-3 mb-4">
+            <Plug className="w-5 h-5 text-indigo-600" />
+            <h3 className="font-semibold text-gray-900">Integraciones de pago</h3>
+          </div>
+          <div className="space-y-3">
+            {/* Pomelo */}
+            <div className="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm">
+                  P
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-900 flex items-center gap-2">
+                    Pomelo
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Requiere Backend</span>
+                  </p>
+                  <p className="text-xs text-gray-400">Emisión de tarjetas, cuentas virtuales y procesamiento de pagos en LatAm</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <a href="https://api-reference-mcp.pomelo.la/mcp" target="_blank" rel="noopener noreferrer"
+                  className="text-xs text-indigo-600 font-medium flex items-center gap-1 hover:underline">
+                  <ExternalLink className="w-3.5 h-3.5" /> API Reference
+                </a>
+              </div>
+            </div>
+
+            {/* AstroPay */}
+            <div className="flex items-center justify-between p-4 rounded-xl border border-gray-100 bg-gray-50">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-white font-bold text-sm">
+                  A
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-gray-900 flex items-center gap-2">
+                    AstroPay Platform
+                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">Requiere Backend</span>
+                  </p>
+                  <p className="text-xs text-gray-400">Wallet global, cuentas multi-moneda (CVU/PIX/IBAN), tarjetas y pagos transfronterizos</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <a href="https://developers.astropay.com/docs/platform/introduction" target="_blank" rel="noopener noreferrer"
+                  className="text-xs text-indigo-600 font-medium flex items-center gap-1 hover:underline">
+                  <ExternalLink className="w-3.5 h-3.5" /> Documentación
+                </a>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-2 p-3 rounded-xl bg-blue-50 border border-blue-100">
+              <KeyRound className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
+              <p className="text-xs text-blue-700">
+                La conexión activa con Pomelo y AstroPay requiere <strong>funciones de backend</strong> para manejar
+                las credenciales de API de forma segura y procesar webhooks. Actualmente tu plan no incluye
+                backend functions — actualizá tu suscripción para activar la integración completa.
+              </p>
+            </div>
           </div>
         </CardContent>
       </Card>
