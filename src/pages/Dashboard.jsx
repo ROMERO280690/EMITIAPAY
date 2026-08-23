@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { motion } from "framer-motion";
+import CashFlowChart from "@/components/dashboard/CashFlowChart";
 
 const formatCurrency = (val, currency) => {
   const prefix = currency === "USD" ? "US$ " : "$ ";
@@ -56,6 +57,11 @@ export default function Dashboard() {
   const { data: cards = [] } = useQuery({
     queryKey: ["cards"],
     queryFn: () => base44.entities.Card.filter({ status: "active" }),
+  });
+
+  const { data: transactions = [], isLoading: loadingTransactions } = useQuery({
+    queryKey: ["dashboard_transactions"],
+    queryFn: () => base44.entities.Transaction.list("-created_date", 200),
   });
 
   const userName = user?.full_name || "Usuario";
@@ -291,6 +297,9 @@ export default function Dashboard() {
           </Card>
         </Link>
       </div>
+
+      {/* Gráfico de evolución ingresos/egresos */}
+      <CashFlowChart transactions={transactions} isLoading={loadingTransactions} />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Próximos eventos */}
