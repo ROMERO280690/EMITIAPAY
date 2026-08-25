@@ -37,6 +37,7 @@ import AdminReportes from '@/pages/admin/AdminReportes';
 import AdminCuentas from '@/pages/admin/AdminCuentas';
 import AdminAlertas from '@/pages/admin/AdminAlertas';
 import AdminUsuarios from '@/pages/admin/AdminUsuarios';
+import AdminUnidades from '@/pages/admin/AdminUnidades';
 import AdminECheqs from '@/pages/admin/AdminECheqs';
 import AdminTransferencias from '@/pages/admin/AdminTransferencias';
 import AdminLiquidez from '@/pages/admin/AdminLiquidez';
@@ -128,6 +129,7 @@ const AuthenticatedApp = () => {
           <Route path="/admin/reportes" element={<AdminReportes />} />
           <Route path="/admin/alertas" element={<AdminAlertas />} />
           <Route path="/admin/usuarios" element={<AdminUsuarios />} />
+          <Route path="/admin/unidades" element={<AdminUnidades />} />
           <Route path="/admin/echeqs" element={<AdminECheqs />} />
           <Route path="/admin/transferencias" element={<AdminTransferencias />} />
           <Route path="/admin/liquidez" element={<AdminLiquidez />} />

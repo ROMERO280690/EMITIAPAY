@@ -1,0 +1,124 @@
+{
+  "name": "BusinessUnit",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nombre de la unidad de negocio"
+    },
+    "code": {
+      "type": "string",
+      "description": "C\u00f3digo corto identificatorio (ej: CORP, RETAIL)"
+    },
+    "description": {
+      "type": "string",
+      "description": "Descripci\u00f3n del alcance y responsabilidad de la unidad"
+    },
+    "area": {
+      "type": "string",
+      "enum": [
+        "banca_core",
+        "tesoreria_mercados",
+        "riesgo_cumplimiento",
+        "operaciones_tecnologia",
+        "soporte_corporativo"
+      ],
+      "default": "banca_core",
+      "description": "\u00c1rea estrat\u00e9gica a la que pertenece"
+    },
+    "head_name": {
+      "type": "string",
+      "description": "Responsable / l\u00edder de la unidad"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "restructure",
+        "planned"
+      ],
+      "default": "active",
+      "description": "Estado operativo"
+    },
+    "region": {
+      "type": "string",
+      "enum": [
+        "argentina",
+        "latam",
+        "global"
+      ],
+      "default": "argentina",
+      "description": "Alcance geogr\u00e1fico"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "alta",
+        "media",
+        "baja"
+      ],
+      "default": "media",
+      "description": "Prioridad estrat\u00e9gica"
+    },
+    "budget_annual": {
+      "type": "number",
+      "default": 0,
+      "description": "Presupuesto anual asignado (ARS)"
+    },
+    "team_size": {
+      "type": "number",
+      "default": 0,
+      "description": "Cantidad de personas en la unidad"
+    },
+    "objectives": {
+      "type": "string",
+      "description": "Objetivos estrat\u00e9gicos principales"
+    }
+  },
+  "required": [
+    "name",
+    "code",
+    "area"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

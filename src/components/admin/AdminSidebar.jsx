@@ -4,7 +4,7 @@ import {
   LayoutDashboard, Users, TrendingUp, Building2, Receipt,
   Shield, Settings, LogOut, ChevronLeft, ChevronRight,
   Menu, X, Landmark, AlertTriangle, BarChart3, FileText,
-  CreditCard, ArrowLeftRight, PiggyBank, Wallet, Bell
+  CreditCard, ArrowLeftRight, PiggyBank, Wallet, Bell, Network
 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { Badge } from "@/components/ui/badge";
@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 const NAV = [
   { section: null, items: [
     { label: "Panel principal", icon: LayoutDashboard, path: "/admin" },
+    { label: "Unidades de Negocio", icon: Network, path: "/admin/unidades" },
     { label: "Alertas", icon: Bell, path: "/admin/alertas", badge: 3 },
   ]},
   { section: "CLIENTES", items: [
