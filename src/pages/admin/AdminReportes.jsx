@@ -2,7 +2,9 @@ import React, { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Card, CardContent } from "@/components/ui/card";
-import { BarChart3, TrendingUp, ArrowUpRight, ArrowDownLeft, Download } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { BarChart3, TrendingUp, ArrowUpRight, ArrowDownLeft, Download, FileDown } from "lucide-react";
+import MonthlyReportDialog from "@/components/admin/MonthlyReportDialog";
 import {
   AreaChart, Area, BarChart, Bar, LineChart, Line,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend
@@ -17,6 +19,7 @@ const RANGE_MONTHS = { "Último mes": 1, "Último trimestre": 3, "Último semest
 
 export default function AdminReportes() {
   const [range, setRange] = useState("Último semestre");
+  const [reportOpen, setReportOpen] = useState(false);
 
   const { data: transactions = [] } = useQuery({
     queryKey: ["admin_tx_report"],
@@ -119,8 +122,13 @@ export default function AdminReportes() {
               {r}
             </button>
           ))}
+          <Button onClick={() => setReportOpen(true)} className="gap-1.5 bg-indigo-600 hover:bg-indigo-700 ml-auto">
+            <FileDown className="w-4 h-4" /> Reporte mensual
+          </Button>
         </div>
       </div>
+
+      <MonthlyReportDialog open={reportOpen} onOpenChange={setReportOpen} />
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
