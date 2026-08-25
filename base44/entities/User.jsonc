@@ -7,6 +7,53 @@
         "admin",
         "user"
       ]
+    },
+    "permissions": {
+      "type": "object",
+      "description": "Permisos granulares del usuario dentro de la plataforma",
+      "properties": {
+        "can_approve_payments": {
+          "type": "boolean",
+          "default": false,
+          "description": "Puede aprobar pagos y transferencias"
+        },
+        "can_view_sensitive_data": {
+          "type": "boolean",
+          "default": false,
+          "description": "Puede ver datos sensibles (saldos, CBU, datos de cuentas)"
+        },
+        "can_manage_transfers": {
+          "type": "boolean",
+          "default": false,
+          "description": "Puede crear y editar transferencias"
+        },
+        "can_manage_collections": {
+          "type": "boolean",
+          "default": false,
+          "description": "Puede gestionar cobros y facturaci\u00f3n"
+        },
+        "can_manage_investments": {
+          "type": "boolean",
+          "default": false,
+          "description": "Puede operar inversiones y plazos fijos"
+        },
+        "can_manage_cards": {
+          "type": "boolean",
+          "default": false,
+          "description": "Puede administrar tarjetas y l\u00edmites"
+        },
+        "can_export_data": {
+          "type": "boolean",
+          "default": false,
+          "description": "Puede exportar datos financieros (CSV, reportes)"
+        },
+        "can_invite_users": {
+          "type": "boolean",
+          "default": false,
+          "description": "Puede invitar nuevos usuarios a la plataforma"
+        }
+      },
+      "default": {}
     }
   },
   "required": [

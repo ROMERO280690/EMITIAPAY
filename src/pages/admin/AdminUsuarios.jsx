@@ -14,12 +14,13 @@ import {
 } from "@/components/ui/select";
 import {
   Users, Search, Mail, Calendar, Shield, UserCheck, UserPlus,
-  Crown, MoreVertical, Trash2, ShieldCheck, UserCog
+  Crown, MoreVertical, Trash2, ShieldCheck, UserCog, Wallet, Eye, Lock
 } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
+import PermissionsDialog from "@/components/admin/PermissionsDialog";
 
 export default function AdminUsuarios() {
   const [search, setSearch] = useState("");
@@ -27,6 +28,7 @@ export default function AdminUsuarios() {
   const [inviteOpen, setInviteOpen] = useState(false);
   const [actionMenu, setActionMenu] = useState(null);
   const [inviteForm, setInviteForm] = useState({ email: "", role: "user" });
+  const [permUser, setPermUser] = useState(null);
   const queryClient = useQueryClient();
 
   const { data: users = [], isLoading } = useQuery({
@@ -159,12 +161,32 @@ export default function AdminUsuarios() {
                       <Mail className="w-3 h-3" /> {user.email}
                     </p>
                   </div>
-                  <div className="text-right hidden sm:block">
+                  <div className="text-right hidden md:block">
                     <p className="text-xs text-gray-400 flex items-center gap-1 justify-end">
                       <Calendar className="w-3 h-3" />
                       {user.created_date ? format(new Date(user.created_date), "dd/MM/yyyy") : "—"}
                     </p>
                     <p className="text-xs text-gray-500 mt-0.5">{accountsByUser[user.id] || 0} cuenta(s)</p>
+                    {/* Permission indicators */}
+                    {user.role !== "admin" && (
+                      <div className="flex items-center gap-1 justify-end mt-1">
+                        {user.permissions?.can_approve_payments && (
+                          <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-indigo-100 text-indigo-600" title="Puede aprobar pagos">
+                            <Wallet className="w-3 h-3" />
+                          </span>
+                        )}
+                        {user.permissions?.can_view_sensitive_data && (
+                          <span className="inline-flex items-center justify-center w-5 h-5 rounded bg-rose-100 text-rose-600" title="Puede ver datos sensibles">
+                            <Eye className="w-3 h-3" />
+                          </span>
+                        )}
+                        {!user.permissions?.can_approve_payments && !user.permissions?.can_view_sensitive_data && (
+                          <span className="text-[10px] text-gray-400 flex items-center gap-0.5">
+                            <Lock className="w-2.5 h-2.5" /> Sin permisos especiales
+                          </span>
+                        )}
+                      </div>
+                    )}
                   </div>
 
                   {/* Role selector */}
@@ -178,6 +200,14 @@ export default function AdminUsuarios() {
                         <UserCheck className="w-3 h-3" /> Usuario
                       </Badge>
                     )}
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="gap-1.5 h-8"
+                      onClick={() => setPermUser(user)}
+                    >
+                      <ShieldCheck className="w-3.5 h-3.5" /> Permisos
+                    </Button>
                     <Select
                       value={user.role}
                       onValueChange={(v) => handleRoleChange(user, v)}
@@ -261,6 +291,13 @@ export default function AdminUsuarios() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Permissions dialog */}
+      <PermissionsDialog
+        user={permUser}
+        open={!!permUser}
+        onOpenChange={(v) => !v && setPermUser(null)}
+      />
     </div>
   );
 }
