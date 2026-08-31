@@ -3,18 +3,18 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ArrowRight, CheckCircle2, Zap, Shield, Globe2,
-  Users, Receipt, Landmark, PiggyBank, BarChart3, MapPin,
+  Users, BarChart3, MapPin,
   Send, Download, FileCheck, TrendingUp, Building2,
   ArrowUpRight, ArrowDownLeft, Clock, ChevronRight,
-  Sparkles, Lock, BadgeCheck, Star
+  Sparkles, Star
 } from "lucide-react";
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
 import GridBackground from "@/components/public/GridBackground";
 import AnimatedCounter from "@/components/public/AnimatedCounter";
 
-const NAVY = "#0C2D6B";
-const EMERALD = "#10B981";
+const NAVY = "#0A2540";
+const EMERALD = "#00D1B2";
 
 /* ─── helpers ─── */
 function ArgFlag({ className = "" }) {
@@ -46,18 +46,38 @@ function SolDeMayo({ size = 40 }) {
   );
 }
 
+function WavyFlag() {
+  return (
+    <svg viewBox="0 0 600 360" className="w-full h-auto drop-shadow-xl" aria-hidden>
+      <defs>
+        <linearGradient id="flagShade" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="#000000" stopOpacity="0.12" />
+        </linearGradient>
+      </defs>
+      <path d="M0,20 C150,70 450,-30 600,20 L600,140 C450,90 150,190 0,140 Z" fill="#7DD3FC" />
+      <path d="M0,140 C150,190 450,90 600,140 L600,260 C450,210 150,310 0,260 Z" fill="#FFFFFF" />
+      <path d="M0,260 C150,310 450,210 600,260 L600,340 C450,290 150,390 0,340 Z" fill="#7DD3FC" />
+      <path d="M0,20 C150,70 450,-30 600,20 L600,340 C450,290 150,390 0,340 Z" fill="url(#flagShade)" />
+      <circle cx="300" cy="180" r="26" fill="#FCD34D" stroke="#F59E0B" strokeWidth="2" />
+      {Array.from({ length: 12 }).map((_, i) => {
+        const a = (i * 360) / 12;
+        const rad = (a * Math.PI) / 180;
+        return <line key={i} x1={300 + 28 * Math.cos(rad)} y1={180 + 28 * Math.sin(rad)} x2={300 + 40 * Math.cos(rad)} y2={180 + 40 * Math.sin(rad)} stroke="#F59E0B" strokeWidth="2.5" strokeLinecap="round" />;
+      })}
+    </svg>
+  );
+}
+
 /* ─── Dashboard mock visual (perspectiva 3D) ─── */
 function DashboardMock() {
   return (
     <div className="w-full bg-white rounded-2xl shadow-2xl border border-white/10 overflow-hidden text-xs">
-      {/* Top bar */}
       <div className="px-4 py-3 flex items-center gap-2" style={{ background: NAVY }}>
         <div className="flex gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-red-400"/><div className="w-2.5 h-2.5 rounded-full bg-yellow-400"/><div className="w-2.5 h-2.5 rounded-full bg-emerald-400"/></div>
         <div className="flex-1 text-center"><span className="text-white/40 text-[10px]">app.emitia.com/dashboard</span></div>
       </div>
-      {/* App shell */}
       <div className="flex h-64">
-        {/* Sidebar */}
         <div className="w-28 px-2 py-3 space-y-0.5 flex-shrink-0" style={{ background: NAVY }}>
           {[
             { label: "Inicio", active: true },
@@ -70,10 +90,8 @@ function DashboardMock() {
               style={item.active ? { background: EMERALD, color: NAVY } : { color: "rgba(255,255,255,0.55)" }}>{item.label}</div>
           ))}
         </div>
-        {/* Content */}
         <div className="flex-1 bg-slate-50 p-3 space-y-2 overflow-hidden">
           <p className="text-[10px] font-bold text-gray-700">Buenos días, María 👋</p>
-          {/* Balances */}
           <div className="grid grid-cols-2 gap-2">
             <div className="bg-white rounded-xl p-2.5 border border-gray-100 shadow-sm">
               <p className="text-[9px] text-gray-400 mb-0.5">Cuenta ARS</p>
@@ -86,7 +104,6 @@ function DashboardMock() {
               <p className="text-[9px] text-blue-600 font-medium">Saldo disponible</p>
             </div>
           </div>
-          {/* Movimientos */}
           <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
             <div className="px-2.5 py-1.5 border-b border-gray-50 flex justify-between items-center">
               <p className="text-[9px] font-semibold text-gray-600">Últimos movimientos</p>
@@ -117,79 +134,18 @@ function DashboardMock() {
 
 /* ─── Datos ─── */
 const PRODUCTS = [
-  {
-    key: "cuentas",
-    icon: Globe2,
-    color: "bg-blue-500",
-    label: "Cuenta CBU",
-    headline: "Cuentas en Pesos y Dólares sin costo de apertura",
-    desc: "Abrí tu cuenta corriente empresarial 100% digital. Sin turnos, sin papeles, sin vueltas. Operativa en menos de 24 horas con CBU propio.",
-    bullets: ["ARS y USD en la misma plataforma", "CBU habilitado para cobrar y pagar", "Cuenta remunerada automática al 38.64% TNA", "Transferencias las 24hs, los 365 días"],
-    href: "/servicio/cuentas",
-    accent: "#3B82F6",
-  },
-  {
-    key: "pagos",
-    icon: Send,
-    color: "bg-indigo-500",
-    label: "Pagos inteligentes",
-    headline: "Pagá a todos tus proveedores en segundos",
-    desc: "Programá pagos únicos o recurrentes. Gestión masiva de proveedores, sueldos e impuestos desde un solo lugar. EMITIA PAY los ejecuta puntualmente.",
-    bullets: ["Pagos programados y recurrentes", "Carga masiva de proveedores", "Categorización automática", "Historial y comprobantes instantáneos"],
-    href: "/servicio/pagos",
-    accent: "#6366F1",
-  },
-  {
-    key: "cobros",
-    icon: Download,
-    color: "bg-violet-500",
-    label: "Cobros inteligentes",
-    headline: "Cobrá a tus clientes de forma automática",
-    desc: "Generá facturas digitales con link de pago. El cliente paga, vos recibís la notificación y el dinero en tu cuenta. Sin intermediarios.",
-    bullets: ["Link de pago por WhatsApp o email", "Notificaciones automáticas", "Conciliación automática", "Portal de clientes incluido"],
-    href: "/servicio/cobros",
-    accent: "#8B5CF6",
-  },
-  {
-    key: "echeqs",
-    icon: FileCheck,
-    color: "bg-cyan-500",
-    label: "eCheqs",
-    headline: "El cheque físico quedó en el pasado",
-    desc: "Emití, recibí y depositá cheques electrónicos sin pisar una sucursal. Validación inmediata y trazabilidad completa de cada operación.",
-    bullets: ["Emisión y depósito 100% digital", "Validación en tiempo real", "Endoso electrónico", "Integración con cuentas propias"],
-    href: "/servicio/echeqs",
-    accent: "#06B6D4",
-  },
-  {
-    key: "inversiones",
-    icon: TrendingUp,
-    color: "bg-emerald-500",
-    label: "Inversiones",
-    headline: "Hacé rendir el saldo de tu empresa",
-    desc: "Plazo fijo desde 1 día, FCI de money market, acciones y bonos. Tu plata trabaja mientras vos te ocupás del negocio.",
-    bullets: ["Plazo fijo desde 1 día al 38.64% TNA", "FCI con liquidez inmediata", "Diversificación en acciones y bonos", "Sin montos mínimos"],
-    href: "/servicio/inversiones",
-    accent: "#10B981",
-  },
-  {
-    key: "financiamiento",
-    icon: Building2,
-    color: "bg-rose-500",
-    label: "Financiamiento",
-    headline: "Capital cuando lo necesitás",
-    desc: "Préstamos para capital de trabajo, leasing y descuento de cheques. Aprobación en 24hs, sin burocracia, sin filas.",
-    bullets: ["Préstamos PyME desde 30 días", "Leasing de equipos", "Descuento de cheques", "Respuesta en menos de 24hs"],
-    href: "/servicio/financiamiento",
-    accent: "#F43F5E",
-  },
+  { key: "cuentas", icon: Globe2, color: "bg-blue-500", label: "Cuenta CBU", desc: "Abrí tu cuenta corriente empresarial 100% digital. Operativa en menos de 24hs con CBU propio.", href: "/servicio/cuentas", accent: "#3B82F6" },
+  { key: "pagos", icon: Send, color: "bg-indigo-500", label: "Pagos inteligentes", desc: "Programá pagos únicos o recurrentes a proveedores, sueldos e impuestos desde un solo lugar.", href: "/servicio/pagos", accent: "#6366F1" },
+  { key: "cobros", icon: Download, color: "bg-violet-500", label: "Cobros inteligentes", desc: "Generá facturas con link de pago. El cliente paga y vos recibís el dinero automáticamente.", href: "/servicio/cobros", accent: "#8B5CF6" },
+  { key: "echeqs", icon: FileCheck, color: "bg-cyan-500", label: "eCheqs", desc: "Emití, recibí y depositá cheques electrónicos sin pisar una sucursal. Validación inmediata.", href: "/servicio/echeqs", accent: "#06B6D4" },
+  { key: "inversiones", icon: TrendingUp, color: "bg-emerald-500", label: "Inversiones", desc: "Plazo fijo desde 1 día, FCI, acciones y bonos. Tu plata trabaja mientras vos operás.", href: "/servicio/inversiones", accent: "#10B981" },
+  { key: "financiamiento", icon: Building2, color: "bg-rose-500", label: "Financiamiento", desc: "Préstamos PyME, leasing y descuento de cheques. Aprobación en 24hs, sin burocracia.", href: "/servicio/financiamiento", accent: "#F43F5E" },
 ];
 
 const BENEFITS = [
   { icon: Zap, title: "7 veces menos clics", desc: "Lo que antes requería visitar el banco, ahora son segundos desde tu teléfono." },
   { icon: Clock, title: "24/7 sin excepciones", desc: "Feriados, fines de semana, madrugadas. La plataforma no cierra." },
   { icon: Shield, title: "Seguridad bancaria", desc: "Encriptación financiera, 2FA y monitoreo antifraude en tiempo real." },
-  { icon: BadgeCheck, title: "Respaldo institucional", desc: "Operamos a través de entidades reguladas por el BCRA." },
   { icon: Sparkles, title: "IA incorporada", desc: "Conciliación automática, alertas inteligentes y predicciones de flujo de caja." },
   { icon: Users, title: "Soporte en español", desc: "Personas reales, respuesta rápida. Sin bots, sin formularios kilométricos." },
 ];
@@ -211,7 +167,6 @@ const STATS = [
 
 export default function Landing() {
   const [email, setEmail] = useState("");
-  const [activeProduct, setActiveProduct] = useState(0);
 
   return (
     <div className="min-h-screen bg-white text-gray-900 font-body overflow-x-hidden">
@@ -220,7 +175,7 @@ export default function Landing() {
       {/* ════════ HERO ════════ */}
       <section className="relative overflow-hidden text-white" style={{ background: NAVY }}>
         <GridBackground tone="dark" />
-        <div className="absolute -top-32 -right-24 w-[28rem] h-[28rem] rounded-full blur-3xl" style={{ background: "rgba(16,185,129,0.18)" }} />
+        <div className="absolute -top-32 -right-24 w-[28rem] h-[28rem] rounded-full blur-3xl" style={{ background: "rgba(0,209,178,0.18)" }} />
         <div className="absolute -bottom-40 -left-24 w-[28rem] h-[28rem] rounded-full blur-3xl" style={{ background: "rgba(59,130,246,0.22)" }} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-36 pb-24 grid lg:grid-cols-2 gap-12 items-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
@@ -229,7 +184,7 @@ export default function Landing() {
             </span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] mb-5">
               Una sola cuenta para<br />
-              <span className="text-emerald-400">cobrar, pagar y crecer.</span>
+              <span style={{ color: EMERALD }}>cobrar, pagar y crecer.</span>
             </h1>
             <p className="text-white/70 text-lg mb-8 max-w-lg">
               Administrá las finanzas de tu empresa en un solo lugar. 100% digital, siempre disponible, sin burocracia bancaria.
@@ -245,7 +200,6 @@ export default function Landing() {
             </div>
           </motion.div>
 
-          {/* Mockup flotando en perspectiva 3D */}
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
             className="relative" style={{ perspective: "1200px" }}>
             <motion.div
@@ -254,7 +208,7 @@ export default function Landing() {
               whileHover={{ scale: 1.02, rotateY: -10, rotateX: 6 }}
               style={{ transformStyle: "preserve-3d" }}
               className="relative">
-              <div className="absolute -inset-6 rounded-3xl blur-2xl" style={{ background: "rgba(16,185,129,0.12)" }} />
+              <div className="absolute -inset-6 rounded-3xl blur-2xl" style={{ background: "rgba(0,209,178,0.12)" }} />
               <div className="relative" style={{ transform: "rotateY(-8deg) rotateX(5deg)" }}>
                 <DashboardMock />
               </div>
@@ -282,12 +236,12 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ════════ SUITE DE PRODUCTOS (tabs interactivos) ════════ */}
+      {/* ════════ SUITE DE PRODUCTOS (grilla 3×2) ════════ */}
       <section className="relative py-24 bg-white">
         <GridBackground tone="light" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
-            <span className="inline-block text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wide" style={{ background: "rgba(16,185,129,0.1)", color: EMERALD }}>Suite de productos</span>
+            <span className="inline-block text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wide" style={{ background: "rgba(0,209,178,0.1)", color: EMERALD }}>Suite de productos</span>
             <h2 className="text-3xl sm:text-4xl font-extrabold mb-4" style={{ color: NAVY }}>
               Todo en un solo lugar
             </h2>
@@ -296,73 +250,22 @@ export default function Landing() {
             </p>
           </div>
 
-          {/* Tab pills */}
-          <div className="flex gap-2 flex-wrap justify-center mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {PRODUCTS.map((p, i) => (
-              <button key={p.key} onClick={() => setActiveProduct(i)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold border transition-all ${activeProduct === i
-                  ? "text-white border-transparent shadow-md"
-                  : "bg-white border-gray-200 text-gray-600 hover:border-gray-300"}`}
-                style={activeProduct === i ? { backgroundColor: p.accent, borderColor: p.accent } : {}}>
-                <p.icon className="w-3.5 h-3.5" /> {p.label}
-              </button>
+              <motion.div key={p.key} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}
+                whileHover={{ y: -8 }}
+                className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-shadow">
+                <div className={`w-12 h-12 rounded-xl ${p.color} flex items-center justify-center mb-4 shadow-md`}>
+                  <p.icon className="w-6 h-6 text-white" />
+                </div>
+                <h3 className="font-bold text-lg mb-1.5" style={{ color: NAVY }}>{p.label}</h3>
+                <p className="text-sm text-gray-500 leading-relaxed mb-5">{p.desc}</p>
+                <Link to={p.href} className="inline-flex items-center gap-1 text-sm font-semibold" style={{ color: p.accent }}>
+                  Conocé más <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </motion.div>
             ))}
           </div>
-
-          {/* Active panel */}
-          {PRODUCTS.map((p, i) => i === activeProduct && (
-            <motion.div key={p.key} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <div className={`w-14 h-14 rounded-2xl ${p.color} flex items-center justify-center mb-5 shadow-lg`}>
-                  <p.icon className="w-7 h-7 text-white" />
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-extrabold mb-4 leading-tight" style={{ color: NAVY }}>{p.headline}</h3>
-                <p className="text-gray-500 text-base mb-7 leading-relaxed">{p.desc}</p>
-                <div className="space-y-3 mb-8">
-                  {p.bullets.map(b => (
-                    <div key={b} className="flex items-center gap-3">
-                      <CheckCircle2 className="w-4 h-4 flex-shrink-0" style={{ color: p.accent }} />
-                      <span className="text-gray-700 text-sm">{b}</span>
-                    </div>
-                  ))}
-                </div>
-                <Link to={p.href}
-                  className="inline-flex items-center gap-2 font-bold px-6 py-3 rounded-xl transition-all text-white shadow-md hover:scale-[1.03]"
-                  style={{ backgroundColor: p.accent }}>
-                  Conocé más <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-              {/* Right visual — mockup con perspectiva */}
-              <div style={{ perspective: "1100px" }}>
-                <motion.div whileHover={{ scale: 1.02, rotateY: -8, rotateX: 4 }} transition={{ type: "spring", stiffness: 200 }}
-                  style={{ transformStyle: "preserve-3d" }}
-                  className="rounded-3xl overflow-hidden border border-gray-200 shadow-2xl bg-white"
-                  >
-                  <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100 bg-gray-50">
-                    <div className={`w-7 h-7 rounded-lg ${p.color} flex items-center justify-center`}>
-                      <p.icon className="w-3.5 h-3.5 text-white" />
-                    </div>
-                    <span className="text-xs font-semibold text-gray-700">{p.label}</span>
-                    <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(16,185,129,0.1)", color: EMERALD }}>● Activo</span>
-                  </div>
-                  <div className="p-5 space-y-3">
-                    {p.bullets.map((b, bi) => (
-                      <div key={bi} className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 bg-gray-50 hover:bg-white transition-colors">
-                        <CheckCircle2 className="w-4 h-4 flex-shrink-0" style={{ color: p.accent }} />
-                        <span className="text-xs font-medium text-gray-700">{b}</span>
-                      </div>
-                    ))}
-                    <Link to={p.href}
-                      className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-white text-xs font-bold transition-opacity hover:opacity-90 mt-2"
-                      style={{ backgroundColor: p.accent }}>
-                      Ir a {p.label} <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
-          ))}
         </div>
       </section>
 
@@ -389,22 +292,22 @@ export default function Landing() {
       <section className="relative py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
-            <span className="inline-block text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wide" style={{ background: "rgba(16,185,129,0.1)", color: EMERALD }}>Por qué EMITIA PAY</span>
+            <span className="inline-block text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wide" style={{ background: "rgba(0,209,178,0.1)", color: EMERALD }}>Beneficios</span>
             <h2 className="text-3xl sm:text-4xl font-extrabold mb-3" style={{ color: NAVY }}>
               La agilidad que querés,<br className="hidden sm:block" /> la seguridad que necesitás.
             </h2>
             <p className="text-gray-500 max-w-xl mx-auto">La innovación de una fintech con el respaldo de una entidad regulada por el BCRA.</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
             {BENEFITS.map((b, i) => (
-              <motion.div key={b.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07 }}
+              <motion.div key={b.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}
                 whileHover={{ y: -6 }}
-                className="bg-white rounded-2xl p-7 border border-gray-100 shadow-sm hover:shadow-xl transition-shadow">
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4" style={{ background: "rgba(16,185,129,0.1)" }}>
+                className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl transition-shadow">
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4" style={{ background: "rgba(0,209,178,0.1)" }}>
                   <b.icon className="w-5 h-5" style={{ color: EMERALD }} />
                 </div>
-                <h3 className="font-bold text-gray-900 mb-2">{b.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{b.desc}</p>
+                <h3 className="font-bold text-gray-900 mb-2 text-sm">{b.title}</h3>
+                <p className="text-gray-500 text-xs leading-relaxed">{b.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -419,7 +322,7 @@ export default function Landing() {
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <ArgFlag className="w-16 mb-6" />
               <h2 className="text-3xl sm:text-4xl font-extrabold mb-5 leading-tight" style={{ color: NAVY }}>
-                Construida desde adentro.<br />
+                Identidad argentina.<br />
                 <span style={{ color: EMERALD }}>Por argentinos, para argentinos.</span>
               </h2>
               <p className="text-gray-500 mb-8 leading-relaxed text-lg">
@@ -446,20 +349,10 @@ export default function Landing() {
               </Link>
             </motion.div>
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-              className="grid grid-cols-2 gap-4">
-              {[
-                { icon: Shield, title: "Regulado BCRA", desc: "Operamos con entidades financieras autorizadas y reguladas." },
-                { icon: BarChart3, title: "Reportes en tiempo real", desc: "Tu flujo de caja visible en segundos, sin esperar al contador." },
-                { icon: Globe2, title: "Multi-moneda nativo", desc: "ARS y USD en la misma pantalla, sin conversiones manuales." },
-                { icon: Zap, title: "Siempre disponible", desc: "Desde el Altiplano o la Patagonia. El sistema no para." },
-              ].map((card) => (
-                <motion.div key={card.title} whileHover={{ y: -5 }}
-                  className="p-6 rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-xl transition-shadow">
-                  <card.icon className="w-6 h-6 mb-3" style={{ color: EMERALD }} />
-                  <p className="font-bold text-gray-900 text-sm mb-1">{card.title}</p>
-                  <p className="text-xs text-gray-500 leading-relaxed">{card.desc}</p>
-                </motion.div>
-              ))}
+              className="relative">
+              <motion.div animate={{ rotate: [0, 1.5, 0, -1.5, 0] }} transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}>
+                <WavyFlag />
+              </motion.div>
             </motion.div>
           </div>
         </div>
@@ -469,7 +362,7 @@ export default function Landing() {
       <section className="py-20 bg-white border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
-            <span className="inline-block bg-gray-50 border border-gray-100 text-gray-600 text-xs font-bold px-4 py-1.5 rounded-full mb-4 shadow-sm">Casos reales</span>
+            <span className="inline-block bg-gray-50 border border-gray-100 text-gray-600 text-xs font-bold px-4 py-1.5 rounded-full mb-4 shadow-sm">Testimonios</span>
             <h2 className="text-3xl sm:text-4xl font-extrabold mb-3" style={{ color: NAVY }}>
               Sus palabras, no las nuestras.
             </h2>
@@ -505,7 +398,7 @@ export default function Landing() {
       {/* ════════ CTA FINAL ════════ */}
       <section className="relative py-24 overflow-hidden text-white" style={{ background: NAVY }}>
         <GridBackground tone="dark" />
-        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[30rem] h-[30rem] rounded-full blur-3xl" style={{ background: "rgba(16,185,129,0.15)" }} />
+        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[30rem] h-[30rem] rounded-full blur-3xl" style={{ background: "rgba(0,209,178,0.15)" }} />
         <div className="relative max-w-3xl mx-auto px-4 text-center">
           <SolDeMayo size={56} />
           <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 mt-6 leading-tight">
