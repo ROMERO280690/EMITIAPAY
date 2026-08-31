@@ -6,11 +6,15 @@ import {
   Users, Receipt, Landmark, PiggyBank, BarChart3, MapPin,
   Send, Download, FileCheck, TrendingUp, Building2,
   ArrowUpRight, ArrowDownLeft, Clock, ChevronRight,
-  Sparkles, Lock, BadgeCheck
+  Sparkles, Lock, BadgeCheck, Star
 } from "lucide-react";
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
-import HeroSlider from "@/components/public/HeroSlider";
+import GridBackground from "@/components/public/GridBackground";
+import AnimatedCounter from "@/components/public/AnimatedCounter";
+
+const NAVY = "#0C2D6B";
+const EMERALD = "#10B981";
 
 /* ─── helpers ─── */
 function ArgFlag({ className = "" }) {
@@ -42,19 +46,19 @@ function SolDeMayo({ size = 40 }) {
   );
 }
 
-/* ─── Dashboard mock visual ─── */
+/* ─── Dashboard mock visual (perspectiva 3D) ─── */
 function DashboardMock() {
   return (
-    <div className="w-full bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden text-xs">
+    <div className="w-full bg-white rounded-2xl shadow-2xl border border-white/10 overflow-hidden text-xs">
       {/* Top bar */}
-      <div className="bg-slate-900 px-4 py-3 flex items-center gap-2">
-        <div className="flex gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-red-400"/><div className="w-2.5 h-2.5 rounded-full bg-yellow-400"/><div className="w-2.5 h-2.5 rounded-full bg-green-400"/></div>
-        <div className="flex-1 text-center"><span className="text-slate-400 text-[10px]">app.emitia.com/dashboard</span></div>
+      <div className="px-4 py-3 flex items-center gap-2" style={{ background: NAVY }}>
+        <div className="flex gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-red-400"/><div className="w-2.5 h-2.5 rounded-full bg-yellow-400"/><div className="w-2.5 h-2.5 rounded-full bg-emerald-400"/></div>
+        <div className="flex-1 text-center"><span className="text-white/40 text-[10px]">app.emitia.com/dashboard</span></div>
       </div>
       {/* App shell */}
       <div className="flex h-64">
         {/* Sidebar */}
-        <div className="w-28 bg-slate-900 px-2 py-3 space-y-0.5 flex-shrink-0">
+        <div className="w-28 px-2 py-3 space-y-0.5 flex-shrink-0" style={{ background: NAVY }}>
           {[
             { label: "Inicio", active: true },
             { label: "Movimientos", active: false },
@@ -62,7 +66,8 @@ function DashboardMock() {
             { label: "Cobros", active: false },
             { label: "Inversiones", active: false },
           ].map(item => (
-            <div key={item.label} className={`px-2 py-1.5 rounded-lg text-[9px] font-medium ${item.active ? "bg-indigo-600 text-white" : "text-slate-400"}`}>{item.label}</div>
+            <div key={item.label} className="px-2 py-1.5 rounded-lg text-[9px] font-medium"
+              style={item.active ? { background: EMERALD, color: NAVY } : { color: "rgba(255,255,255,0.55)" }}>{item.label}</div>
           ))}
         </div>
         {/* Content */}
@@ -70,22 +75,22 @@ function DashboardMock() {
           <p className="text-[10px] font-bold text-gray-700">Buenos días, María 👋</p>
           {/* Balances */}
           <div className="grid grid-cols-2 gap-2">
-            <div className="bg-white rounded-xl p-2.5 border border-gray-100">
+            <div className="bg-white rounded-xl p-2.5 border border-gray-100 shadow-sm">
               <p className="text-[9px] text-gray-400 mb-0.5">Cuenta ARS</p>
               <p className="font-extrabold text-gray-900 text-sm">$ 2.458.320</p>
-              <p className="text-[9px] text-emerald-600 font-medium">↑ 38.64% TNA</p>
+              <p className="text-[9px] font-medium" style={{ color: EMERALD }}>↑ 38.64% TNA</p>
             </div>
-            <div className="bg-white rounded-xl p-2.5 border border-gray-100">
+            <div className="bg-white rounded-xl p-2.5 border border-gray-100 shadow-sm">
               <p className="text-[9px] text-gray-400 mb-0.5">Cuenta USD</p>
               <p className="font-extrabold text-gray-900 text-sm">US$ 15.200</p>
               <p className="text-[9px] text-blue-600 font-medium">Saldo disponible</p>
             </div>
           </div>
           {/* Movimientos */}
-          <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
+          <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
             <div className="px-2.5 py-1.5 border-b border-gray-50 flex justify-between items-center">
               <p className="text-[9px] font-semibold text-gray-600">Últimos movimientos</p>
-              <span className="text-[8px] text-indigo-500 font-medium">Ver todos</span>
+              <span className="text-[8px] font-medium" style={{ color: EMERALD }}>Ver todos</span>
             </div>
             {[
               { label: "Pago proveedor", sub: "Proveedores · hoy", amount: "- $45.000", color: "text-red-500", icon: ArrowUpRight },
@@ -197,6 +202,13 @@ const TESTIMONIALS = [
 
 const PROVINCES = ["Buenos Aires", "Córdoba", "Rosario", "Mendoza", "Tucumán", "Salta", "Neuquén", "Bariloche", "Mar del Plata", "Posadas", "La Quiaca", "Ushuaia"];
 
+const STATS = [
+  { prefix: "+", value: 5000, suffix: "", decimals: 0, label: "PyMEs activas", sub: "de La Quiaca a Ushuaia" },
+  { prefix: "$ ", value: 2, suffix: "B+", decimals: 0, label: "Procesados al mes", sub: "en pagos, cobros e inversiones" },
+  { prefix: "", value: 99.9, suffix: "%", decimals: 1, label: "Disponibilidad", sub: "no paramos ni los feriados" },
+  { prefix: "$ ", value: 0, suffix: "", decimals: 0, label: "Costo de apertura", sub: "sin letra chica ni sorpresas" },
+];
+
 export default function Landing() {
   const [email, setEmail] = useState("");
   const [activeProduct, setActiveProduct] = useState(0);
@@ -205,98 +217,78 @@ export default function Landing() {
     <div className="min-h-screen bg-white text-gray-900 font-body overflow-x-hidden">
       <PublicNav transparent />
 
-      {/* ════════ HERO SLIDER ════════ */}
-      <HeroSlider
-        minHeight="min-h-screen"
-        autoplay={6000}
-        slides={[
-          {
-            badge: "🇦🇷 Hecho en Argentina, para Argentina",
-            title: <><span>Una sola cuenta para</span><br /><span className="text-transparent bg-clip-text" style={{ backgroundImage: "linear-gradient(90deg,#FCD34D,#FBBF24)" }}>cobrar, pagar y crecer.</span></>,
-            description: "Administrá las finanzas de tu empresa en un solo lugar. 100% digital, siempre disponible, sin burocracia bancaria.",
-            cta: { label: "Empezar gratis", href: "/register" },
-            ctaSecondary: { label: "Ver servicios", href: "/servicios" },
-            bgStyle: { background: "linear-gradient(160deg,#0C2D6B 0%,#1A4FB5 40%,#2563EB 70%,#3B82F6 100%)" },
-            image: (
-              <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-4 shadow-2xl w-full max-w-sm">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-white font-bold text-sm">Tu dashboard</span>
-                  <span className="text-emerald-400 text-xs font-semibold bg-emerald-400/15 px-3 py-1 rounded-full">● En línea</span>
-                </div>
-                <div className="grid grid-cols-2 gap-2 mb-3">
-                  {[
-                    { label: "Saldo ARS", value: "$ 2.458.320", color: "text-emerald-400" },
-                    { label: "Saldo USD", value: "US$ 15.200", color: "text-emerald-400" },
-                    { label: "Cobros pendientes", value: "$ 840.000", color: "text-amber-400" },
-                    { label: "TNA plazo fijo", value: "38.6%", color: "text-emerald-400" },
-                  ].map((item) => (
-                    <div key={item.label} className="p-2.5 bg-white/10 rounded-xl border border-white/10">
-                      <p className="text-sky-300 text-[10px] mb-0.5">{item.label}</p>
-                      <p className={`font-bold text-sm ${item.color}`}>{item.value}</p>
-                    </div>
-                  ))}
-                </div>
-                {[
-                  { desc: "Pago proveedor", amount: "- $45.000", color: "text-red-400" },
-                  { desc: "Cobro factura #1092", amount: "+ $120.000", color: "text-emerald-400" },
-                ].map((m) => (
-                  <div key={m.desc} className="flex justify-between py-1.5 border-b border-white/5">
-                    <span className="text-white/60 text-xs">{m.desc}</span>
-                    <span className={`text-xs font-semibold ${m.color}`}>{m.amount}</span>
-                  </div>
-                ))}
-              </div>
-            ),
-          },
-          {
-            badge: "⚡ Pagos automáticos",
-            title: <>Pagá a todos tus<br /><span style={{ color: "#A5F3FC" }}>proveedores en un clic.</span></>,
-            description: "Programá pagos únicos o recurrentes. EMITIA PAY los ejecuta puntualmente sin que tengas que recordarlo.",
-            cta: { label: "Conocer pagos", href: "/servicio/pagos" },
-            ctaSecondary: { label: "Empezar gratis", href: "/register" },
-            bgStyle: { background: "linear-gradient(135deg,#312E81 0%,#4C1D95 50%,#6D28D9 100%)" },
-          },
-          {
-            badge: "💰 Hacé rendir tu plata",
-            title: <>El saldo parado<br /><span style={{ color: "#FDE68A" }}>pierde valor. Invertilo.</span></>,
-            description: "Plazo fijo desde 1 día, FCI, acciones y bonos — todo desde la plataforma, sin intermediarios ni montos mínimos.",
-            cta: { label: "Ver inversiones", href: "/servicio/inversiones" },
-            ctaSecondary: { label: "Abrir cuenta", href: "/register" },
-            bgStyle: { background: "linear-gradient(135deg,#1E3A5F 0%,#1D4ED8 60%,#0284C7 100%)" },
-          },
-          {
-            badge: "🏦 Financiamiento PyME",
-            title: <>Capital cuando<br /><span style={{ color: "#86EFAC" }}>lo necesitás.</span></>,
-            description: "Préstamos para capital de trabajo, leasing y descuento de cheques. Aprobación en 24hs, sin burocracia.",
-            cta: { label: "Solicitar financiamiento", href: "/servicio/financiamiento" },
-            ctaSecondary: { label: "Ver planes", href: "/precios" },
-            bgStyle: { background: "linear-gradient(135deg,#064E3B 0%,#065F46 50%,#047857 100%)" },
-          },
-        ]}
-      />
+      {/* ════════ HERO ════════ */}
+      <section className="relative overflow-hidden text-white" style={{ background: NAVY }}>
+        <GridBackground tone="dark" />
+        <div className="absolute -top-32 -right-24 w-[28rem] h-[28rem] rounded-full blur-3xl" style={{ background: "rgba(16,185,129,0.18)" }} />
+        <div className="absolute -bottom-40 -left-24 w-[28rem] h-[28rem] rounded-full blur-3xl" style={{ background: "rgba(59,130,246,0.22)" }} />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-36 pb-24 grid lg:grid-cols-2 gap-12 items-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <span className="inline-flex items-center gap-2 text-xs font-semibold px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur-sm mb-6">
+              🇦🇷 Hecho en Argentina, para Argentina
+            </span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] mb-5">
+              Una sola cuenta para<br />
+              <span className="text-emerald-400">cobrar, pagar y crecer.</span>
+            </h1>
+            <p className="text-white/70 text-lg mb-8 max-w-lg">
+              Administrá las finanzas de tu empresa en un solo lugar. 100% digital, siempre disponible, sin burocracia bancaria.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link to="/register" className="inline-flex items-center gap-2 font-bold px-7 py-3.5 rounded-xl shadow-lg transition-all hover:scale-[1.03]"
+                style={{ background: EMERALD, color: NAVY }}>
+                Empezar gratis <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link to="/servicios" className="inline-flex items-center gap-2 font-semibold px-7 py-3.5 rounded-xl border border-white/25 hover:bg-white/10 transition-colors">
+                Ver servicios
+              </Link>
+            </div>
+          </motion.div>
 
-      {/* ════════ LOGOS / PRESENCIA ════════ */}
-      <section className="py-8 border-y border-gray-100 bg-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4">
-          <p className="text-center text-xs font-semibold text-gray-400 uppercase tracking-widest mb-5 flex items-center justify-center gap-2">
+          {/* Mockup flotando en perspectiva 3D */}
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.1 }}
+            className="relative" style={{ perspective: "1200px" }}>
+            <motion.div
+              animate={{ y: [0, -14, 0] }}
+              transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+              whileHover={{ scale: 1.02, rotateY: -10, rotateX: 6 }}
+              style={{ transformStyle: "preserve-3d" }}
+              className="relative">
+              <div className="absolute -inset-6 rounded-3xl blur-2xl" style={{ background: "rgba(16,185,129,0.12)" }} />
+              <div className="relative" style={{ transform: "rotateY(-8deg) rotateX(5deg)" }}>
+                <DashboardMock />
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ════════ PRESENCIA (marquee) ════════ */}
+      <section className="py-7 border-y border-gray-100 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 mb-4">
+          <p className="text-center text-xs font-semibold text-gray-400 uppercase tracking-widest flex items-center justify-center gap-2">
             <MapPin className="w-3.5 h-3.5" /> +5.000 PyMEs en toda la Argentina
           </p>
-          <div className="flex gap-2 justify-center flex-wrap">
-            {PROVINCES.map((p) => (
-              <span key={p} className="text-xs font-medium text-gray-500 bg-gray-50 border border-gray-100 px-3 py-1.5 rounded-full">
+        </div>
+        <div className="relative">
+          <motion.div animate={{ x: ["0%", "-50%"] }} transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
+            className="flex gap-2 whitespace-nowrap w-max">
+            {[...PROVINCES, ...PROVINCES].map((p, i) => (
+              <span key={i} className="text-xs font-medium text-gray-500 bg-gray-50 border border-gray-100 px-3 py-1.5 rounded-full">
                 {p}
               </span>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* ════════ SUITE DE PRODUCTOS (tabs interactivos) ════════ */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <section className="relative py-24 bg-white">
+        <GridBackground tone="light" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
-            <span className="inline-block bg-indigo-50 text-indigo-700 text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wide">Suite de productos</span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">
+            <span className="inline-block text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wide" style={{ background: "rgba(16,185,129,0.1)", color: EMERALD }}>Suite de productos</span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold mb-4" style={{ color: NAVY }}>
               Todo en un solo lugar
             </h2>
             <p className="text-gray-400 text-lg max-w-xl mx-auto">
@@ -322,10 +314,10 @@ export default function Landing() {
             <motion.div key={p.key} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}
               className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <div className={`w-14 h-14 rounded-2xl ${p.color} flex items-center justify-center mb-5`}>
+                <div className={`w-14 h-14 rounded-2xl ${p.color} flex items-center justify-center mb-5 shadow-lg`}>
                   <p.icon className="w-7 h-7 text-white" />
                 </div>
-                <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4 leading-tight">{p.headline}</h3>
+                <h3 className="text-2xl sm:text-3xl font-extrabold mb-4 leading-tight" style={{ color: NAVY }}>{p.headline}</h3>
                 <p className="text-gray-500 text-base mb-7 leading-relaxed">{p.desc}</p>
                 <div className="space-y-3 mb-8">
                   {p.bullets.map(b => (
@@ -336,56 +328,57 @@ export default function Landing() {
                   ))}
                 </div>
                 <Link to={p.href}
-                  className="inline-flex items-center gap-2 font-bold px-6 py-3 rounded-xl transition-all text-white shadow-md hover:opacity-90"
+                  className="inline-flex items-center gap-2 font-bold px-6 py-3 rounded-xl transition-all text-white shadow-md hover:scale-[1.03]"
                   style={{ backgroundColor: p.accent }}>
                   Conocé más <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
-              {/* Right visual — mini app mockup */}
-              <div className="rounded-3xl overflow-hidden border border-gray-200 shadow-xl bg-white">
-                {/* Topbar */}
-                <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100 bg-gray-50">
-                  <div className={`w-7 h-7 rounded-lg ${p.color} flex items-center justify-center`}>
-                    <p.icon className="w-3.5 h-3.5 text-white" />
-                  </div>
-                  <span className="text-xs font-semibold text-gray-700">{p.label}</span>
-                  <span className="ml-auto text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">● Activo</span>
-                </div>
-                {/* Content */}
-                <div className="p-5 space-y-3">
-                  {p.bullets.map((b, bi) => (
-                    <div key={bi} className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 bg-gray-50 hover:bg-white transition-colors">
-                      <CheckCircle2 className="w-4 h-4 flex-shrink-0" style={{ color: p.accent }} />
-                      <span className="text-xs font-medium text-gray-700">{b}</span>
+              {/* Right visual — mockup con perspectiva */}
+              <div style={{ perspective: "1100px" }}>
+                <motion.div whileHover={{ scale: 1.02, rotateY: -8, rotateX: 4 }} transition={{ type: "spring", stiffness: 200 }}
+                  style={{ transformStyle: "preserve-3d" }}
+                  className="rounded-3xl overflow-hidden border border-gray-200 shadow-2xl bg-white"
+                  >
+                  <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100 bg-gray-50">
+                    <div className={`w-7 h-7 rounded-lg ${p.color} flex items-center justify-center`}>
+                      <p.icon className="w-3.5 h-3.5 text-white" />
                     </div>
-                  ))}
-                  <Link to={p.href}
-                    className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-white text-xs font-bold transition-opacity hover:opacity-90 mt-2"
-                    style={{ backgroundColor: p.accent }}>
-                    Ir a {p.label} <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
+                    <span className="text-xs font-semibold text-gray-700">{p.label}</span>
+                    <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full font-medium" style={{ background: "rgba(16,185,129,0.1)", color: EMERALD }}>● Activo</span>
+                  </div>
+                  <div className="p-5 space-y-3">
+                    {p.bullets.map((b, bi) => (
+                      <div key={bi} className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 bg-gray-50 hover:bg-white transition-colors">
+                        <CheckCircle2 className="w-4 h-4 flex-shrink-0" style={{ color: p.accent }} />
+                        <span className="text-xs font-medium text-gray-700">{b}</span>
+                      </div>
+                    ))}
+                    <Link to={p.href}
+                      className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-white text-xs font-bold transition-opacity hover:opacity-90 mt-2"
+                      style={{ backgroundColor: p.accent }}>
+                      Ir a {p.label} <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </motion.div>
               </div>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* ════════ NÚMEROS ════════ */}
-      <section className="py-20 bg-white border-y border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      {/* ════════ NÚMEROS (banda azul) ════════ */}
+      <section className="relative py-20" style={{ background: "linear-gradient(180deg,#dbeafe 0%,#bfdbfe 100%)" }}>
+        <GridBackground tone="light" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { value: "+5.000", label: "PyMEs activas", sub: "de La Quiaca a Ushuaia" },
-              { value: "$ 2B+", label: "Procesados al mes", sub: "en pagos, cobros e inversiones" },
-              { value: "99.9%", label: "Disponibilidad", sub: "no paramos ni los feriados" },
-              { value: "$ 0", label: "Costo de apertura", sub: "sin letra chica ni sorpresas" },
-            ].map((s, i) => (
+            {STATS.map((s, i) => (
               <motion.div key={s.label} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className="text-center bg-white rounded-2xl p-7 shadow-sm border border-gray-100">
-                <p className="text-4xl font-extrabold text-blue-700 mb-1">{s.value}</p>
+                className="text-center">
+                <p className="text-4xl sm:text-5xl font-extrabold mb-1" style={{ color: NAVY }}>
+                  <AnimatedCounter value={s.value} prefix={s.prefix} suffix={s.suffix} decimals={s.decimals} />
+                </p>
                 <p className="font-semibold text-gray-800 text-sm mb-1">{s.label}</p>
-                <p className="text-xs text-gray-400">{s.sub}</p>
+                <p className="text-xs text-gray-500">{s.sub}</p>
               </motion.div>
             ))}
           </div>
@@ -393,11 +386,11 @@ export default function Landing() {
       </section>
 
       {/* ════════ BENEFICIOS ════════ */}
-      <section className="py-24 bg-gray-50 border-y border-gray-100">
+      <section className="relative py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
-            <span className="inline-block bg-emerald-50 text-emerald-700 text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wide">Por qué EMITIA PAY</span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">
+            <span className="inline-block text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wide" style={{ background: "rgba(16,185,129,0.1)", color: EMERALD }}>Por qué EMITIA PAY</span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold mb-3" style={{ color: NAVY }}>
               La agilidad que querés,<br className="hidden sm:block" /> la seguridad que necesitás.
             </h2>
             <p className="text-gray-500 max-w-xl mx-auto">La innovación de una fintech con el respaldo de una entidad regulada por el BCRA.</p>
@@ -405,9 +398,10 @@ export default function Landing() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {BENEFITS.map((b, i) => (
               <motion.div key={b.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07 }}
-                className="bg-white rounded-2xl p-7 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-11 h-11 bg-blue-50 rounded-xl flex items-center justify-center mb-4">
-                  <b.icon className="w-5 h-5 text-blue-600" />
+                whileHover={{ y: -6 }}
+                className="bg-white rounded-2xl p-7 border border-gray-100 shadow-sm hover:shadow-xl transition-shadow">
+                <div className="w-11 h-11 rounded-xl flex items-center justify-center mb-4" style={{ background: "rgba(16,185,129,0.1)" }}>
+                  <b.icon className="w-5 h-5" style={{ color: EMERALD }} />
                 </div>
                 <h3 className="font-bold text-gray-900 mb-2">{b.title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{b.desc}</p>
@@ -418,14 +412,15 @@ export default function Landing() {
       </section>
 
       {/* ════════ IDENTIDAD ARGENTINA ════════ */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <section className="relative py-24 bg-gray-50">
+        <GridBackground tone="light" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <ArgFlag className="w-16 mb-6" />
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-5 leading-tight">
+              <h2 className="text-3xl sm:text-4xl font-extrabold mb-5 leading-tight" style={{ color: NAVY }}>
                 Construida desde adentro.<br />
-                <span className="text-blue-700">Por argentinos, para argentinos.</span>
+                <span style={{ color: EMERALD }}>Por argentinos, para argentinos.</span>
               </h2>
               <p className="text-gray-500 mb-8 leading-relaxed text-lg">
                 Sabemos lo que es el dólar que sube, el proveedor que no espera y el banco que cierra a las 15hs. Por eso hicimos una plataforma que no duerme y no pone excusas.
@@ -440,12 +435,13 @@ export default function Landing() {
                   "Soporte en castellano, rápido, de personas reales",
                 ].map((item) => (
                   <div key={item} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: EMERALD }} />
                     <span className="text-gray-700 text-sm">{item}</span>
                   </div>
                 ))}
               </div>
-              <Link to="/register" className="inline-flex items-center gap-2 mt-10 bg-blue-700 hover:bg-blue-800 text-white font-bold px-8 py-4 rounded-2xl transition-all shadow-lg group">
+              <Link to="/register" className="inline-flex items-center gap-2 mt-10 font-bold px-8 py-4 rounded-2xl transition-all shadow-lg group text-white hover:scale-[1.03]"
+                style={{ background: NAVY }}>
                 Empezar ahora <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
@@ -457,11 +453,12 @@ export default function Landing() {
                 { icon: Globe2, title: "Multi-moneda nativo", desc: "ARS y USD en la misma pantalla, sin conversiones manuales." },
                 { icon: Zap, title: "Siempre disponible", desc: "Desde el Altiplano o la Patagonia. El sistema no para." },
               ].map((card) => (
-                <div key={card.title} className="p-6 rounded-2xl border border-gray-100 bg-gray-50 hover:bg-blue-50 hover:border-blue-100 transition-colors">
-                  <card.icon className="w-6 h-6 text-blue-600 mb-3" />
+                <motion.div key={card.title} whileHover={{ y: -5 }}
+                  className="p-6 rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-xl transition-shadow">
+                  <card.icon className="w-6 h-6 mb-3" style={{ color: EMERALD }} />
                   <p className="font-bold text-gray-900 text-sm mb-1">{card.title}</p>
                   <p className="text-xs text-gray-500 leading-relaxed">{card.desc}</p>
-                </div>
+                </motion.div>
               ))}
             </motion.div>
           </div>
@@ -469,11 +466,11 @@ export default function Landing() {
       </section>
 
       {/* ════════ TESTIMONIOS ════════ */}
-      <section className="py-20 bg-gray-50 border-t border-gray-100">
+      <section className="py-20 bg-white border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
-            <span className="inline-block bg-white border border-gray-100 text-gray-600 text-xs font-bold px-4 py-1.5 rounded-full mb-4 shadow-sm">Casos reales</span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">
+            <span className="inline-block bg-gray-50 border border-gray-100 text-gray-600 text-xs font-bold px-4 py-1.5 rounded-full mb-4 shadow-sm">Casos reales</span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold mb-3" style={{ color: NAVY }}>
               Sus palabras, no las nuestras.
             </h2>
             <p className="text-gray-400">PyMEs de todo el país que eligieron una forma distinta de manejar la plata.</p>
@@ -481,8 +478,13 @@ export default function Landing() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {TESTIMONIALS.map((t, i) => (
               <motion.div key={t.name} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className="bg-white rounded-3xl p-7 border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex flex-col">
-                <div className="text-blue-100 text-5xl font-serif leading-none mb-3 select-none">"</div>
+                whileHover={{ y: -6 }}
+                className="bg-white rounded-3xl p-7 border border-gray-100 shadow-sm hover:shadow-xl transition-shadow flex flex-col">
+                <div className="flex gap-0.5 mb-3">
+                  {Array.from({ length: 5 }).map((_, s) => (
+                    <Star key={s} className="w-4 h-4 fill-current" style={{ color: EMERALD }} />
+                  ))}
+                </div>
                 <p className="text-gray-600 text-sm leading-relaxed flex-1 italic mb-6">{t.text}</p>
                 <div className="flex items-center gap-3">
                   <div className={`w-10 h-10 rounded-xl ${t.color} flex items-center justify-center text-white font-bold text-sm flex-shrink-0`}>{t.avatar}</div>
@@ -501,29 +503,31 @@ export default function Landing() {
       </section>
 
       {/* ════════ CTA FINAL ════════ */}
-      <section className="py-24 bg-white">
-        <div className="max-w-3xl mx-auto px-4 text-center">
+      <section className="relative py-24 overflow-hidden text-white" style={{ background: NAVY }}>
+        <GridBackground tone="dark" />
+        <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[30rem] h-[30rem] rounded-full blur-3xl" style={{ background: "rgba(16,185,129,0.15)" }} />
+        <div className="relative max-w-3xl mx-auto px-4 text-center">
           <SolDeMayo size={56} />
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 mt-6 leading-tight">
+          <h2 className="text-3xl sm:text-4xl font-extrabold mb-4 mt-6 leading-tight">
             Argentina no para.<br />Tu empresa tampoco.
           </h2>
-          <p className="text-gray-400 text-lg mb-2">Abrí tu cuenta en minutos. Sin papeles, sin sucursales.</p>
-          <p className="text-blue-700 font-semibold mb-10">Gratis para siempre en el plan Starter.</p>
-          {/* Email CTA final */}
+          <p className="text-white/70 text-lg mb-2">Abrí tu cuenta en minutos. Sin papeles, sin sucursales.</p>
+          <p className="font-semibold mb-10" style={{ color: "#34D399" }}>Gratis para siempre en el plan Starter.</p>
           <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-6">
             <input
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
               placeholder="tu@empresa.com"
-              className="flex-1 px-4 py-3.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300 bg-white shadow-sm"
+              className="flex-1 px-4 py-3.5 rounded-xl border border-white/15 bg-white/10 text-white placeholder:text-white/40 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-400/50 backdrop-blur-sm"
             />
             <Link to={`/register${email ? `?email=${encodeURIComponent(email)}` : ""}`}
-              className="flex items-center justify-center gap-2 bg-blue-700 hover:bg-blue-800 text-white font-bold px-7 py-3.5 rounded-xl transition-all shadow-lg whitespace-nowrap">
+              className="flex items-center justify-center gap-2 font-bold px-7 py-3.5 rounded-xl transition-all shadow-lg whitespace-nowrap hover:scale-[1.03]"
+              style={{ background: EMERALD, color: NAVY }}>
               Empezar gratis <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-          <Link to="/precios" className="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-blue-600 transition-colors">
+          <Link to="/precios" className="inline-flex items-center gap-1 text-sm text-white/60 hover:text-emerald-300 transition-colors">
             Ver planes y precios <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
