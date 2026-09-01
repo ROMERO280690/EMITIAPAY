@@ -5,6 +5,7 @@ import { Globe2, Zap, Users, Receipt, Landmark, PiggyBank, ArrowRight, CheckCirc
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
 import HeroSlider from "@/components/public/HeroSlider";
+import { MeshBackground, TiltCard } from "@/components/public/MeshKit";
 
 const SERVICES = [
   {
@@ -113,8 +114,9 @@ export default function ServiciosPage() {
       />
 
       {/* Services */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
+      <section className="relative py-16 overflow-hidden">
+        <MeshBackground className="opacity-40" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 space-y-12">
           {SERVICES.map((s, i) => {
             const c = colorMap[s.color];
             const isEven = i % 2 === 0;
@@ -140,7 +142,9 @@ export default function ServiciosPage() {
                     Empezar ahora <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
-                <div className={`rounded-2xl overflow-hidden border ${c.border} shadow-md ${isEven ? "" : "lg:col-start-1 lg:row-start-1"}`}>
+                <div className={isEven ? "" : "lg:col-start-1 lg:row-start-1"} style={{ perspective: "1100px" }}>
+                <TiltCard intensity={9} className="h-full">
+                <div className={`rounded-2xl overflow-hidden border ${c.border} shadow-md h-full`} style={{ boxShadow: `0 24px 50px -22px ${s.id === "cuentas" ? "#3B82F6" : "#6366F1"}33` }}>
                   {/* Mock app header */}
                   <div className={`${c.bg} px-5 py-4 flex items-center gap-3 border-b ${c.border}`}>
                     <div className={`w-9 h-9 rounded-xl flex items-center justify-center border ${c.border} bg-white`}>
@@ -163,6 +167,8 @@ export default function ServiciosPage() {
                       Ver {s.title} <ArrowRight className="w-4 h-4" />
                     </Link>
                   </div>
+                </div>
+                </TiltCard>
                 </div>
               </motion.div>
             );

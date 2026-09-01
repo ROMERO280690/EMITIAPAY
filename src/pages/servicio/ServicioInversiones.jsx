@@ -5,6 +5,7 @@ import { Landmark, ArrowRight, TrendingUp, Shield, Clock, Star, BarChart3, Zap }
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
 import HeroSlider from "@/components/public/HeroSlider";
+import { MeshBackground, TiltCard } from "@/components/public/MeshKit";
 
 const PRODUCTS = [
   { icon: "🏦", name: "Plazo Fijo", tna: "38.64% TNA", min: "Desde 1 día", desc: "Invertí tu excedente de caja a tasa fija. Rendimiento asegurado al vencimiento.", color: "indigo" },
@@ -91,20 +92,24 @@ export default function ServicioInversiones() {
       </section>
 
       {/* Features */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <section className="relative py-20 bg-gray-50 overflow-hidden">
+        <MeshBackground className="opacity-50" blobColor1="rgba(59,130,246,0.14)" blobColor2="rgba(16,185,129,0.10)" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Por qué invertir desde EMITIA PAY</h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" style={{ perspective: "1000px" }}>
             {FEATURES.map((f, i) => (
-              <motion.div key={f.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                className="p-6 rounded-2xl border border-gray-100 bg-white shadow-sm">
-                <div className="w-11 h-11 bg-blue-50 rounded-xl flex items-center justify-center mb-4">
-                  <f.icon className="w-5 h-5 text-blue-600" />
-                </div>
-                <h3 className="font-semibold text-gray-900 mb-2">{f.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
+              <motion.div key={f.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
+                <TiltCard intensity={8} className="h-full">
+                  <div className="p-6 rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-xl transition-shadow h-full">
+                    <div className="w-11 h-11 bg-blue-50 rounded-xl flex items-center justify-center mb-4">
+                      <f.icon className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <h3 className="font-semibold text-gray-900 mb-2">{f.title}</h3>
+                    <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
+                  </div>
+                </TiltCard>
               </motion.div>
             ))}
           </div>

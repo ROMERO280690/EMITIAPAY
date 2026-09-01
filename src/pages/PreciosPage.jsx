@@ -5,6 +5,7 @@ import { CheckCircle2, ArrowRight, Zap } from "lucide-react";
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
 import HeroSlider from "@/components/public/HeroSlider";
+import { MeshBackground, TiltCard } from "@/components/public/MeshKit";
 
 const PLANS = [
   {
@@ -95,12 +96,15 @@ export default function PreciosPage() {
         ]}
       />
 
-      <section className="py-16">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+      <section className="relative py-16 overflow-hidden">
+        <MeshBackground className="opacity-40" />
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch" style={{ perspective: "1100px" }}>
             {PLANS.map((plan, i) => (
               <motion.div key={plan.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className={`relative rounded-2xl p-6 flex flex-col ${plan.highlight ? "bg-indigo-600 text-white shadow-xl shadow-indigo-200 ring-2 ring-indigo-500" : "bg-white border border-gray-200 shadow-sm"}`}>
+                className="h-full">
+              <TiltCard intensity={plan.highlight ? 5 : 8} className="h-full">
+                <div className={`relative rounded-2xl p-6 flex flex-col h-full ${plan.highlight ? "bg-indigo-600 text-white shadow-xl shadow-indigo-200 ring-2 ring-indigo-500" : "bg-white border border-gray-200 shadow-sm"}`}>
                 {plan.highlight && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-400 text-amber-900 text-xs font-bold px-4 py-1 rounded-full">
                     Más popular
@@ -126,6 +130,8 @@ export default function PreciosPage() {
                   className={`w-full text-center py-3 rounded-xl font-semibold text-sm transition-colors ${plan.highlight ? "bg-white text-indigo-700 hover:bg-indigo-50" : "bg-indigo-600 hover:bg-indigo-700 text-white"}`}>
                   {plan.cta}
                 </Link>
+                </div>
+              </TiltCard>
               </motion.div>
             ))}
           </div>

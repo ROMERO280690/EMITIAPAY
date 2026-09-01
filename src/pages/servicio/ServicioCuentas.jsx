@@ -5,6 +5,7 @@ import { Globe2, CheckCircle2, ArrowRight, Copy, ArrowLeftRight, Shield, Zap, Cl
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
 import HeroSlider from "@/components/public/HeroSlider";
+import { MeshBackground, TiltCard } from "@/components/public/MeshKit";
 
 const FEATURES = [
   { icon: Globe2, title: "Multi-moneda nativo", desc: "Abrí cuentas en pesos (ARS) y dólares (USD) sin restricciones. Gestioná ambas desde un mismo panel." },
@@ -91,21 +92,25 @@ export default function ServicioCuentas() {
       </section>
 
       {/* Features */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <section className="relative py-20 overflow-hidden">
+        <MeshBackground className="opacity-50" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Todo lo que incluye tu cuenta</h2>
             <p className="text-gray-500 max-w-xl mx-auto">Sin letra chica, sin costos ocultos. Lo que ves es lo que obtenés.</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" style={{ perspective: "1000px" }}>
             {FEATURES.map((f, i) => (
-              <motion.div key={f.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                className="p-6 rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-11 h-11 bg-indigo-50 rounded-xl flex items-center justify-center mb-4">
-                  <f.icon className="w-5 h-5 text-indigo-600" />
-                </div>
-                <h3 className="font-semibold text-gray-900 mb-2">{f.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
+              <motion.div key={f.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
+                <TiltCard intensity={8} className="h-full">
+                  <div className="p-6 rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-xl transition-shadow h-full">
+                    <div className="w-11 h-11 bg-indigo-50 rounded-xl flex items-center justify-center mb-4">
+                      <f.icon className="w-5 h-5 text-indigo-600" />
+                    </div>
+                    <h3 className="font-semibold text-gray-900 mb-2">{f.title}</h3>
+                    <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
+                  </div>
+                </TiltCard>
               </motion.div>
             ))}
           </div>

@@ -5,6 +5,7 @@ import { PiggyBank, ArrowRight, Clock, CheckCircle2, Star, Shield, Zap, BarChart
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
 import HeroSlider from "@/components/public/HeroSlider";
+import { MeshBackground, TiltCard } from "@/components/public/MeshKit";
 
 const PRODUCTS = [
   {
@@ -100,18 +101,20 @@ export default function ServicioFinanciamiento() {
       </section>
 
       {/* Products */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <section className="relative py-20 overflow-hidden">
+        <MeshBackground className="opacity-50" blobColor1="rgba(244,63,94,0.12)" blobColor2="rgba(139,92,246,0.10)" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Productos de financiamiento</h2>
             <p className="text-gray-500 max-w-xl mx-auto">Tres soluciones para diferentes necesidades de capital de tu empresa.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6" style={{ perspective: "1000px" }}>
             {PRODUCTS.map((p, i) => {
               const c = colorMap[p.color];
               return (
-                <motion.div key={p.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                  className={`rounded-2xl border ${c.border} ${c.bg} p-6 flex flex-col`}>
+                <motion.div key={p.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+                <TiltCard intensity={7} className="h-full">
+                <div className={`rounded-2xl border ${c.border} ${c.bg} p-6 flex flex-col h-full`}>
                   <div className="text-4xl mb-4">{p.icon}</div>
                   <span className={`inline-block text-xs font-semibold px-3 py-1 rounded-full mb-3 ${c.badge}`}>{p.badge}</span>
                   <h3 className="text-xl font-bold text-gray-900 mb-3">{p.name}</h3>
@@ -127,6 +130,8 @@ export default function ServicioFinanciamiento() {
                   <Link to="/register" className={`w-full text-center py-3 rounded-xl font-semibold text-sm text-white transition-colors ${c.btn}`}>
                     Solicitar ahora
                   </Link>
+                </div>
+                </TiltCard>
                 </motion.div>
               );
             })}

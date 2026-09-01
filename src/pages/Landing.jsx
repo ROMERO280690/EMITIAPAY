@@ -6,11 +6,12 @@ import {
   Users, Receipt, Landmark, PiggyBank, BarChart3, MapPin,
   Send, Download, FileCheck, TrendingUp, Building2,
   ArrowUpRight, ArrowDownLeft, Clock, ChevronRight,
-  Sparkles, Lock, BadgeCheck
+  Sparkles, Lock, BadgeCheck, MousePointerClick
 } from "lucide-react";
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
 import HeroSlider from "@/components/public/HeroSlider";
+import { MeshBackground, TiltCard, Float3D, AnimatedCounter, Marquee } from "@/components/public/MeshKit";
 
 /* ─── helpers ─── */
 function ArgFlag({ className = "" }) {
@@ -36,77 +37,77 @@ function SolDeMayo({ size = 40 }) {
         const x2 = 20 + r2 * Math.cos(rad); const y2 = 20 + r2 * Math.sin(rad);
         return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#F59E0B" strokeWidth={isStraight ? 2 : 1.2} strokeLinecap="round" />;
       })}
-      <circle cx="20" cy="20" r="8" fill="#FCD34D" stroke="#F59E0B" strokeWidth="1" />
+      <circle cx="20" cy="20" r="8" fill="#FCD34D" stroke="#F59E0B" strokeWidth={1} />
       <circle cx="20" cy="20" r="5" fill="#FBBF24" />
     </svg>
   );
 }
 
-/* ─── Dashboard mock visual ─── */
-function DashboardMock() {
+/* ─── Dashboard mock visual 3D ─── */
+function DashboardMock3D() {
   return (
-    <div className="w-full bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden text-xs">
-      {/* Top bar */}
-      <div className="bg-slate-900 px-4 py-3 flex items-center gap-2">
-        <div className="flex gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-red-400"/><div className="w-2.5 h-2.5 rounded-full bg-yellow-400"/><div className="w-2.5 h-2.5 rounded-full bg-green-400"/></div>
-        <div className="flex-1 text-center"><span className="text-slate-400 text-[10px]">app.emitia.com/dashboard</span></div>
-      </div>
-      {/* App shell */}
-      <div className="flex h-64">
-        {/* Sidebar */}
-        <div className="w-28 bg-slate-900 px-2 py-3 space-y-0.5 flex-shrink-0">
-          {[
-            { label: "Inicio", active: true },
-            { label: "Movimientos", active: false },
-            { label: "Pagos", active: false },
-            { label: "Cobros", active: false },
-            { label: "Inversiones", active: false },
-          ].map(item => (
-            <div key={item.label} className={`px-2 py-1.5 rounded-lg text-[9px] font-medium ${item.active ? "bg-indigo-600 text-white" : "text-slate-400"}`}>{item.label}</div>
-          ))}
-        </div>
-        {/* Content */}
-        <div className="flex-1 bg-slate-50 p-3 space-y-2 overflow-hidden">
-          <p className="text-[10px] font-bold text-gray-700">Buenos días, María 👋</p>
-          {/* Balances */}
-          <div className="grid grid-cols-2 gap-2">
-            <div className="bg-white rounded-xl p-2.5 border border-gray-100">
-              <p className="text-[9px] text-gray-400 mb-0.5">Cuenta ARS</p>
-              <p className="font-extrabold text-gray-900 text-sm">$ 2.458.320</p>
-              <p className="text-[9px] text-emerald-600 font-medium">↑ 38.64% TNA</p>
-            </div>
-            <div className="bg-white rounded-xl p-2.5 border border-gray-100">
-              <p className="text-[9px] text-gray-400 mb-0.5">Cuenta USD</p>
-              <p className="font-extrabold text-gray-900 text-sm">US$ 15.200</p>
-              <p className="text-[9px] text-blue-600 font-medium">Saldo disponible</p>
-            </div>
+    <Float3D rotate="-10deg" distance={16}>
+      <div className="w-full max-w-md">
+        {/* sombra larga proyectada */}
+        <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-3/4 h-10 bg-blue-900/20 blur-2xl rounded-full" />
+        <div className="relative w-full bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden text-xs">
+          <div className="bg-slate-900 px-4 py-3 flex items-center gap-2">
+            <div className="flex gap-1.5"><div className="w-2.5 h-2.5 rounded-full bg-red-400"/><div className="w-2.5 h-2.5 rounded-full bg-yellow-400"/><div className="w-2.5 h-2.5 rounded-full bg-green-400"/></div>
+            <div className="flex-1 text-center"><span className="text-slate-400 text-[10px]">app.emitia.com/dashboard</span></div>
           </div>
-          {/* Movimientos */}
-          <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
-            <div className="px-2.5 py-1.5 border-b border-gray-50 flex justify-between items-center">
-              <p className="text-[9px] font-semibold text-gray-600">Últimos movimientos</p>
-              <span className="text-[8px] text-indigo-500 font-medium">Ver todos</span>
+          <div className="flex h-64">
+            <div className="w-28 bg-slate-900 px-2 py-3 space-y-0.5 flex-shrink-0">
+              {[
+                { label: "Inicio", active: true },
+                { label: "Movimientos", active: false },
+                { label: "Pagos", active: false },
+                { label: "Cobros", active: false },
+                { label: "Inversiones", active: false },
+              ].map(item => (
+                <div key={item.label} className={`px-2 py-1.5 rounded-lg text-[9px] font-medium ${item.active ? "bg-indigo-600 text-white" : "text-slate-400"}`}>{item.label}</div>
+              ))}
             </div>
-            {[
-              { label: "Pago proveedor", sub: "Proveedores · hoy", amount: "- $45.000", color: "text-red-500", icon: ArrowUpRight },
-              { label: "Cobro FC-1092", sub: "Cobros · ayer", amount: "+ $120.000", color: "text-emerald-600", icon: ArrowDownLeft },
-              { label: "Rendimiento FCI", sub: "Inversiones · ayer", amount: "+ $3.840", color: "text-emerald-600", icon: TrendingUp },
-            ].map((m, i) => (
-              <div key={i} className="flex items-center gap-2 px-2.5 py-1.5 border-b border-gray-50 last:border-0">
-                <div className={`w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0 ${m.color === "text-red-500" ? "bg-red-50" : "bg-emerald-50"}`}>
-                  <m.icon className={`w-3 h-3 ${m.color}`} />
+            <div className="flex-1 bg-slate-50 p-3 space-y-2 overflow-hidden">
+              <p className="text-[10px] font-bold text-gray-700">Buenos días, María 👋</p>
+              <div className="grid grid-cols-2 gap-2">
+                <div className="bg-white rounded-xl p-2.5 border border-gray-100">
+                  <p className="text-[9px] text-gray-400 mb-0.5">Cuenta ARS</p>
+                  <p className="font-extrabold text-gray-900 text-sm">$ 2.458.320</p>
+                  <p className="text-[9px] text-emerald-600 font-medium">↑ 38.64% TNA</p>
                 </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[9px] font-medium text-gray-800 truncate">{m.label}</p>
-                  <p className="text-[8px] text-gray-400">{m.sub}</p>
+                <div className="bg-white rounded-xl p-2.5 border border-gray-100">
+                  <p className="text-[9px] text-gray-400 mb-0.5">Cuenta USD</p>
+                  <p className="font-extrabold text-gray-900 text-sm">US$ 15.200</p>
+                  <p className="text-[9px] text-blue-600 font-medium">Saldo disponible</p>
                 </div>
-                <span className={`text-[9px] font-bold ${m.color}`}>{m.amount}</span>
               </div>
-            ))}
+              <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
+                <div className="px-2.5 py-1.5 border-b border-gray-50 flex justify-between items-center">
+                  <p className="text-[9px] font-semibold text-gray-600">Últimos movimientos</p>
+                  <span className="text-[8px] text-indigo-500 font-medium">Ver todos</span>
+                </div>
+                {[
+                  { label: "Pago proveedor", sub: "Proveedores · hoy", amount: "- $45.000", color: "text-red-500", icon: ArrowUpRight },
+                  { label: "Cobro FC-1092", sub: "Cobros · ayer", amount: "+ $120.000", color: "text-emerald-600", icon: ArrowDownLeft },
+                  { label: "Rendimiento FCI", sub: "Inversiones · ayer", amount: "+ $3.840", color: "text-emerald-600", icon: TrendingUp },
+                ].map((m, i) => (
+                  <div key={i} className="flex items-center gap-2 px-2.5 py-1.5 border-b border-gray-50 last:border-0">
+                    <div className={`w-5 h-5 rounded-md flex items-center justify-center flex-shrink-0 ${m.color === "text-red-500" ? "bg-red-50" : "bg-emerald-50"}`}>
+                      <m.icon className={`w-3 h-3 ${m.color}`} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[9px] font-medium text-gray-800 truncate">{m.label}</p>
+                      <p className="text-[8px] text-gray-400">{m.sub}</p>
+                    </div>
+                    <span className={`text-[9px] font-bold ${m.color}`}>{m.amount}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Float3D>
   );
 }
 
@@ -197,6 +198,13 @@ const TESTIMONIALS = [
 
 const PROVINCES = ["Buenos Aires", "Córdoba", "Rosario", "Mendoza", "Tucumán", "Salta", "Neuquén", "Bariloche", "Mar del Plata", "Posadas", "La Quiaca", "Ushuaia"];
 
+const STATS = [
+  { prefix: "+", value: 5000, label: "PyMEs activas", sub: "de La Quiaca a Ushuaia" },
+  { prefix: "$ ", value: 2, suffix: "B+", label: "Procesados al mes", sub: "en pagos, cobros e inversiones" },
+  { value: 99.9, suffix: "%", decimals: 1, label: "Disponibilidad", sub: "no paramos ni los feriados" },
+  { prefix: "$ ", value: 0, label: "Costo de apertura", sub: "sin letra chica ni sorpresas" },
+];
+
 export default function Landing() {
   const [email, setEmail] = useState("");
   const [activeProduct, setActiveProduct] = useState(0);
@@ -275,25 +283,20 @@ export default function Landing() {
         ]}
       />
 
-      {/* ════════ LOGOS / PRESENCIA ════════ */}
+      {/* ════════ MARQUEE PROVINCIAS ════════ */}
       <section className="py-8 border-y border-gray-100 bg-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4">
-          <p className="text-center text-xs font-semibold text-gray-400 uppercase tracking-widest mb-5 flex items-center justify-center gap-2">
+        <div className="max-w-7xl mx-auto px-4 mb-5">
+          <p className="text-center text-xs font-semibold text-gray-400 uppercase tracking-widest flex items-center justify-center gap-2">
             <MapPin className="w-3.5 h-3.5" /> +5.000 PyMEs en toda la Argentina
           </p>
-          <div className="flex gap-2 justify-center flex-wrap">
-            {PROVINCES.map((p) => (
-              <span key={p} className="text-xs font-medium text-gray-500 bg-gray-50 border border-gray-100 px-3 py-1.5 rounded-full">
-                {p}
-              </span>
-            ))}
-          </div>
         </div>
+        <Marquee items={PROVINCES} speed={38} className="px-4" />
       </section>
 
-      {/* ════════ SUITE DE PRODUCTOS (tabs interactivos) ════════ */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      {/* ════════ SUITE DE PRODUCTOS (tabs + mockup 3D) ════════ */}
+      <section className="relative py-24 bg-white overflow-hidden">
+        <MeshBackground className="opacity-60" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
             <span className="inline-block bg-indigo-50 text-indigo-700 text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wide">Suite de productos</span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">
@@ -322,7 +325,7 @@ export default function Landing() {
             <motion.div key={p.key} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}
               className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <div className={`w-14 h-14 rounded-2xl ${p.color} flex items-center justify-center mb-5`}>
+                <div className={`w-14 h-14 rounded-2xl ${p.color} flex items-center justify-center mb-5 shadow-lg`} style={{ boxShadow: `0 10px 30px -8px ${p.accent}66` }}>
                   <p.icon className="w-7 h-7 text-white" />
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4 leading-tight">{p.headline}</h3>
@@ -341,49 +344,49 @@ export default function Landing() {
                   Conocé más <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
-              {/* Right visual — mini app mockup */}
-              <div className="rounded-3xl overflow-hidden border border-gray-200 shadow-xl bg-white">
-                {/* Topbar */}
-                <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100 bg-gray-50">
-                  <div className={`w-7 h-7 rounded-lg ${p.color} flex items-center justify-center`}>
-                    <p.icon className="w-3.5 h-3.5 text-white" />
-                  </div>
-                  <span className="text-xs font-semibold text-gray-700">{p.label}</span>
-                  <span className="ml-auto text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">● Activo</span>
-                </div>
-                {/* Content */}
-                <div className="p-5 space-y-3">
-                  {p.bullets.map((b, bi) => (
-                    <div key={bi} className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 bg-gray-50 hover:bg-white transition-colors">
-                      <CheckCircle2 className="w-4 h-4 flex-shrink-0" style={{ color: p.accent }} />
-                      <span className="text-xs font-medium text-gray-700">{b}</span>
+              {/* Right visual — mockup con tilt 3D */}
+              <div className="hidden lg:block" style={{ perspective: "1200px" }}>
+                <TiltCard intensity={11} className="rounded-3xl">
+                  <div className="rounded-3xl overflow-hidden border border-gray-200 shadow-2xl bg-white" style={{ boxShadow: `0 30px 60px -20px ${p.accent}44` }}>
+                    <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100 bg-gray-50">
+                      <div className={`w-7 h-7 rounded-lg ${p.color} flex items-center justify-center`}>
+                        <p.icon className="w-3.5 h-3.5 text-white" />
+                      </div>
+                      <span className="text-xs font-semibold text-gray-700">{p.label}</span>
+                      <span className="ml-auto text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">● Activo</span>
                     </div>
-                  ))}
-                  <Link to={p.href}
-                    className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-white text-xs font-bold transition-opacity hover:opacity-90 mt-2"
-                    style={{ backgroundColor: p.accent }}>
-                    Ir a {p.label} <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </div>
+                    <div className="p-5 space-y-3">
+                      {p.bullets.map((b, bi) => (
+                        <div key={bi} className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 bg-gray-50">
+                          <CheckCircle2 className="w-4 h-4 flex-shrink-0" style={{ color: p.accent }} />
+                          <span className="text-xs font-medium text-gray-700">{b}</span>
+                        </div>
+                      ))}
+                      <Link to={p.href}
+                        className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-white text-xs font-bold transition-opacity hover:opacity-90 mt-2"
+                        style={{ backgroundColor: p.accent }}>
+                        Ir a {p.label} <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
+                  </div>
+                </TiltCard>
               </div>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* ════════ NÚMEROS ════════ */}
-      <section className="py-20 bg-white border-y border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      {/* ════════ NÚMEROS (contadores animados + malla) ════════ */}
+      <section className="relative py-20 bg-gradient-to-b from-white to-slate-50 border-y border-gray-100 overflow-hidden">
+        <MeshBackground />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { value: "+5.000", label: "PyMEs activas", sub: "de La Quiaca a Ushuaia" },
-              { value: "$ 2B+", label: "Procesados al mes", sub: "en pagos, cobros e inversiones" },
-              { value: "99.9%", label: "Disponibilidad", sub: "no paramos ni los feriados" },
-              { value: "$ 0", label: "Costo de apertura", sub: "sin letra chica ni sorpresas" },
-            ].map((s, i) => (
+            {STATS.map((s, i) => (
               <motion.div key={s.label} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
                 className="text-center bg-white rounded-2xl p-7 shadow-sm border border-gray-100">
-                <p className="text-4xl font-extrabold text-blue-700 mb-1">{s.value}</p>
+                <p className="text-4xl font-extrabold text-blue-700 mb-1">
+                  <AnimatedCounter value={s.value} prefix={s.prefix || ""} suffix={s.suffix || ""} decimals={s.decimals || 0} />
+                </p>
                 <p className="font-semibold text-gray-800 text-sm mb-1">{s.label}</p>
                 <p className="text-xs text-gray-400">{s.sub}</p>
               </motion.div>
@@ -392,9 +395,10 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* ════════ BENEFICIOS ════════ */}
-      <section className="py-24 bg-gray-50 border-y border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      {/* ════════ BENEFICIOS (tilt cards) ════════ */}
+      <section className="relative py-24 bg-gray-50 border-y border-gray-100 overflow-hidden">
+        <MeshBackground blobColor1="rgba(99,102,241,0.14)" blobColor2="rgba(16,185,129,0.12)" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
             <span className="inline-block bg-emerald-50 text-emerald-700 text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-wide">Por qué EMITIA PAY</span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">
@@ -402,24 +406,28 @@ export default function Landing() {
             </h2>
             <p className="text-gray-500 max-w-xl mx-auto">La innovación de una fintech con el respaldo de una entidad regulada por el BCRA.</p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" style={{ perspective: "1000px" }}>
             {BENEFITS.map((b, i) => (
-              <motion.div key={b.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07 }}
-                className="bg-white rounded-2xl p-7 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-11 h-11 bg-blue-50 rounded-xl flex items-center justify-center mb-4">
-                  <b.icon className="w-5 h-5 text-blue-600" />
-                </div>
-                <h3 className="font-bold text-gray-900 mb-2">{b.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{b.desc}</p>
+              <motion.div key={b.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.07 }}>
+                <TiltCard intensity={7} className="h-full">
+                  <div className="bg-white rounded-2xl p-7 border border-gray-100 shadow-sm hover:shadow-xl transition-shadow h-full">
+                    <div className="w-11 h-11 bg-blue-50 rounded-xl flex items-center justify-center mb-4">
+                      <b.icon className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <h3 className="font-bold text-gray-900 mb-2">{b.title}</h3>
+                    <p className="text-gray-500 text-sm leading-relaxed">{b.desc}</p>
+                  </div>
+                </TiltCard>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ════════ IDENTIDAD ARGENTINA ════════ */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      {/* ════════ IDENTIDAD ARGENTINA (parallax + mockup 3D) ════════ */}
+      <section className="relative py-24 bg-white overflow-hidden">
+        <MeshBackground className="opacity-50" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}>
               <ArgFlag className="w-16 mb-6" />
@@ -450,27 +458,32 @@ export default function Landing() {
               </Link>
             </motion.div>
             <motion.div initial={{ opacity: 0, x: 20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-              className="grid grid-cols-2 gap-4">
+              className="grid grid-cols-2 gap-4" style={{ perspective: "1000px" }}>
               {[
                 { icon: Shield, title: "Regulado BCRA", desc: "Operamos con entidades financieras autorizadas y reguladas." },
                 { icon: BarChart3, title: "Reportes en tiempo real", desc: "Tu flujo de caja visible en segundos, sin esperar al contador." },
                 { icon: Globe2, title: "Multi-moneda nativo", desc: "ARS y USD en la misma pantalla, sin conversiones manuales." },
                 { icon: Zap, title: "Siempre disponible", desc: "Desde el Altiplano o la Patagonia. El sistema no para." },
-              ].map((card) => (
-                <div key={card.title} className="p-6 rounded-2xl border border-gray-100 bg-gray-50 hover:bg-blue-50 hover:border-blue-100 transition-colors">
-                  <card.icon className="w-6 h-6 text-blue-600 mb-3" />
-                  <p className="font-bold text-gray-900 text-sm mb-1">{card.title}</p>
-                  <p className="text-xs text-gray-500 leading-relaxed">{card.desc}</p>
-                </div>
+              ].map((card, ci) => (
+                <motion.div key={card.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: ci * 0.1 }}>
+                  <TiltCard intensity={10} className="h-full">
+                    <div className="p-6 rounded-2xl border border-gray-100 bg-white hover:bg-blue-50/50 hover:border-blue-100 transition-colors h-full shadow-sm">
+                      <card.icon className="w-6 h-6 text-blue-600 mb-3" />
+                      <p className="font-bold text-gray-900 text-sm mb-1">{card.title}</p>
+                      <p className="text-xs text-gray-500 leading-relaxed">{card.desc}</p>
+                    </div>
+                  </TiltCard>
+                </motion.div>
               ))}
             </motion.div>
           </div>
         </div>
       </section>
 
-      {/* ════════ TESTIMONIOS ════════ */}
-      <section className="py-20 bg-gray-50 border-t border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      {/* ════════ TESTIMONIOS (tilt cards) ════════ */}
+      <section className="relative py-20 bg-gray-50 border-t border-gray-100 overflow-hidden">
+        <MeshBackground blobColor1="rgba(59,130,246,0.12)" blobColor2="rgba(139,92,246,0.12)" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
             <span className="inline-block bg-white border border-gray-100 text-gray-600 text-xs font-bold px-4 py-1.5 rounded-full mb-4 shadow-sm">Casos reales</span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">
@@ -478,38 +491,44 @@ export default function Landing() {
             </h2>
             <p className="text-gray-400">PyMEs de todo el país que eligieron una forma distinta de manejar la plata.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6" style={{ perspective: "1000px" }}>
             {TESTIMONIALS.map((t, i) => (
-              <motion.div key={t.name} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className="bg-white rounded-3xl p-7 border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex flex-col">
-                <div className="text-blue-100 text-5xl font-serif leading-none mb-3 select-none">"</div>
-                <p className="text-gray-600 text-sm leading-relaxed flex-1 italic mb-6">{t.text}</p>
-                <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-xl ${t.color} flex items-center justify-center text-white font-bold text-sm flex-shrink-0`}>{t.avatar}</div>
-                  <div>
-                    <p className="font-bold text-gray-900 text-sm">{t.name}</p>
-                    <p className="text-xs text-gray-400">{t.company}</p>
-                    <span className="inline-flex items-center gap-1 text-xs text-sky-600 font-medium mt-0.5">
-                      <MapPin className="w-3 h-3" /> {t.region}
-                    </span>
+              <motion.div key={t.name} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+                <TiltCard intensity={6} className="h-full">
+                  <div className="bg-white rounded-3xl p-7 border border-gray-100 shadow-sm hover:shadow-xl transition-shadow flex flex-col h-full">
+                    <div className="text-blue-200 text-5xl font-serif leading-none mb-3 select-none">"</div>
+                    <p className="text-gray-600 text-sm leading-relaxed flex-1 italic mb-6">{t.text}</p>
+                    <div className="flex items-center gap-3">
+                      <div className={`w-10 h-10 rounded-xl ${t.color} flex items-center justify-center text-white font-bold text-sm flex-shrink-0`}>{t.avatar}</div>
+                      <div>
+                        <p className="font-bold text-gray-900 text-sm">{t.name}</p>
+                        <p className="text-xs text-gray-400">{t.company}</p>
+                        <span className="inline-flex items-center gap-1 text-xs text-sky-600 font-medium mt-0.5">
+                          <MapPin className="w-3 h-3" /> {t.region}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                </TiltCard>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ════════ CTA FINAL ════════ */}
-      <section className="py-24 bg-white">
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <SolDeMayo size={56} />
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 mt-6 leading-tight">
+      {/* ════════ CTA FINAL (malla + sol de mayo) ════════ */}
+      <section className="relative py-24 bg-white overflow-hidden">
+        <MeshBackground className="opacity-70" />
+        <div className="relative max-w-3xl mx-auto px-4 text-center">
+          <motion.div initial={{ scale: 0.8, opacity: 0 }} whileInView={{ scale: 1, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.5 }}
+            className="inline-block mb-2">
+            <SolDeMayo size={56} />
+          </motion.div>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4 mt-4 leading-tight">
             Argentina no para.<br />Tu empresa tampoco.
           </h2>
           <p className="text-gray-400 text-lg mb-2">Abrí tu cuenta en minutos. Sin papeles, sin sucursales.</p>
           <p className="text-blue-700 font-semibold mb-10">Gratis para siempre en el plan Starter.</p>
-          {/* Email CTA final */}
           <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-6">
             <input
               type="email"

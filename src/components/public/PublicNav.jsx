@@ -50,7 +50,7 @@ function DropdownMenu({ items, visible }) {
       <div className="relative bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden p-3">
         <div className="grid grid-cols-2 gap-1.5">
           {items.map((item) => (
-            <Link key={item.href} to={item.href}
+            <Link key={item.label} to={item.href}
               className="flex items-start gap-3 p-3 rounded-xl hover:bg-gray-50 transition-colors group">
               <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${item.color} group-hover:scale-105 transition-transform`}>
                 <item.icon className="w-4 h-4" />

@@ -5,6 +5,7 @@ import { Receipt, ArrowRight, Shield, Clock, CheckCircle2, Star, Zap, FileText, 
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
 import HeroSlider from "@/components/public/HeroSlider";
+import { MeshBackground, TiltCard } from "@/components/public/MeshKit";
 
 const FEATURES = [
   { icon: Zap, title: "Emisión en minutos", desc: "Emití un eCheq completando un formulario simple. Sin papeles, sin filas en el banco." },
@@ -69,20 +70,24 @@ export default function ServicioECheqs() {
       </section>
 
       {/* Features */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+      <section className="relative py-20 overflow-hidden">
+        <MeshBackground className="opacity-50" blobColor1="rgba(245,158,11,0.14)" blobColor2="rgba(217,119,6,0.10)" />
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-14">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Todo lo que incluyen los eCheqs</h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" style={{ perspective: "1000px" }}>
             {FEATURES.map((f, i) => (
-              <motion.div key={f.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                className="p-6 rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-md transition-shadow">
-                <div className="w-11 h-11 bg-amber-50 rounded-xl flex items-center justify-center mb-4">
-                  <f.icon className="w-5 h-5 text-amber-600" />
-                </div>
-                <h3 className="font-semibold text-gray-900 mb-2">{f.title}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
+              <motion.div key={f.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
+                <TiltCard intensity={8} className="h-full">
+                  <div className="p-6 rounded-2xl border border-gray-100 bg-white shadow-sm hover:shadow-xl transition-shadow h-full">
+                    <div className="w-11 h-11 bg-amber-50 rounded-xl flex items-center justify-center mb-4">
+                      <f.icon className="w-5 h-5 text-amber-600" />
+                    </div>
+                    <h3 className="font-semibold text-gray-900 mb-2">{f.title}</h3>
+                    <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
+                  </div>
+                </TiltCard>
               </motion.div>
             ))}
           </div>
