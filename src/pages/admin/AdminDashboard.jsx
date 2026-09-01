@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
+import BusinessUnitsOverview from "@/components/admin/BusinessUnitsOverview";
 import {
   AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend
@@ -217,6 +218,9 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Visión consolidada de unidades de negocio */}
+      <BusinessUnitsOverview />
 
       {/* Bottom row */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
