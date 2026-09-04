@@ -5,7 +5,8 @@ import { Globe2, Zap, Users, Receipt, Landmark, PiggyBank, ArrowRight, CheckCirc
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
 import HeroSlider from "@/components/public/HeroSlider";
-import { MeshBackground, TiltCard } from "@/components/public/MeshKit";
+import { MeshBackground } from "@/components/public/MeshKit";
+import ProductMock from "@/components/landing/ProductMocks";
 
 const SERVICES = [
   {
@@ -17,6 +18,7 @@ const SERVICES = [
     desc: "Abrí cuentas en pesos y dólares sin costo de apertura. Gestioná tu liquidez en ambas monedas, realizá transferencias instantáneas y recibí pagos de clientes locales e internacionales.",
     features: ["Cuenta en pesos (ARS) sin costo", "Cuenta en dólares (USD)", "CBU y alias personalizados", "Transferencias 24/7", "Saldo remunerado automático"],
     path: "/servicio/cuentas",
+    accent: "#3B82F6",
   },
   {
     id: "pagos",
@@ -27,6 +29,7 @@ const SERVICES = [
     desc: "Programá pagos únicos o recurrentes a proveedores, empleados y servicios. Configurá fechas, montos y frecuencias. EMITIA PAY ejecuta los pagos de forma automática.",
     features: ["Pagos programados y recurrentes", "Aprobaciones en un clic", "Pagos masivos (nómina)", "Historial y comprobantes", "Alertas de saldo insuficiente"],
     path: "/servicio/pagos",
+    accent: "#6366F1",
   },
   {
     id: "cobros",
@@ -37,6 +40,7 @@ const SERVICES = [
     desc: "Generá facturas digitales y enlace de pago en segundos. Mandá recordatorios automáticos y recibí notificaciones cuando el cliente pague.",
     features: ["Facturas digitales con link de pago", "Recordatorios automáticos", "Seguimiento en tiempo real", "Marca el cobro como pagado", "Historial de cobros"],
     path: "/servicio/cobros",
+    accent: "#8B5CF6",
   },
   {
     id: "echeqs",
@@ -47,6 +51,7 @@ const SERVICES = [
     desc: "Emitís, recibís y gestionás cheques electrónicos 100% digitales. Sin papel, sin riesgos de pérdida y con validación inmediata.",
     features: ["Emisión de eCheqs en minutos", "Recepción y depósito digital", "Seguimiento de estado", "Integración con tus cuentas", "Seguridad bancaria garantizada"],
     path: "/servicio/echeqs",
+    accent: "#06B6D4",
   },
   {
     id: "inversiones",
@@ -57,6 +62,7 @@ const SERVICES = [
     desc: "Invertí el capital de trabajo excedente en plazo fijo, fondos comunes de inversión (FCI), acciones y bonos. Todo desde la plataforma, sin intermediarios.",
     features: ["Plazo fijo desde 1 día", "Fondos comunes de inversión", "Acceso a acciones y bonos", "Rendimientos visibles en tiempo real", "Sin montos mínimos"],
     path: "/servicio/inversiones",
+    accent: "#10B981",
   },
   {
     id: "financiamiento",
@@ -67,6 +73,7 @@ const SERVICES = [
     desc: "Solicitá préstamos para capital de trabajo, leasing de equipos o descuento de cheques. Aprobación rápida sin burocracia.",
     features: ["Préstamos para capital de trabajo", "Leasing de equipos", "Descuento de cheques", "Aprobación en 24hs", "Sin garantías reales para montos menores"],
     path: "/servicio/financiamiento",
+    accent: "#F43F5E",
   },
 ];
 
@@ -142,33 +149,8 @@ export default function ServiciosPage() {
                     Empezar ahora <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>
-                <div className={isEven ? "" : "lg:col-start-1 lg:row-start-1"} style={{ perspective: "1100px" }}>
-                <TiltCard intensity={9} className="h-full">
-                <div className={`rounded-2xl overflow-hidden border ${c.border} shadow-md h-full`} style={{ boxShadow: `0 24px 50px -22px ${s.id === "cuentas" ? "#3B82F6" : "#6366F1"}33` }}>
-                  {/* Mock app header */}
-                  <div className={`${c.bg} px-5 py-4 flex items-center gap-3 border-b ${c.border}`}>
-                    <div className={`w-9 h-9 rounded-xl flex items-center justify-center border ${c.border} bg-white`}>
-                      <s.icon className={`w-5 h-5 ${c.icon}`} />
-                    </div>
-                    <div>
-                      <p className="font-bold text-gray-900 text-sm">{s.title}</p>
-                      <p className={`text-xs font-medium ${c.icon}`}>EMITIA PAY</p>
-                    </div>
-                    <span className="ml-auto text-[10px] text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full font-semibold">● Activo</span>
-                  </div>
-                  <div className="bg-white p-5 space-y-2">
-                    {s.features.map((f, j) => (
-                      <div key={f} className={`flex items-center gap-3 p-3 rounded-xl bg-gray-50 border border-gray-100`}>
-                        <CheckCircle2 className={`w-4 h-4 flex-shrink-0 ${c.icon}`} />
-                        <span className="text-sm text-gray-700 font-medium">{f}</span>
-                      </div>
-                    ))}
-                    <Link to={s.path} className={`flex items-center justify-center gap-2 w-full py-3 rounded-xl text-white text-sm font-bold mt-3 hover:opacity-90 transition-opacity ${c.btn}`}>
-                      Ver {s.title} <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  </div>
-                </div>
-                </TiltCard>
+                <div className={isEven ? "" : "lg:col-start-1 lg:row-start-1"}>
+                  <ProductMock product={{ key: s.id, accent: s.accent }} />
                 </div>
               </motion.div>
             );
