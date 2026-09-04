@@ -9,11 +9,12 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus, Download, Clock, CheckCircle2, Eye, AlertTriangle, Mail, XCircle } from "lucide-react";
+import { Plus, Download, Clock, CheckCircle2, Eye, AlertTriangle, Mail, XCircle, LayoutGrid, List } from "lucide-react";
 import { toast } from "sonner";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { motion } from "framer-motion";
+import CollectionsKanban from "@/components/collections/CollectionsKanban";
 
 const statusConfig = {
   pending: { label: "Pendiente", icon: Clock, color: "bg-muted text-muted-foreground" },
@@ -26,6 +27,7 @@ const statusConfig = {
 
 export default function Collections() {
   const [open, setOpen] = useState(false);
+  const [view, setView] = useState("list");
   const [form, setForm] = useState({
     client_name: "", client_email: "", amount: "", currency: "ARS",
     concept: "", invoice_number: "", due_date: ""
@@ -54,6 +56,10 @@ export default function Collections() {
       toast.success("Cobro actualizado");
     },
   });
+
+  const moveStatus = (id, status) => {
+    updateMutation.mutate({ id, data: { status } });
+  };
 
   const markAsPaid = async (col) => {
     try {
@@ -100,6 +106,26 @@ export default function Collections() {
             Pendiente de cobro: <span className="font-semibold text-foreground">$ {totalPending.toLocaleString("es-AR", { minimumFractionDigits: 2 })}</span>
           </p>
         </div>
+        {collections.length > 0 && (
+          <div className="flex items-center bg-card border rounded-lg p-0.5">
+            <Button
+              size="sm"
+              variant={view === "list" ? "default" : "ghost"}
+              className="gap-1.5 h-8"
+              onClick={() => setView("list")}
+            >
+              <List className="w-3.5 h-3.5" /> Lista
+            </Button>
+            <Button
+              size="sm"
+              variant={view === "kanban" ? "default" : "ghost"}
+              className="gap-1.5 h-8"
+              onClick={() => setView("kanban")}
+            >
+              <LayoutGrid className="w-3.5 h-3.5" /> Tablero
+            </Button>
+          </div>
+        )}
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button className="gap-2"><Plus className="w-4 h-4" /> Nuevo cobro</Button>
@@ -171,6 +197,8 @@ export default function Collections() {
             <p className="text-sm text-muted-foreground mt-1">Creá tu primera solicitud de cobro</p>
           </CardContent>
         </Card>
+      ) : view === "kanban" ? (
+        <CollectionsKanban collections={collections} onMove={moveStatus} />
       ) : (
         <div className="space-y-3">
           {collections.map((col, i) => {
