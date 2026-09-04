@@ -12,6 +12,7 @@ import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
 import HeroSlider from "@/components/public/HeroSlider";
 import { MeshBackground, TiltCard, Float3D, AnimatedCounter, Marquee } from "@/components/public/MeshKit";
+import ProductMock from "@/components/landing/ProductMocks";
 
 /* ─── helpers ─── */
 function ArgFlag({ className = "" }) {
@@ -344,33 +345,8 @@ export default function Landing() {
                   Conocé más <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
-              {/* Right visual — mockup con tilt 3D */}
-              <div className="hidden lg:block" style={{ perspective: "1200px" }}>
-                <TiltCard intensity={11} className="rounded-3xl">
-                  <div className="rounded-3xl overflow-hidden border border-gray-200 shadow-2xl bg-white" style={{ boxShadow: `0 30px 60px -20px ${p.accent}44` }}>
-                    <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-100 bg-gray-50">
-                      <div className={`w-7 h-7 rounded-lg ${p.color} flex items-center justify-center`}>
-                        <p.icon className="w-3.5 h-3.5 text-white" />
-                      </div>
-                      <span className="text-xs font-semibold text-gray-700">{p.label}</span>
-                      <span className="ml-auto text-[10px] text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">● Activo</span>
-                    </div>
-                    <div className="p-5 space-y-3">
-                      {p.bullets.map((b, bi) => (
-                        <div key={bi} className="flex items-center gap-3 p-3 rounded-xl border border-gray-100 bg-gray-50">
-                          <CheckCircle2 className="w-4 h-4 flex-shrink-0" style={{ color: p.accent }} />
-                          <span className="text-xs font-medium text-gray-700">{b}</span>
-                        </div>
-                      ))}
-                      <Link to={p.href}
-                        className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-white text-xs font-bold transition-opacity hover:opacity-90 mt-2"
-                        style={{ backgroundColor: p.accent }}>
-                        Ir a {p.label} <ArrowRight className="w-3.5 h-3.5" />
-                      </Link>
-                    </div>
-                  </div>
-                </TiltCard>
-              </div>
+              {/* Right visual — mockup realista del producto */}
+              <ProductMock product={p} />
             </motion.div>
           ))}
         </div>
