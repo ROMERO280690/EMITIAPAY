@@ -328,31 +328,12 @@ fun DashboardScreen(
             }
         }
 
-        // Recent Transactions Title and List
+        // Shadcn-based 'Recent Transactions' Data Table with Mock Financial Operations (Payments, e-Cheqs, etc.)
         item {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Movimientos Recientes",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Slate900
-                )
-                Text(
-                    text = "Ver cuentas",
-                    color = IndigoPrimary,
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.clickable { onNavigate("accounts") }
-                )
-            }
-        }
-
-        items(transactions.take(5)) { tx ->
-            TransactionItemRow(tx = tx)
+            RecentTransactionsDataTable(
+                onNavigate = onNavigate,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }
