@@ -1,0 +1,6 @@
+{
+  "name": "EMITIA PAY",
+  "description": "B2B financial operations, accounts, payments, collections, e-cheqs, and cards platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

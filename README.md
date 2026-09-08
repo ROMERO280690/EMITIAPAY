@@ -1,39 +1,27 @@
-**Welcome to your Base44 project** 
+# EMITIA PAY - Android Application
 
-**About**
+Plataforma corporativa de gestión financiera B2B desarrollada en Kotlin y Jetpack Compose con Material Design 3.
 
-View and Edit  your app on [Base44.com](http://Base44.com) 
+## Características Principales
 
-This project contains everything you need to run your app locally.
+- **Dashboard Financiero**: Visualización consolidada de saldos en Pesos (ARS) y Dólares (USD), cotización MEP de referencia, métricas de flujo de caja y movimientos recientes.
+- **Gestión de Cuentas**: Consulta de cuentas corporativas (sueldos, remuneradas, operativas y en dólares) con CBU, Alias y copiado rápido.
+- **Transferencias**:
+  - Transferencias inmediatas entre cuentas propias con cotización de divisas en tiempo real.
+  - Transferencias a terceros y proveedores mediante CBU o Alias.
+- **Pagos a Proveedores y Servicios**: Programación, aprobación y auditoría de pagos con control de estado (Borrador, Programado, Completado).
+- **Cobranzas y Facturación**:
+  - Emisión y seguimiento de cobranzas B2B.
+  - Generación de códigos QR interoperables (Transferencias 3.0).
+- **Cheques Electrónicos (eCheqs)**: Emisión, custodia y depósito inmediato de eCheqs con validación COELSA.
+- **Inversiones y Rendimientos**: Suscripción a Fondos Comunes de Inversión (FCI Money Market T+0), Plazos Fijos tradicionales y Bonos con simulador de rendimiento.
+- **Tarjetas Corporativas**: Emisión de tarjetas virtuales y físicas con control de límites de gasto, reveal de CVV y congelamiento instantáneo.
 
-**Edit the code in your local development environment**
+## Arquitectura Técnica
 
-Any change pushed to the repo will also be reflected in the Base44 Builder.
+- **Lenguaje**: Kotlin 2.1
+- **UI Toolkit**: Jetpack Compose con Material 3 (Scaffold, NavigationRail, NavigationBar adaptativo)
+- **Persistencia Local**: Room Database con soporte offline y precarga de datos
+- **Patrón de Diseño**: Model-View-ViewModel (MVVM) con Kotlin Coroutines y StateFlow
+- **Build System**: Gradle Kotlin DSL con Version Catalog (`libs.versions.toml`)
 
-**Prerequisites:** 
-
-1. Clone the repository using the project's Git URL 
-2. Navigate to the project directory
-3. Install dependencies: `npm install`
-4. Create an `.env.local` file and set the right environment variables
-
-```
-VITE_BASE44_APP_ID=your_app_id
-VITE_BASE44_APP_BASE_URL=your_backend_url
-
-e.g.
-VITE_BASE44_APP_ID=cbef744a8545c389ef439ea6
-VITE_BASE44_APP_BASE_URL=https://my-to-do-list-81bfaad7.base44.app
-```
-
-Run the app: `npm run dev`
-
-**Publish your changes**
-
-Open [Base44.com](http://Base44.com) and click on Publish.
-
-**Docs & Support**
-
-Documentation: [https://docs.base44.com/Integrations/Using-GitHub](https://docs.base44.com/Integrations/Using-GitHub)
-
-Support: [https://app.base44.com/support](https://app.base44.com/support)
